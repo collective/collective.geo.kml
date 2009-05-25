@@ -1,0 +1,35 @@
+collective.geo.kml controlpanel
+================
+
+Overview
+--------
+collective.geo.kml controlpanel provide a graphical user interface for store a setting for geo kml properties
+
+Tests
+-----
+we start the tests with the usual boilerplate
+    >>> from Products.Five.testbrowser import Browser
+    >>> browser = Browser()
+    >>> portal_url = self.portal.absolute_url()
+    >>> self.portal.error_log._ignored_exceptions = ()
+
+    >>> from Products.PloneTestCase.setup import portal_owner, default_password
+    >>> browser.open(portal_url)
+
+
+we log in and verify the functionality of collective.geo.kml control panel form;
+
+    >>> browser.getControl(name='__ac_name').value = portal_owner
+    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='submit').click()
+    >>> browser.open('%s/@@geokml-controlpanel' % portal_url)
+    >>> browser.getControl(name = 'form.widgets.linewidth').value
+    '2'
+
+we set 'line width' property to '3', save data
+    >>> browser.getControl(name = 'form.widgets.linewidth').value = '3'
+    >>> browser.getControl('Apply').click()
+
+and control modifications
+    >>> browser.getControl(name = 'form.widgets.linewidth').value
+    '3'

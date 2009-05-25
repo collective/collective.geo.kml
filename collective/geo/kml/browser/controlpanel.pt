@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="collective.geo.kml">
+  <body>
+
+    <div metal:fill-slot="prefs_configlet_main"
+          tal:define="contents view/contents">
+
+      <h1 tal:content="view/label">Configuration</h1>
+
+      <a href="#"
+         class="link-parent"
+         tal:define="link view/back_link | nothing"
+         tal:condition="link"
+         tal:attributes="href link/url"
+         i18n:domain="plone"
+         i18n:translate="label_up_to_plone_setup">
+        Up to Site Setup
+      </a>
+
+      <p i18n:translate=""
+         tal:condition="view/description"
+         tal:content="view/description">
+        Description
+      </p>
+
+      <div class="portalMessage"
+           tal:condition="view/status | nothing" tal:content="view/status">
+      </div>
+
+      <div id="skel-contents">
+        <span tal:replace="structure contents" />
+      </div>
+
+    </div>
+
+  </body>
+</html>

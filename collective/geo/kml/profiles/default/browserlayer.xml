@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<layers>
+    <layer name="collective.geo.kml" 
+           interface="collective.geo.kml.interfaces.IGeoKmlLayer" />
+</layers>
+

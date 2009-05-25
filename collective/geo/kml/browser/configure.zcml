@@ -1,0 +1,60 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+          xmlns:browser="http://namespaces.zope.org/browser"
+          xmlns:five="http://namespaces.zope.org/five">
+ 
+ 
+     <browser:page
+        for="Products.ATContentTypes.content.topic.ATTopic"
+        name="kml-document"
+        class=".kml.TopicDocument"
+        layer = "..interfaces.IGeoKmlLayer"
+        permission="zope2.View"
+        />
+    
+    <browser:page
+        for="Products.ATContentTypes.content.folder.ATBTreeFolder"
+        name="kml-document"
+        layer = "..interfaces.IGeoKmlLayer"
+        class=".kml.Document"
+        permission="zope2.View"
+    />
+
+    <browser:page
+        for="*"
+        name="kml-document"
+        class=".kml.Document"
+        layer = "..interfaces.IGeoKmlLayer"
+        permission="zope.View"
+    />
+
+    <adapter
+        factory=".kml.document_template"
+        for=".kml.Document"
+        name="geo-kml-document"
+        />
+
+    <browser:page
+                 name="geokml-controlpanel"
+                 for="*"
+                 class=".controlpanel.GeoKmlControlpanel"
+                 permission = "cmf.ManagePortal" />
+
+    <browser:resource
+        name="geokml.png"
+        file="geokml.png"
+    />
+
+    <browser:resourceDirectory
+      name="geo.kml.javascripts"
+      directory="javascripts"
+    />
+
+
+    <browser:page
+        name="kml-openlayers"
+        for="*"
+        class=".kml_openlayers.KmlOpenLayers"
+        template="kml_openlayers.pt"
+        permission = "zope2.View" />
+                 
+</configure>

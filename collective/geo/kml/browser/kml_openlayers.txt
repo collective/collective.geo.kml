@@ -1,0 +1,48 @@
+collective.geo.kml openlayers
+================
+
+Overview
+--------
+kml_openlayers is a BrowserView that provide a map with openlayer for folderish element 
+including geo referenced objects
+
+Tests
+-----
+we start the tests with the usual boilerplate
+    >>> from Products.Five.testbrowser import Browser
+    >>> browser = Browser()
+    >>> portal_url = self.portal.absolute_url()
+    >>> self.portal.error_log._ignored_exceptions = ()
+
+    >>> from Products.PloneTestCase.setup import portal_owner, default_password
+    >>> browser.open(portal_url)
+
+
+the @@kml-openlayers view must contain a div wrapper for a map
+    >>> view_url = '%s/@@kml-openlayers' % portal_url
+    >>> browser.open(view_url)
+    >>> '<div id="map" ' in browser.contents
+    True
+
+openlayers javascript
+    >>> '<script type="text/javascript" src="./OpenLayers.js"></script>' in browser.contents
+    True
+
+its css
+    >>> '<link href="++resource++openlayers.css" rel="stylesheet" type="text/css" />' in browser.contents
+    True
+
+and kml_openlayers javascript
+    >>> '<script type="text/javascript" src="++resource++geo.kml.javascripts/kml_openlayers.js">' in browser.contents
+    True
+
+in the default configuration we use a google maps layer and must include google maps javascript
+    >>> 'http://maps.google.com/maps?file=api&amp;v=2&amp;key=' in browser.contents
+    True
+
+in the body page we call openlayers init function
+    >>> 'openlayers_init()' in browser.contents
+    True
+
+e questo è tutto
+

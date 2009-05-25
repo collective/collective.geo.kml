@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<componentregistry>
+    <utilities>
+     <utility
+        interface="collective.geo.kml.interfaces.IGeoKmlSettings"
+        factory="collective.geo.kml.geokmlconfig.GeoKmlSettings"
+        />
+    </utilities>
+</componentregistry>

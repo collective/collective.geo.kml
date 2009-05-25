@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="collective.geo.kml">
+
+  <genericsetup:registerProfile
+      name="default"
+      title="Collective Geo Kml"
+      directory="profiles/default"
+      description='Extension profile for Collective Geo Kml.'
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+</configure>

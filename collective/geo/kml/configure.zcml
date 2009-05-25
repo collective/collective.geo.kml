@@ -1,0 +1,26 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:five="http://namespaces.zope.org/five"
+           i18n_domain="collective.geo.kml">
+
+    <five:registerPackage package="." initialize=".initialize" />
+  
+    <include package="plone.browserlayer" />
+    <include package="collective.geo.contentlocations" />
+    <include package="zgeo.plone.kml"/>
+    <include package=".browser"/>
+    <include file="profiles.zcml" />
+
+
+    <utility
+        provides=".interfaces.IGeoKmlConfig"
+        factory=".geokmlconfig.GeoKmlConfig"
+        name="collective.geo.kmlconfig"
+        />
+        
+    <adapter
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        provides=".interfaces.IGeoKmlSettings"
+        factory=".browser.controlpanel.geo_kml_settings"
+    />
+
+</configure>

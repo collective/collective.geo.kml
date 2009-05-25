@@ -1,0 +1,33 @@
+<html metal:use-macro="here/main_template/macros/master">
+    <metal:block metal:fill-slot="javascript_head_slot">
+      <script tal:condition="view/googlemaps" tal:attributes="src string:http://maps.google.com/maps?file=api&amp;v=2&amp;key=${view/googlemaps}" 
+              type="text/javascript"></script>
+
+      <script type="text/javascript" src="./OpenLayers.js"></script>
+      <script type="text/javascript"
+              tal:content="view/baseJs"
+              ></script>
+
+
+      <script type="text/javascript" src="++resource++geo.kml.javascripts/kml_openlayers.js"></script>
+
+      <link href="++resource++openlayers.css" rel="stylesheet" type="text/css" />
+
+    </metal:block>
+
+<body>
+
+<metal:main fill-slot="main">
+
+    <div>
+        <h1 tal:content="context/Title"></h1>
+        <metal:map use-macro="context/@@openlayers-macros/map" />
+        <script type="text/javascript">
+            openlayers_init()
+        </script>
+    </div>
+
+</metal:main>
+
+</body>
+</html>
