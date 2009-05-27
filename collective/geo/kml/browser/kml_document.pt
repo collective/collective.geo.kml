@@ -9,6 +9,13 @@
     />
   <Document>
     <Style id="defaultStyle">
+      <IconStyle>
+        <scale>0.7</scale>
+        <Icon>
+            <href tal:content="view/pointmarker">http://.../marker.png</href>
+        </Icon>
+        <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction" />
+      </IconStyle>
       <LineStyle>
         <color tal:content="view/linecolor">ff000000</color>
         <width tal:content="view/linewidth">3</width>

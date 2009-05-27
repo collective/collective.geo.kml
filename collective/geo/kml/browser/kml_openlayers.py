@@ -28,7 +28,6 @@ class KmlOpenLayers(BrowserView):
     def map_center(self):
         return  self.geosettings.get('latitude'), self.geosettings.get('longitude')
 
-
     def baseJs(self):
         googlemaps = self.googlemaps and 'true' or 'false'
         map_center = self.map_center

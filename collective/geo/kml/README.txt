@@ -29,6 +29,13 @@ Folder that contain our document have a kml-document view provided by zgeo.plone
     <BLANKLINE>
       <Document>
         <Style id="defaultStyle">
+          <IconStyle>
+            <scale>0.7</scale>
+            <Icon>
+                <href>http://localhost/plone/img/marker.png</href>
+            </Icon>
+            <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+          </IconStyle>
           <LineStyle>
             <color>FF0000FF</color>
             <width>2</width>
@@ -73,6 +80,7 @@ we can change some properties of kml document with IGeoKmlSettings utility
     >>> settings.linecolor = '#33DD22'
     >>> settings.linewidth = 3
     >>> settings.polygoncolor = '#FFBD00'
+    >>> settings.marker_image = 'marker-blue.png'
     >>> r = http(r"""
     ... GET /plone/Members/test_user_1_/@@kml-document HTTP/1.1
     ... Authorization: Basic %s:%s
@@ -83,6 +91,13 @@ we can change some properties of kml document with IGeoKmlSettings utility
     <BLANKLINE>
       <Document>
         <Style id="defaultStyle">
+          <IconStyle>
+            <scale>0.7</scale>
+            <Icon>
+                <href>http://localhost/plone/img/marker-blue.png</href>
+            </Icon>
+            <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+          </IconStyle>
           <LineStyle>
             <color>FF22DD33</color>
             <width>3</width>
@@ -120,4 +135,3 @@ we can change some properties of kml document with IGeoKmlSettings utility
     </kml>
     <BLANKLINE>
 
-Integrare openlayers come vista di kml-document

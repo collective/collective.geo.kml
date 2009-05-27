@@ -24,3 +24,7 @@ class IGeoKmlSettings(Interface):
                           description=_(u"Default polygon color"),
                           default=u'#ff0000',
                           required=False)
+
+    marker_image = schema.TextLine(title=_(u"Marker image"),
+                          description=_(u"Default point marker image"),
+                          required=False)

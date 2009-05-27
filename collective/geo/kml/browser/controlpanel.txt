@@ -26,10 +26,15 @@ we log in and verify the functionality of collective.geo.kml control panel form;
     >>> browser.getControl(name = 'form.widgets.linewidth').value
     '2'
 
-we set 'line width' property to '3', save data
+we set 'line width' property to '3' and modify 'marker_image', save data
     >>> browser.getControl(name = 'form.widgets.linewidth').value = '3'
+    >>> browser.getControl(name = 'form.widgets.marker_image').value = 'marker-blue.png'
     >>> browser.getControl('Apply').click()
 
 and control modifications
     >>> browser.getControl(name = 'form.widgets.linewidth').value
     '3'
+
+    >>> browser.getControl(name = 'form.widgets.marker_image').value
+    'marker-blue.png'
+

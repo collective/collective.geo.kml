@@ -20,9 +20,9 @@ class GeoKmlSettings(Persistent):
         '#FF00FF'
 
         o attraverso il metodo set
-        >>> config.set('polygoncolor', '#FF0000')
-        >>> config.polygoncolor
-        '#FF0000'
+        >>> config.set('marker_image', 'marker-blue.png')
+        >>> config.marker_image
+        'marker-blue.png'
 
     """ 
     implements(IGeoKmlSettings)
@@ -30,7 +30,7 @@ class GeoKmlSettings(Persistent):
     linecolor = '#FF0000'
     linewidth = 2
     polygoncolor = '#FF0000'
-    image_url = ''
+    marker_image = 'marker.png'
 
     def set(self, key,  val):
         return self.__setattr__(key, val)
