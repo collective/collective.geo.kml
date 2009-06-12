@@ -6,35 +6,13 @@ from collective.geo.settings.interfaces import IGeoSettings
 
 
 class KmlOpenLayers(BrowserView):
-    def __init__(self, context, request):
-        super(KmlOpenLayers, self).__init__(context, request)
-        self.geosettings = getUtility(IGeoSettings)
+    """ Kml Openlayers View """
 
     @property
-    def zoom(self):
-        return  self.geosettings.get('zoom')
+    def geosettings(self):
+        return self.context.restrictedTraverse('@@geosettings-macros')
 
     @property
-    def googlemaps(self):
-        return  self.geosettings.get('googlemaps')
-
-    @property
-    def googleapi(self):
-        if self.googlemaps:
-            return  self.geosettings.get('googleapi')
-        return False
-
-    @property
-    def map_center(self):
-        return  self.geosettings.get('latitude'), self.geosettings.get('longitude')
-
-    def baseJs(self):
-        googlemaps = self.googlemaps and 'true' or 'false'
-        map_center = self.map_center
-        return """
-                var lat = %d;
-                var lon = %d;
-                var googlemaps = %s;
-                var zoom = %d;
-               """ % (map_center[0],self.map_center[1], googlemaps, self.zoom)
+    def google_maps_js(self):
+        return self.geosettings.google_maps_js
 

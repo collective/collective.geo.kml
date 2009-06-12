@@ -1,0 +1,5 @@
+TODO
+====
+
+- provide a generic interface for kml-document settings styles based.
+- provide alpha settings for color

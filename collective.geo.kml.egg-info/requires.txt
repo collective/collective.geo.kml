@@ -1,3 +1,0 @@
-setuptools
-collective.geo.contentlocations
-zgeo.plone.kml
