@@ -1,0 +1,63 @@
+# collective.habla
+# Giorgio Borelli <giorgio@giorgioborelli.it>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.3\n"
+"POT-Creation-Date: 2009-06-12 18:49+0000\n"
+"PO-Revision-Date: 2009-06-12 19:29+0000\n"
+"Last-Translator: Giorgio Borelli\n"
+"Language-Team: <giorgio@giorgioborelli.it>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: it\n"
+"Language-Name: Italian\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: collective.habla\n"
+"X-Is-Fallback-For: it-it it-ch it-sm it-hr it-si\n"
+
+#: ./interfaces.py:14
+msgid "Default line color"
+msgstr "Colore di defaul per le linee"
+
+#: ./interfaces.py:19
+msgid "Default line width in pixel"
+msgstr "Larghezza in pixel di default per le linee"
+
+#: ./interfaces.py:29
+msgid "Default point marker image"
+msgstr "Immagine di default per il marcatore dei punti"
+
+#: ./interfaces.py:24
+msgid "Default polygon color"
+msgstr "Colore di default per i poligoni"
+
+#: ./browser/controlpanel.py:43
+msgid "Geo Kml"
+msgstr "Geo Kml"
+
+#: ./browser/controlpanel.py:44
+msgid "Geo Kml default settings"
+msgstr "Impostazioni di default per Geo Kml"
+
+#: ./browser/controlpanel.py:28
+msgid "Geo kml settings"
+msgstr "Impostazioni Geo kml"
+
+#: ./interfaces.py:13
+msgid "Line color"
+msgstr "Colore linea"
+
+#: ./interfaces.py:18
+msgid "Line width"
+msgstr "Larghezza linea"
+
+#: ./interfaces.py:28
+msgid "Marker image"
+msgstr "Immagine marcatore"
+
+#: ./interfaces.py:23
+msgid "Polygon color"
+msgstr "Colore poligono"
+

@@ -5,21 +5,21 @@ from zope.component import getUtility
 
 class GeoKmlSettings(Persistent):
     """ 
-        GeoKmlSettings ha un po' di proprieta' cui posso accedere direttamente
+        GeoKmlSettings have some propreties. We can get its propterties directly
         >>> config = GeoKmlSettings()
         >>> config.linecolor
         '#FF0000'
 
-        o attraverso il metogo get
+        or by the 'get' method
         >>> config.get('linewidth')
         2
 
-        posso anche cambiare le proprieta direttamente
+        we can set GeoKmlSettings in this way
         >>> config.polygoncolor = '#FF00FF'
         >>> config.polygoncolor
         '#FF00FF'
 
-        o attraverso il metodo set
+        or by the 'set' method
         >>> config.set('marker_image', 'marker-blue.png')
         >>> config.marker_image
         'marker-blue.png'
@@ -44,12 +44,12 @@ class GeoKmlSettings(Persistent):
 class GeoKmlConfig(object):
     """
         Non ho ancora capito a cosa serva sto coso
-        comunque questa e' la mia utility
+        We get the IGeoKmlSettings utility
         >>> config = GeoKmlConfig()
         >>> config.getSettings()
         <class 'collective.geo.kml.geokmlconfig.GeoKmlSettings'>
 
-        e queste sono le sue proprieta
+        and its properties
         >>> config.getSettings().linewidth
         2
 

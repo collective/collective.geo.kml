@@ -25,7 +25,7 @@ class GeoKmlControlpanelForm(form.EditForm):
     fields['linecolor'].widgetFactory = ColorpickerFieldWidget
     fields['polygoncolor'].widgetFactory = ColorpickerFieldWidget
 
-    heading = 'Geo kml settings'
+    heading = _(u'Geo kml settings')
 
     @button.handler(form.EditForm.buttons['apply'])
     def handle_add(self, action):
@@ -41,7 +41,7 @@ class GeoKmlControlpanel(BrowserView):
     __call__ = ViewPageTemplateFile('controlpanel.pt')
 
     label = _(u'Geo Kml')
-    description = _(u"Kml default settings")
+    description = _(u"Geo Kml default settings")
     back_link = back_to_controlpanel
 
     def contents(self):
