@@ -1,5 +1,7 @@
 TODO
 ====
 
-- provide a generic interface for kml-document settings styles based.
-- provide alpha settings for color
+* provide a generic interface for kml-document settings styles based.
+* provide alpha settings for color.
+* add a menu item for select kml-openlayers view
+

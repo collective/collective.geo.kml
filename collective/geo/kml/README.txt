@@ -9,7 +9,6 @@ Alcune proprietà del documento kml possono essere personalizzate a livello di s
 
 Test
 ----
-
 We have a generic Document and set some geographical data with IGeoManager from collective.geo.contentlocations package
 
     >>> document = self.folder['test-document']

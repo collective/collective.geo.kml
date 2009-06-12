@@ -1,5 +1,5 @@
 collective.geo.kml controlpanel
-================
+===============================
 
 Overview
 --------
@@ -18,7 +18,6 @@ we start the tests with the usual boilerplate
 
 
 we log in and verify the functionality of collective.geo.kml control panel form;
-
     >>> browser.getControl(name='__ac_name').value = portal_owner
     >>> browser.getControl(name='__ac_password').value = default_password
     >>> browser.getControl(name='submit').click()
