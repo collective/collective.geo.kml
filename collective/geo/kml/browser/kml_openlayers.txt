@@ -55,5 +55,15 @@ and parameter for geo-openlayers.js
     True
 
 
-#TODO test
-The openlayers view can be enabled also for Topic and for Large Plone Folder
+
+The openlayers view can be enabled also for Topic and for Large Plone Folder.
+We have a Topic in portal root for testing that
+    >>> topic_url = self.portal.test_topic.absolute_url()
+    >>> browser.open(topic_url)
+    >>> browser.getLink('Kml Openlayers View').click()
+
+now we made the same test with a Large Plone Folder in portal root
+    >>> largefolder_url = self.portal.test_largefolder.absolute_url()
+    >>> browser.open(largefolder_url)
+    >>> browser.getLink('Kml Openlayers View').click()
+

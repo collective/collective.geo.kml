@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<!-- This file defines a ufficio folder's factory-based type information (FTI). -->
+<object name="Folder">
+    <property name="view_methods" purge="false">
+        <element value="kml-openlayers"/>
+    </property>
+</object>

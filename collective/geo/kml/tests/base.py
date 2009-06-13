@@ -5,7 +5,7 @@ from Testing import ZopeTestCase as ztc
 
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import onsetup
-
+from Products.CMFPlone.utils import _createObjectByType
 @onsetup
 def setup_product():
     """
@@ -44,10 +44,10 @@ class KmlFunctionalTestCase(ptc.FunctionalTestCase):
         self.folder.invokeFactory('Document', 'test-document')
         self.folder['test-document'].setTitle('Test document')
         self.folder['test-document'].setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend')
-    
-        #TODO
-        #self.portal.invokeFactory('Folder', 'test-folder')
-        #self.folder.invokeFactory('Large_Plone_Folder', 'test-large_plone_folder')
+
+        _createObjectByType("Topic", self.portal, 'test_topic')
+        _createObjectByType("Large Plone Folder", self.portal, 'test_largefolder')
+
 
 
 
