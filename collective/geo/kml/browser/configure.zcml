@@ -1,6 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope"
           xmlns:browser="http://namespaces.zope.org/browser"
-          xmlns:five="http://namespaces.zope.org/five">
+          xmlns:five="http://namespaces.zope.org/five"
+          i18n_domain="collective.geo.kml">
  
  
      <browser:page
@@ -49,12 +50,52 @@
       directory="javascripts"
     />
 
+    <browser:page
+        name="kml-openlayers"
+        for="Products.ATContentTypes.content.topic.ATTopic"
+        class=".kml_openlayers.KmlOpenLayers"
+        template = "kml_openlayers.pt"
+        permission = "zope2.View" />
 
     <browser:page
         name="kml-openlayers"
-        for="*"
+        for="Products.ATContentTypes.content.folder.ATFolder"
         class=".kml_openlayers.KmlOpenLayers"
-        template="kml_openlayers.pt"
+        template = "kml_openlayers.pt"
         permission = "zope2.View" />
-                 
+
+
+    <browser:page
+        name="kml-openlayers"
+        for="Products.ATContentTypes.content.folder.ATBTreeFolder"
+        class=".kml_openlayers.KmlOpenLayers"
+        template = "kml_openlayers.pt"
+        permission = "zope2.View" />
+        
+
+    <include package="plone.app.contentmenu" />
+    <browser:menuItem
+            title="Kml Openlayers View"
+            for="Products.ATContentTypes.interface.IATFolder"
+            menu="plone_displayviews"
+            action="kml-openlayers"
+            description="Set Openlayers Kml as default view."
+    />
+
+    <browser:menuItem
+            title="Kml Openlayers View"
+            for="Products.ATContentTypes.interface.IATTopic"
+            menu="plone_displayviews"
+            action="kml-openlayers"
+            description="Set Openlayers Kml as default view."
+    />
+
+    <browser:menuItem
+            title="Kml Openlayers View"
+            for="Products.ATContentTypes.interface.IATBTreeFolder"
+            menu="plone_displayviews"
+            action="kml-openlayers"
+            description="Set Openlayers Kml as default view."
+    />
+
 </configure>

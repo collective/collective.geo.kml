@@ -12,14 +12,21 @@ we start the tests with the usual boilerplate
     >>> from Products.Five.testbrowser import Browser
     >>> browser = Browser()
     >>> portal_url = self.portal.absolute_url()
+    >>> folder_url = self.folder.absolute_url()
     >>> self.portal.error_log._ignored_exceptions = ()
 
+we log in for tests in user member area
     >>> from Products.PloneTestCase.setup import portal_owner, default_password
     >>> browser.open(portal_url)
+    >>> browser.getControl(name='__ac_name').value = portal_owner
+    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='submit').click()
 
-the @@kml-openlayers view must contain a div wrapper for a map
-    >>> view_url = '%s/@@kml-openlayers' % portal_url
-    >>> browser.open(view_url)
+we can set kml_openlayers view as default view for Folder
+    >>> browser.open(folder_url)
+    >>> browser.getLink('Kml Openlayers View').click()
+
+in this view we can see a div that contains the openlayers map
     >>> '<div id="map" ' in browser.contents
     True
 
@@ -48,5 +55,5 @@ and parameter for geo-openlayers.js
     True
 
 
-
-
+#TODO test
+The openlayers view can be enabled also for Topic and for Large Plone Folder
