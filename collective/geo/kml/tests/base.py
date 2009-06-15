@@ -11,7 +11,7 @@ def setup_product():
     """
        Set up the package and its dependencies.
     """
-    
+
     fiveconfigure.debug_mode = True
     import collective.geo.kml
     zcml.load_config('configure.zcml', collective.geo.kml)
@@ -29,11 +29,6 @@ ptc.setupPloneSite(products=['collective.geo.kml'])
 class KmlTestCase(ptc.PloneTestCase):
     pass
 
-import zope.component
-import zgeo.geographer.geo
-import zgeo.geographer.interfaces
-import zope.annotation.interfaces
-import zope.annotation.attribute
 
 class KmlFunctionalTestCase(ptc.FunctionalTestCase):
 

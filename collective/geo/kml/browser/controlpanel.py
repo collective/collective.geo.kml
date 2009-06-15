@@ -1,12 +1,10 @@
-from z3c.form import field,  form, subform, button
-import z3c.form.interfaces
+from z3c.form import field, form, button
 from plone.z3cform import z2
 
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from zope.component import getUtility
-from zope.app.pagetemplate import viewpagetemplatefile
 from zope.app.component.hooks import getSite
 
 from collective.geo.kml.interfaces import IGeoKmlSettings
@@ -20,7 +18,7 @@ def back_to_controlpanel(self):
     return dict(url=root.absolute_url() + '/plone_control_panel')
 
 from collective.z3cform.colorpicker.colorpicker import ColorpickerFieldWidget
-class GeoKmlControlpanelForm(form.EditForm):    
+class GeoKmlControlpanelForm(form.EditForm):
     fields = field.Fields(IGeoKmlSettings)
     fields['linecolor'].widgetFactory = ColorpickerFieldWidget
     fields['polygoncolor'].widgetFactory = ColorpickerFieldWidget

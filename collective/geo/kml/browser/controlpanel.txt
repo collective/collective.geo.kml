@@ -3,7 +3,7 @@ collective.geo.kml controlpanel
 
 Overview
 --------
-collective.geo.kml controlpanel provide a graphical user interface for store a setting for geo kml properties
+collective.geo.kml controlpanel provides a graphical user interface to store settings for geo kml properties
 
 Tests
 -----
@@ -30,7 +30,7 @@ we set 'line width' property to '3' and modify 'marker_image', save data
     >>> browser.getControl(name = 'form.widgets.marker_image').value = 'marker-blue.png'
     >>> browser.getControl('Apply').click()
 
-and control modifications
+and check for expected modifications
     >>> browser.getControl(name = 'form.widgets.linewidth').value
     '3'
 

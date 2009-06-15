@@ -1,28 +1,29 @@
 import zgeo.kml.browser
-from zope.component import getMultiAdapter
-from zope.formlib.namedtemplate import NamedTemplate
-from zope.formlib.namedtemplate import NamedTemplateImplementation
-from zope.app.pagetemplate import ViewPageTemplateFile
 import zgeo.plone.kml.browser
 from collective.geo.kml.interfaces import IGeoKmlSettings
+from zope.app.pagetemplate import ViewPageTemplateFile
+from zope.component import getMultiAdapter
 from zope.component import getUtility
+from zope.formlib.namedtemplate import NamedTemplate
+from zope.formlib.namedtemplate import NamedTemplateImplementation
 
 class Document(zgeo.kml.browser.Document):
     """
-        This class extends zgeo.kml.browser.Document class 
-        and provide some properties for kml-document from IGeoKmlSettings
-        
-        Most important properties are linecolor and polygoncolor because converts
-        stored data in kml color code.
-        
+        This class extends zgeo.kml.browser.Document class
+        and provides some properties for kml-document from IGeoKmlSettings
+
+        The most important properties are linecolor and polygoncolor
+        because they are converted to kml format
+        RRGGBB(web)--->BBGGRRAA(kml)
+
         now we create a TestContent
         >>> from zope import interface
         >>> from zope.dublincore.interfaces import ICMFDublinCore
         >>> class TestContent(object):
-        ...     interface.implements(ICMFDublinCore)    
+        ...     interface.implements(ICMFDublinCore)
         >>> document = TestContent()
         >>> kmldoc = Document(document, None)
-        >>> kmldoc      
+        >>> kmldoc
         <collective.geo.kml.browser.kml.Document object ...>
 
         in GeoKmlSetting we have registered this value for line color
@@ -36,8 +37,7 @@ class Document(zgeo.kml.browser.Document):
         the same thing with polygoncolor
         >>> kmldoc.polygoncolor
         '3C0000FF'
-        
-    """ 
+    """
     template = NamedTemplate('geo-kml-document')
     # TODO: set opacity from IGeoKmlSettings
     opacity = '3C'
@@ -76,7 +76,7 @@ class Document(zgeo.kml.browser.Document):
         g = color[3:5]
         b = color[5:]
         return opacity + b + g + r
-        
+
 
 document_template = NamedTemplateImplementation(
     ViewPageTemplateFile('kml_document.pt')

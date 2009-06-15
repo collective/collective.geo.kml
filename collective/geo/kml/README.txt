@@ -3,9 +3,9 @@ collective.geo.kml
 
 Overview
 --------
-collective.geo.kml fornisce il javascript necessario per integrare un documento kml dentro a un layer di openlayers.
-Esso utilizza zgeo.plone.kml per costruire un documento kml per gli oggetti Folder e Topic
-Alcune proprietà del documento kml possono essere personalizzate a livello di sito.
+collective.geo.kml provides the necessary javascript to integrate a kml document in an opelayers layer.
+It uses zgeo.plone.kml to build a kml file for Folder and Topic objects.
+Some kml properties can be set at site level.
 
 Test
 ----

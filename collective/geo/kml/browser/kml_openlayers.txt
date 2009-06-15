@@ -3,8 +3,8 @@ collective.geo.kml openlayers
 
 Overview
 --------
-kml_openlayers is a BrowserView that provide a map with openlayer for folderish element 
-including geo referenced objects
+kml_openlayers is a BrowserView showing an openlayers map for folderish content.
+The map will show all geo referenced objects in that folderish object.
 
 Tests
 -----
@@ -62,7 +62,7 @@ We have a Topic in portal root for testing that
     >>> browser.open(topic_url)
     >>> browser.getLink('Kml Openlayers View').click()
 
-now we made the same test with a Large Plone Folder in portal root
+now we run the same test with a Large Plone Folder in portal root
     >>> largefolder_url = self.portal.test_largefolder.absolute_url()
     >>> browser.open(largefolder_url)
     >>> browser.getLink('Kml Openlayers View').click()
