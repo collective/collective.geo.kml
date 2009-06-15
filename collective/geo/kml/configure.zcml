@@ -7,6 +7,7 @@
   
     <include package="plone.browserlayer" />
     <include package="collective.geo.contentlocations" />
+    <include package="collective.z3cform.colorpicker" />
     <include package="zgeo.plone.kml"/>
     <include package=".browser"/>
     <include file="profiles.zcml" />
