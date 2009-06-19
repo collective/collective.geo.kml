@@ -1,8 +1,9 @@
 Introduction
 ============
 
-collective.geo.kml override kml-document view of zgeo.plone.kml for integrate some additional options to that view
-and provide a map view for its.
+collective.geo.kml overrides kml-document provided by "zgeo.plone.kml" package to integrate some additional options.
+
+It provides a map view to Plone Folder and Topic content types to display kml data.
 
 Requirements
 ------------
@@ -28,14 +29,8 @@ Alternatively, buildout users can install collective.geo.kml as part of a specif
             collective.geo.kml
 
 
-Usage
-=====
+Contributors
+============
 
-* Install this product from the Plone control panel.
-* Add some contents with coordinates value on your portal (see collective.geo.contentlocations for more informations) in a folder
-* Select "openlayers view" item in the view menu
-* You should have changed the view of this folder and view a map that include geographical information about folder contents.
-
-You have the same view for the collection content type.
-
-
+* Giorgio Borelli - gborelli
+* Silvio Tomatis - silviot
