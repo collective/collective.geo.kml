@@ -1,7 +1,7 @@
 import unittest
 from zope.testing import doctest
 
-import collective.geo.kml.browser.kml
+import collective.geo.kml.browser.document
 
 def setUp(test):
     pass
@@ -15,7 +15,7 @@ def tearDown(test):
 def test_suite():
     return unittest.TestSuite((
 
-        doctest.DocTestSuite(collective.geo.kml.browser.kml,
+        doctest.DocTestSuite(collective.geo.kml.browser.document,
                      setUp=setUp,
                      tearDown=tearDown,
                      optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS,),

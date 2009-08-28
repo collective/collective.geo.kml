@@ -1,27 +1,49 @@
-<configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:five="http://namespaces.zope.org/five"
-           xmlns:i18n="http://namespaces.zope.org/i18n"
-           i18n_domain="collective.geo.kml">
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:five="http://namespaces.zope.org/five"
+  xmlns:i18n="http://namespaces.zope.org/i18n"
+  i18n_domain="collective.geo.kml">
 
     <i18n:registerTranslations directory="locales" />
-  
-    <include package="plone.browserlayer" />
-    <include package="collective.geo.contentlocations" />
-    <include package="collective.z3cform.colorpicker" />
-    <include package="zgeo.plone.kml"/>
-    <include package=".browser"/>
-    <include file="profiles.zcml" />
 
-    <utility
-        provides=".interfaces.IGeoKmlConfig"
-        factory=".geokmlconfig.GeoKmlConfig"
-        name="collective.geo.kmlconfig"
-        />
-        
-    <adapter
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        provides=".interfaces.IGeoKmlSettings"
-        factory=".browser.controlpanel.geo_kml_settings"
+<!--    <include package="collective.geo.geographer"/> -->
+   <include package="plone.browserlayer" />
+   <include package="collective.geo.contentlocations" />
+   <include package="collective.z3cform.colorpicker" />
+   <include package="zgeo.kml"/>
+  
+   <include package=".browser"/>
+   <include file="profiles.zcml"/>
+  
+  <five:implements
+    class="Products.ATContentTypes.content.topic.ATTopic"
+    interface="zope.dublincore.interfaces.ICMFDublinCore"
     />
+
+  <adapter
+    factory="zgeo.kml.browser.Placemark"
+    for="Products.ATContentTypes.content.base.BaseContent
+         zope.publisher.interfaces.browser.IBrowserRequest"
+    provides="zgeo.kml.interfaces.IFeature"
+    />
+
+  <adapter
+    factory="zgeo.kml.browser.Folder"
+    for="Products.ATContentTypes.content.folder.ATFolder
+         zope.publisher.interfaces.browser.IBrowserRequest"
+    provides="zgeo.kml.interfaces.IFeature"
+    />
+
+  <utility
+    provides=".interfaces.IGeoKmlConfig"
+    factory=".geokmlconfig.GeoKmlConfig"
+    name="collective.geo.kmlconfig"
+    />
+
+  <adapter
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+    provides=".interfaces.IGeoKmlSettings"
+    factory=".browser.controlpanel.geo_kml_settings"
+  />
 
 </configure>

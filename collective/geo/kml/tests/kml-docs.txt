@@ -1,0 +1,87 @@
+
+Make a topic in our folder
+
+    >>> self.setRoles(('Manager',))
+
+    >>> folder = self.folder
+    >>> oid = self.folder.invokeFactory('Topic', 'topic', title='Test')
+    >>> topic = self.folder[oid]
+    >>> c = topic.addCriterion('getId', 'ATSimpleStringCriterion')
+    >>> c.setValue('doc')
+
+Add geo-referenced content
+
+    >>> oid = self.folder.invokeFactory('Document', 'doc', title='A Document', description='A test document')
+    >>> doc = self.folder[oid]
+    >>> from zgeo.geographer.interfaces import IWriteGeoreferenced
+    >>> geo = IWriteGeoreferenced(doc)
+    >>> geo.setGeoInterface('Point', (-105, 40))
+
+Check the topic
+
+    >>> brain = [b for b in topic.queryCatalog() if b.id == 'doc'][0]
+    >>> brain.zgeo_geometry['type']
+    'Point'
+    >>> brain.zgeo_geometry['coordinates']
+    (-105, 40)
+
+Test the KML document view of the topic
+
+    >>> from Products.PloneTestCase.setup import portal_owner, default_password
+    >>> r = http(r"""
+    ... GET /plone/Members/test_user_1_/topic/@@kml-document HTTP/1.1
+    ... Authorization: Basic %s:%s
+    ... """ % (portal_owner, default_password), handle_errors=False)
+    >>> r.getStatus()
+    200
+    >>> r.getHeader('Content-Type')
+    'application/vnd.google-earth.kml+xml;charset=utf-8'
+    >>> print r.getBody()
+    <?xml version="1.0" encoding="utf-8"?>
+    <kml xmlns="http://www.opengis.net/kml/2.2">
+    <BLANKLINE>
+      <Document>
+        <Style id="defaultStyle">
+          <IconStyle>
+            <scale>0.7</scale>
+            <Icon>
+                <href>http://localhost/plone/img/marker.png</href>
+            </Icon>
+            <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+          </IconStyle>
+          <LineStyle>
+            <color>FF0000FF</color>
+            <width>2</width>
+          </LineStyle>
+          <PolyStyle>
+            <color>3C0000FF</color>
+          </PolyStyle>
+        </Style>
+        <name>Test</name>
+        <visibility>1</visibility>
+        <open>0</open>
+    <BLANKLINE>
+    <BLANKLINE>
+        <Placemark>
+          <name>A Document</name>
+          <description>
+            <![CDATA[
+              <div>
+                <p>A test document</p>
+                <p>URL: 
+                  <a href="http://localhost/plone/Members/test_user_1_/doc">http://localhost/plone/Members/test_user_1_/doc</a>
+                </p>
+              </div>
+            ]]>
+          </description>
+          <styleUrl>#defaultStyle</styleUrl>
+          <Point>
+            <coordinates>-105.000000,40.000000,0.0</coordinates>
+          </Point>
+    <BLANKLINE>
+    <BLANKLINE>
+        </Placemark>
+    <BLANKLINE>
+      </Document>
+    </kml>
+    <BLANKLINE>

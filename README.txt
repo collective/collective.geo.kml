@@ -1,7 +1,7 @@
 Introduction
 ============
 
-collective.geo.kml overrides kml-document provided by "zgeo.plone.kml" package to integrate some additional options.
+collective.geo.kml provides KML views of georeferenced objects, allowing Plone containers and collections to be visualized in Google Earth.
 
 It provides a map view to Plone Folder and Topic content types to display kml data.
 
@@ -32,5 +32,7 @@ Alternatively, buildout users can install collective.geo.kml as part of a specif
 Contributors
 ============
 
-* Giorgio Borelli - gborelli
-* Silvio Tomatis - silviot
+* Sean Gillies 
+* Giorgio Borelli
+* Silvio Tomatis
+

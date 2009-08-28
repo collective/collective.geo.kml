@@ -1,8 +1,16 @@
 import unittest
-from collective.geo.kml.tests.base import KmlTestCase
+from collective.geo.kml.tests.base import CollectiveGeoKMLTestCase
+from Products.CMFCore.utils import getToolByName
 
-class TestSetup(KmlTestCase):
-    pass
+
+class TestSetup(CollectiveGeoKMLTestCase):
+
+    def afterSetUp(self):
+        self.cat = getToolByName(self.portal, 'portal_catalog')
+    
+    def test_catalog_metadata(self):
+        self.failUnless('zgeo_geometry' in self.cat.schema(), self.cat.schema())
+
 
 def test_suite():
     suite = unittest.TestSuite()

@@ -1,0 +1,77 @@
+
+Make a topic in our folder
+
+    >>> self.setRoles(('Manager',))
+
+    >>> folder = self.folder
+    >>> oid = self.folder.invokeFactory('Large Plone Folder', 'large', title='Large')
+    >>> large = self.folder[oid]
+
+Add geo-referenced content
+
+    >>> oid = large.invokeFactory('Document', 'doc', title='A Document', description='A test document')
+    >>> doc = large[oid]
+    >>> from zgeo.geographer.interfaces import IWriteGeoreferenced
+    >>> geo = IWriteGeoreferenced(doc)
+    >>> geo.setGeoInterface('Point', (-105, 40))
+
+Test the KML document view
+
+    >>> from Products.PloneTestCase.setup import portal_owner, default_password
+    >>> r = http(r"""
+    ... GET /plone/Members/test_user_1_/large/@@kml-document HTTP/1.1
+    ... Authorization: Basic %s:%s
+    ... """ % (portal_owner, default_password), handle_errors=False)
+    >>> r.getStatus()
+    200
+    >>> r.getHeader('Content-Type')
+    'application/vnd.google-earth.kml+xml;charset=utf-8'
+    >>> print r.getBody()
+    <?xml version="1.0" encoding="utf-8"?>
+    <kml xmlns="http://www.opengis.net/kml/2.2">
+    <BLANKLINE>
+      <Document>
+        <Style id="defaultStyle">
+          <IconStyle>
+            <scale>0.7</scale>
+            <Icon>
+                <href>http://localhost/plone/img/marker.png</href>
+            </Icon>
+            <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+          </IconStyle>
+          <LineStyle>
+            <color>FF0000FF</color>
+            <width>2</width>
+          </LineStyle>
+          <PolyStyle>
+            <color>3C0000FF</color>
+          </PolyStyle>
+        </Style>
+        <name>Large</name>
+        <visibility>1</visibility>
+        <open>0</open>
+    <BLANKLINE>
+    <BLANKLINE>
+        <Placemark>
+          <name>A Document</name>
+          <description>
+            <![CDATA[
+              <div>
+                <p>A test document</p>
+                <p>URL: 
+                  <a href="http://localhost/plone/Members/test_user_1_/large/doc">http://localhost/plone/Members/test_user_1_/large/doc</a>
+                </p>
+              </div>
+            ]]>
+          </description>
+          <styleUrl>#defaultStyle</styleUrl>
+          <Point>
+            <coordinates>-105.000000,40.000000,0.0</coordinates>
+          </Point>
+    <BLANKLINE>
+    <BLANKLINE>
+        </Placemark>
+    <BLANKLINE>
+      </Document>
+    </kml>
+    <BLANKLINE>

@@ -1,13 +1,19 @@
-import zgeo.kml.browser
-import zgeo.plone.kml.browser
+from zope.dublincore.interfaces import ICMFDublinCore
+from zope.interface import implements
+from zgeo.geographer.interfaces import IGeoreferenced
+from zgeo.kml.interfaces import IFeature, IPlacemark, IContainer
+from zgeo.kml.browser import NullGeometry
+from zgeo.kml.browser import Document as zgeoDocument
+from zgeo.kml.browser import Placemark
+from Products.CMFCore.utils import getToolByName
 from collective.geo.kml.interfaces import IGeoKmlSettings
-from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.formlib.namedtemplate import NamedTemplate
 from zope.formlib.namedtemplate import NamedTemplateImplementation
+from zope.app.pagetemplate import ViewPageTemplateFile
 
-class Document(zgeo.kml.browser.Document):
+class Document(zgeoDocument):
     """
         This class extends zgeo.kml.browser.Document class
         and provides some properties for kml-document from IGeoKmlSettings
@@ -24,7 +30,7 @@ class Document(zgeo.kml.browser.Document):
         >>> document = TestContent()
         >>> kmldoc = Document(document, None)
         >>> kmldoc
-        <collective.geo.kml.browser.kml.Document object ...>
+        <collective.geo.kml.browser.document.Document object ...>
 
         in GeoKmlSetting we have registered this value for line color
         >>> kmldoc.settings.linecolor
@@ -77,17 +83,65 @@ class Document(zgeo.kml.browser.Document):
         b = color[5:]
         return opacity + b + g + r
 
-
 document_template = NamedTemplateImplementation(
     ViewPageTemplateFile('kml_document.pt')
     )
 
 
-class TopicDocument(Document, zgeo.plone.kml.browser.TopicDocument):
-    """ Cambio template """
+class Geometry(object):
+    
+    implements(IGeoreferenced)
+
+    def __init__(self, type, coordinates):
+        self.type = type
+        self.coordinates = coordinates
 
 
-#@property
-#def features(self):
-#for brain in self.context.queryCatalog():
-#yield zgeo.plone.kml.browser.BrainPlacemark(brain, self.request)
+class BrainPlacemark(Placemark):
+
+    implements(IPlacemark)
+    __name__ = 'kml-placemark'
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        try:
+            g = self.context.zgeo_geometry
+            self.geom = Geometry(g['type'], g['coordinates'])
+        except:
+            self.geom = NullGeometry()
+
+    @property
+    def id(self):
+        return 'urn:uuid:%s' % self.context.UID
+
+    @property
+    def name(self):
+        return self.context.Title
+
+    @property
+    def description(self):
+        return self.context.Description
+
+    @property
+    def author(self):
+        return {
+            'name': self.context.Creator,
+            'uri': '',
+            'email': ''
+            }
+
+    @property
+    def alternate_link(self):
+        return '/'.join(
+            [self.request['BASE1']] 
+            + self.request.physicalPathToVirtualPath(self.context.getPath())
+            )
+
+
+class TopicDocument(Document):
+
+    @property
+    def features(self):
+        for brain in self.context.queryCatalog():
+            yield BrainPlacemark(brain, self.request)

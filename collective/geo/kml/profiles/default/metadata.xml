@@ -3,6 +3,5 @@
   <version>1.0</version>
   <dependencies>
     <dependency>profile-collective.geo.contentlocations:default</dependency>
-    <dependency>profile-zgeo.plone.kml:default</dependency>
   </dependencies>  
 </metadata>

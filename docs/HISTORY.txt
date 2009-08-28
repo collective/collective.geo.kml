@@ -4,7 +4,7 @@ Changelog
 0.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+* integrated zgeo.plone.kml package.
 
 
 0.1 (2009-06-19)

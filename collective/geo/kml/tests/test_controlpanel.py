@@ -10,7 +10,7 @@ def test_suite():
 
         ztc.ZopeDocFileSuite(
             'browser/controlpanel.txt', package='collective.geo.kml',
-            test_class=base.KmlFunctionalTestCase,
+            test_class=base.CollectiveGeoKMLFunctionalTestCase,
             optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS
             ),
 

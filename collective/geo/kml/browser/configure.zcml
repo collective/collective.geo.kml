@@ -1,59 +1,61 @@
-<configure xmlns="http://namespaces.zope.org/zope"
-          xmlns:browser="http://namespaces.zope.org/browser"
-          xmlns:five="http://namespaces.zope.org/five"
-          i18n_domain="collective.geo.kml">
- 
- 
-     <browser:page
-        for="Products.ATContentTypes.content.topic.ATTopic"
-        name="kml-document"
-        class=".kml.TopicDocument"
-        layer = "..interfaces.IGeoKmlLayer"
-        permission="zope2.View"
-        />
-    
-    <browser:page
-        for="Products.ATContentTypes.content.folder.ATBTreeFolder"
-        name="kml-document"
-        layer = "..interfaces.IGeoKmlLayer"
-        class=".kml.Document"
-        permission="zope2.View"
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:five="http://namespaces.zope.org/five"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  i18n_domain="collective.geo.kml">
+
+  <browser:page
+    name="geokml-controlpanel"
+    for="*"
+    class=".controlpanel.GeoKmlControlpanel"
+    permission = "cmf.ManagePortal" />
+
+  <browser:resource
+    name="geokml.png"
+    file="geokml.png"
+  />
+
+  <browser:resourceDirectory
+    name="geo.kml.javascripts"
+    directory="javascripts"
+  />
+
+  <adapter
+    factory=".document.document_template"
+    for=".document.Document"
+    name="geo-kml-document"
     />
 
-    <browser:page
-        for="*"
-        name="kml-document"
-        class=".kml.Document"
-        layer = "..interfaces.IGeoKmlLayer"
-        permission="zope.View"
+
+  <browser:page
+    for="Products.ATContentTypes.content.topic.ATTopic"
+    name="kml-document"
+    layer = "..interfaces.IGeoKmlLayer"
+    class=".document.TopicDocument"
+    permission="zope2.View"
     />
 
-    <adapter
-        factory=".kml.document_template"
-        for=".kml.Document"
-        name="geo-kml-document"
-        />
-
-    <browser:page
-                 name="geokml-controlpanel"
-                 for="*"
-                 class=".controlpanel.GeoKmlControlpanel"
-                 permission = "cmf.ManagePortal" />
-
-    <browser:resource
-        name="geokml.png"
-        file="geokml.png"
+  <browser:page
+    for="Products.ATContentTypes.content.folder.ATBTreeFolder"
+    name="kml-document"
+    layer = "..interfaces.IGeoKmlLayer"
+    class=".document.Document"
+    permission="zope2.View"
     />
 
-    <browser:resourceDirectory
-      name="geo.kml.javascripts"
-      directory="javascripts"
+  <browser:page
+    for="Products.ATContentTypes.content.folder.ATFolder"
+    name="kml-document"
+    layer = "..interfaces.IGeoKmlLayer"
+    class=".document.Document"
+    permission="zope2.View"
     />
 
     <browser:page
         name="kml-openlayers"
         for="Products.ATContentTypes.content.topic.ATTopic"
         class=".kml_openlayers.KmlOpenLayers"
+        layer = "..interfaces.IGeoKmlLayer"
         template = "kml_openlayers.pt"
         permission = "zope2.View" />
 
@@ -61,6 +63,7 @@
         name="kml-openlayers"
         for="Products.ATContentTypes.content.folder.ATFolder"
         class=".kml_openlayers.KmlOpenLayers"
+        layer = "..interfaces.IGeoKmlLayer"
         template = "kml_openlayers.pt"
         permission = "zope2.View" />
 
@@ -69,9 +72,9 @@
         name="kml-openlayers"
         for="Products.ATContentTypes.content.folder.ATBTreeFolder"
         class=".kml_openlayers.KmlOpenLayers"
+        layer = "..interfaces.IGeoKmlLayer"
         template = "kml_openlayers.pt"
         permission = "zope2.View" />
-        
 
     <include package="plone.app.contentmenu" />
     <browser:menuItem
