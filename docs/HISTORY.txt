@@ -5,7 +5,10 @@ Changelog
 ----------------
 
 * integrated zgeo.plone.kml package.
-
+* Updated the kml_openlayers.js Javascript to use the current URL's
+  context to access @@kml-document.  Accessing this in a relative manner
+  represents problems for URLs being rewritten in a proxy (eg Deliverance).
+  [rockdj]
 
 0.1 (2009-06-19)
 ----------------

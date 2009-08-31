@@ -1,4 +1,10 @@
-kml = new OpenLayers.Layer.GML("Boulders", "@@kml-document", 
+var thisUri = window.location.href;
+thisUri = thisUri.slice(0, thisUri.length - window.location.hash.length);
+if (!thisUri.match('\/$')) {
+      thisUri += '/';
+}
+
+kml = new OpenLayers.Layer.GML("Boulders", thisUri + "@@kml-document",
 {
     format: OpenLayers.Format.KML, 
     projection: map.displayProjection,
