@@ -4,7 +4,7 @@ if (!thisUri.match('\/$')) {
       thisUri += '/';
 }
 
-kml = new OpenLayers.Layer.GML("Boulders", thisUri + "@@kml-document",
+kml = new OpenLayers.Layer.GML("KML Layer", thisUri + "@@kml-document",
 {
     format: OpenLayers.Format.KML, 
     projection: map.displayProjection,

@@ -3,5 +3,5 @@ TODO
 
 * provide a generic interface for kml-document settings styles based.
 * provide alpha settings for color.
-* name the overlay layer more appropriately than 'Boulders'
+
 
