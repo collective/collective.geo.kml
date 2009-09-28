@@ -21,6 +21,7 @@
         <script type="text/javascript"          
                 src="++resource++geo.kml.javascripts/kml_openlayers.js"></script>
     </div>
+    <div tal:replace="structure provider:plone.belowcontentbody" />
   </metal:main>
  </body>
 </html>
