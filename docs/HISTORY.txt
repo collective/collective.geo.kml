@@ -4,6 +4,14 @@ Changelog
 0.2 (unreleased)
 ----------------
 
+* Added ability to set marker image size in control panel
+  [rockdj]
+* Allowed for marker image not have to be in the hard-coded /img/ directory.
+  This allows for custom markers to be specified anywhere in Plone.
+  img/marker.png is set as default to keep things the same.
+  [rockdj]
+* Changed linewidth to be able to accept float values.
+  [rockdj]
 * Integrated zgeo.plone.kml package.
 * Updated the kml_openlayers.js Javascript to use the current URL's
   context to access @@kml-document.  Accessing this in a relative manner

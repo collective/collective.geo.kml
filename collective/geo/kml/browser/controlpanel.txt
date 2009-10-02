@@ -24,17 +24,20 @@ we log in and verify the functionality of collective.geo.kml control panel form;
     >>> browser.getControl(name='submit').click()
     >>> browser.open('%s/@@geokml-controlpanel' % portal_url)
     >>> browser.getControl(name = 'form.widgets.linewidth').value
-    '2'
+    '2.0'
 
-we set 'line width' property to '3' and modify 'marker_image', save data
-    >>> browser.getControl(name = 'form.widgets.linewidth').value = '3'
+we set 'line width' property to '3.0' and modify 'marker_image', save data
+    >>> browser.getControl(name = 'form.widgets.linewidth').value = '3.0'
     >>> browser.getControl(name = 'form.widgets.marker_image').value = 'marker-blue.png'
+    >>> browser.getControl(name = 'form.widgets.marker_image_size').value = '1.0'
     >>> browser.getControl('Apply').click()
 
 and check for expected modifications
     >>> browser.getControl(name = 'form.widgets.linewidth').value
-    '3'
+    '3.0'
 
     >>> browser.getControl(name = 'form.widgets.marker_image').value
     'marker-blue.png'
 
+    >>> browser.getControl(name = 'form.widgets.marker_image_size').value
+    '1.0'

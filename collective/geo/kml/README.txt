@@ -37,7 +37,7 @@ Folder that contain our document have a kml-document view provided by zgeo.plone
           </IconStyle>
           <LineStyle>
             <color>FF0000FF</color>
-            <width>2</width>
+            <width>2.0</width>
           </LineStyle>
           <PolyStyle>
             <color>3C0000FF</color>
@@ -77,9 +77,10 @@ we can change some properties of kml document with IGeoKmlSettings utility
     >>> from collective.geo.kml.interfaces import IGeoKmlSettings
     >>> settings = getUtility(IGeoKmlSettings)
     >>> settings.linecolor = '#33DD22'
-    >>> settings.linewidth = 3
+    >>> settings.linewidth = 3.0
     >>> settings.polygoncolor = '#FFBD00'
-    >>> settings.marker_image = 'marker-blue.png'
+    >>> settings.marker_image = 'img/marker-blue.png'
+    >>> settings.marker_image_size = 1.0
     >>> r = http(r"""
     ... GET /plone/Members/test_user_1_/@@kml-document HTTP/1.1
     ... Authorization: Basic %s:%s
@@ -91,7 +92,7 @@ we can change some properties of kml document with IGeoKmlSettings utility
       <Document>
         <Style id="defaultStyle">
           <IconStyle>
-            <scale>0.7</scale>
+            <scale>1.0</scale>
             <Icon>
                 <href>http://localhost/plone/img/marker-blue.png</href>
             </Icon>
@@ -99,7 +100,7 @@ we can change some properties of kml document with IGeoKmlSettings utility
           </IconStyle>
           <LineStyle>
             <color>FF22DD33</color>
-            <width>3</width>
+            <width>3.0</width>
           </LineStyle>
           <PolyStyle>
             <color>3C00BDFF</color>

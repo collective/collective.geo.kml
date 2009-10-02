@@ -16,7 +16,7 @@ we can personalize this view with IGeoKmlSettings
 
 line width
     >>> settings.linewidth
-    2
+    2.0
 
 line color
     >>> settings.linecolor

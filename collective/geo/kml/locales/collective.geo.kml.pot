@@ -22,11 +22,15 @@ msgid "Default line color"
 msgstr ""
 
 #: ./interfaces.py:19
-msgid "Default line width in pixel"
+msgid "Default line width in pixels"
 msgstr ""
 
 #: ./interfaces.py:29
 msgid "Default point marker image"
+msgstr ""
+
+#: ./interfaces.py:34
+msgid "Scaled size of the marker image"
 msgstr ""
 
 #: ./interfaces.py:24
@@ -55,6 +59,10 @@ msgstr ""
 
 #: ./interfaces.py:28
 msgid "Marker image"
+msgstr ""
+
+#: ./interfaces.py:33
+msgid "Marker image size"
 msgstr ""
 
 #: ./interfaces.py:23

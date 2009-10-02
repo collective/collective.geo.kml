@@ -35,4 +35,5 @@ Contributors
 * Sean Gillies 
 * Giorgio Borelli
 * Silvio Tomatis
+* David Breitkreutz, rockdj
 

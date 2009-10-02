@@ -51,7 +51,7 @@ Test the KML document view of the topic
           </IconStyle>
           <LineStyle>
             <color>FF0000FF</color>
-            <width>2</width>
+            <width>2.0</width>
           </LineStyle>
           <PolyStyle>
             <color>3C0000FF</color>

@@ -73,8 +73,11 @@ class Document(zgeoDocument):
     @property
     def pointmarker(self):
         portal_state = getMultiAdapter((self.context, self.request), name=u"plone_portal_state")
-        return '%s/img/%s' % (portal_state.portal_url(), self.settings.marker_image)
+        return '%s/%s' % (portal_state.portal_url(), self.settings.marker_image)
 
+    @property
+    def pointmarkersize(self):
+        return self.settings.marker_image_size
 
     def colorconvert(self, color, opacity = 'FF'):
         # color = '#123456'

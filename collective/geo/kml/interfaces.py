@@ -15,9 +15,9 @@ class IGeoKmlSettings(Interface):
                           default=u'#ff0000',
                           required=True)
 
-    linewidth = schema.Int(title=_(u"Line width"),
-                          description=_(u"Default line width in pixel"),
-                          default=2,
+    linewidth = schema.Float(title=_(u"Line width"),
+                          description=_(u"Default line width in pixels"),
+                          default=2.0,
                           required=True)
 
     polygoncolor = schema.TextLine(title=_(u"Polygon color"),
@@ -27,4 +27,11 @@ class IGeoKmlSettings(Interface):
 
     marker_image = schema.TextLine(title=_(u"Marker image"),
                           description=_(u"Default point marker image"),
+                          default=u'img/marker.png',
                           required=False)
+
+    marker_image_size = schema.Float(title=_(u"Marker image size"),
+                          description=_(u"Scaled size of the marker image"),
+                          default=0.7,
+                          required=True)
+

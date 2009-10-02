@@ -12,7 +12,7 @@ class GeoKmlSettings(Persistent):
 
         or by the 'get' method
         >>> config.get('linewidth')
-        2
+        2.0
 
         we can set GeoKmlSettings in this way
         >>> config.polygoncolor = '#FF00FF'
@@ -23,14 +23,19 @@ class GeoKmlSettings(Persistent):
         >>> config.set('marker_image', 'marker-blue.png')
         >>> config.marker_image
         'marker-blue.png'
+ 
+        >>> config.set('marker_image_size', 1.0)
+        >>> config.marker_image_size
+        1.0
 
     """ 
     implements(IGeoKmlSettings)
 
     linecolor = '#FF0000'
-    linewidth = 2
+    linewidth = 2.0
     polygoncolor = '#FF0000'
-    marker_image = 'marker.png'
+    marker_image = 'img/marker.png'
+    marker_image_size = 0.7
 
     def set(self, key,  val):
         return self.__setattr__(key, val)
@@ -51,7 +56,7 @@ class GeoKmlConfig(object):
 
         and its properties
         >>> config.getSettings().linewidth
-        2
+        2.0
 
     """
     def getSettings(self):

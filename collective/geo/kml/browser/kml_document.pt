@@ -10,7 +10,7 @@
   <Document>
     <Style id="defaultStyle">
       <IconStyle>
-        <scale>0.7</scale>
+        <scale tal:content="view/pointmarkersize">0.7</scale>
         <Icon>
             <href tal:content="view/pointmarker">http://.../marker.png</href>
         </Icon>
@@ -18,7 +18,7 @@
       </IconStyle>
       <LineStyle>
         <color tal:content="view/linecolor">ff000000</color>
-        <width tal:content="view/linewidth">3</width>
+        <width tal:content="view/linewidth">3.0</width>
       </LineStyle>
       <PolyStyle>
         <color tal:content="view/polygoncolor">33ff0000</color>
