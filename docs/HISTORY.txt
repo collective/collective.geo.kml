@@ -4,6 +4,11 @@ Changelog
 0.2 (unreleased)
 ----------------
 
+* Added uninstall GenericSetup profile
+  [rockdj]
+* Added action for downloading KML to desktop (for Google Earth or 
+  other applications)
+  [rockdj]
 * Added ability to set marker image size in control panel
   [rockdj]
 * Allowed for marker image not have to be in the hard-coded /img/ directory.

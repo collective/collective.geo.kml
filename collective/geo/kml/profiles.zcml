@@ -10,5 +10,14 @@
       description='Extension profile for Collective Geo Kml.'
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+  
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="Collective Geo Kml Uninstall Profile"
+      directory="profiles/uninstall"
+      description='Removes the "Collective Geo Kml" Plone theme.'
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      />
 
 </configure>

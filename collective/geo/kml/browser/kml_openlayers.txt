@@ -38,12 +38,16 @@ generic collective.geo javascript,
     >>> '<script type="text/javascript" src="++resource++geo-openlayers.js">' in browser.contents
     True
 
-kml_openlayers javascript
+kml_openlayers javascript, 
     >>> '<script type="text/javascript" src="++resource++geo.kml.javascripts/kml_openlayers.js">' in browser.contents
     True
 
-and Openlayers css
+Openlayers css, 
     >>> '<link href="++resource++openlayers.css" rel="stylesheet" type="text/css" />' in browser.contents
+    True
+
+and 'Download KML' link
+    >>> '<a href="'+folder_url+'/@@kml-document"\n               title="Download the KML file associated with this content">Download KML</a>' in browser.contents
     True
 
 in the default configuration we use a google maps layer and must include google maps javascript
