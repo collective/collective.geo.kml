@@ -106,7 +106,8 @@ class BrainPlacemark(Placemark):
     __name__ = 'kml-placemark'
 
     def __init__(self, context, request):
-        self.context = context
+	self.context = context
+        self.dc = context.getObject()
         self.request = request
         try:
             g = self.context.zgeo_geometry

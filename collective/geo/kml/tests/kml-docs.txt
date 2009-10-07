@@ -25,6 +25,15 @@ Check the topic
     >>> brain.zgeo_geometry['coordinates']
     (-105, 40)
 
+Set the dates for the content so they are consistent and can be tested
+
+    >>> import DateTime
+    >>> testDate = DateTime.DateTime('2010/01/01 09:00:00.000 '+DateTime.DateTime().timezone())
+    >>> doc.setCreationDate(testDate)
+    >>> doc.setEffectiveDate(testDate)
+    >>> doc.setModificationDate(testDate)
+    >>> doc.indexObject()
+
 Test the KML document view of the topic
 
     >>> from Products.PloneTestCase.setup import portal_owner, default_password
@@ -67,10 +76,16 @@ Test the KML document view of the topic
           <description>
             <![CDATA[
               <div>
+    <BLANKLINE>
                 <p>A test document</p>
-                <p>URL: 
-                  <a href="http://localhost/plone/Members/test_user_1_/doc">http://localhost/plone/Members/test_user_1_/doc</a>
+                <p><strong>URL:</strong> 
+                  <a href="http://localhost/plone/Members/test_user_1_/doc">Item URL
+                  </a>
                 </p>
+                <p><strong>Type:</strong> <span>Document</span></p>
+                <p><strong>Last Modified:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
+                <p><strong>Creation Date:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
+    <BLANKLINE>
               </div>
             ]]>
           </description>

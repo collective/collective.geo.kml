@@ -16,6 +16,15 @@ We have a generic Document and set some geographical data with IGeoManager from 
     >>> geo = IGeoManager(document)
     >>> geo.setCoordinates('Point', (45, 7))
 
+Set the dates for the content so they are consistent and can be tested
+
+    >>> import DateTime
+    >>> testDate = DateTime.DateTime('2010/01/01 09:00:00.000 '+DateTime.DateTime().timezone())
+    >>> document.setCreationDate(testDate)
+    >>> document.setEffectiveDate(testDate)
+    >>> document.setModificationDate(testDate)
+    >>> document.indexObject()
+
 Folder that contain our document have a kml-document view provided by zgeo.plone.kml
     >>> from Products.PloneTestCase.setup import portal_owner, default_password
     >>> r = http(r"""
@@ -53,10 +62,16 @@ Folder that contain our document have a kml-document view provided by zgeo.plone
           <description>
             <![CDATA[
               <div>
+    <BLANKLINE>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend</p>
-                <p>URL: 
-                  <a href="http://localhost/plone/Members/test_user_1_/test-document">http://localhost/plone/Members/test_user_1_/test-document</a>
+                <p><strong>URL:</strong> 
+                  <a href="http://localhost/plone/Members/test_user_1_/test-document">Item URL
+                  </a>
                 </p>
+                <p><strong>Type:</strong> <span>Document</span></p>
+                <p><strong>Last Modified:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
+                <p><strong>Creation Date:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
+    <BLANKLINE>
               </div>
             ]]>
           </description>
@@ -116,10 +131,16 @@ we can change some properties of kml document with IGeoKmlSettings utility
           <description>
             <![CDATA[
               <div>
+    <BLANKLINE>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend</p>
-                <p>URL: 
-                  <a href="http://localhost/plone/Members/test_user_1_/test-document">http://localhost/plone/Members/test_user_1_/test-document</a>
+                <p><strong>URL:</strong> 
+                  <a href="http://localhost/plone/Members/test_user_1_/test-document">Item URL
+                  </a>
                 </p>
+                <p><strong>Type:</strong> <span>Document</span></p>
+                <p><strong>Last Modified:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
+                <p><strong>Creation Date:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
+    <BLANKLINE>
               </div>
             ]]>
           </description>

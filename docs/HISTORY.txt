@@ -4,6 +4,24 @@ Changelog
 0.2 (unreleased)
 ----------------
 
+* Changed KML links to content to point to the content's *View* action
+  if their portal type is set that way in the Site Properties.  This
+  follows in the same manner as views like the Folder Summary View.
+  [rockdj]
+* Added *dc* object to BrainPlacemark to allow access to original 
+  content item in KML view.  This allows direct access to the content's
+  methods and properties (eg for image display, see below)
+  [rockdj]
+* Allowed KML feature/placemark description to display image thumbnail
+  if the content possesses such (eg Images and News Items).  Images are
+  displayed in same style as that of the Folder Summary View.
+  [rockdj]
+* Added extra metadata into KML feature/placemark output (item type, 
+  modification date, creation date)
+  [rockdj]
+* Changed KML output to exclude feature/placemark description tag
+  on no content description being present.
+  [rockdj]
 * Added uninstall GenericSetup profile
   [rockdj]
 * Added action for downloading KML to desktop (for Google Earth or 
