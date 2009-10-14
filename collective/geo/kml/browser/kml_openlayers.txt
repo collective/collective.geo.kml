@@ -26,7 +26,19 @@ we can set kml_openlayers view as default view for Folder
     >>> browser.open(folder_url)
     >>> browser.getLink('Kml Openlayers View').click()
 
-in this view we can see a div that contains the openlayers map
+Check to see that the byline is visible,
+    >>> '<div class="documentByLine" id="plone-document-byline">' in browser.contents
+    True
+
+the description is visible,
+    >>> '<p class="documentDescription">' in browser.contents
+    True
+
+and make sure the document actions are visible.
+    >>> '<h5 class="hiddenStructure">Document Actions</h5>' in browser.contents
+    True
+
+In this view we can see a div that contains the openlayers map
     >>> '<div id="map" ' in browser.contents
     True
 

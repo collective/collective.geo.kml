@@ -14,7 +14,24 @@
  <body>
   <metal:main fill-slot="main">
     <div>
-        <h1 tal:content="context/Title"></h1>
+        <div tal:replace="structure provider:plone.abovecontenttitle" />
+
+        <h1 class="documentFirstHeading"> 
+            <metal:field use-macro="python:here.widget('title', mode='view')">
+            Title
+            </metal:field>
+        </h1>
+
+        <div tal:replace="structure provider:plone.belowcontenttitle" />
+
+        <p class="documentDescription">
+            <metal:field use-macro="python:here.widget('description', mode='view')">
+            Description
+            </metal:field>
+        </p>
+
+        <div tal:replace="structure provider:plone.abovecontentbody" />
+
         <metal:map use-macro="context/@@openlayers-macros/map" />
         <script type="text/javascript" 
                 src="++resource++geo-openlayers.js"></script>

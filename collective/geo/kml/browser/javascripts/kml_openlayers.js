@@ -2,7 +2,7 @@ var thisUri = window.location.href;
 thisUri = thisUri.slice(0, thisUri.length - window.location.hash.length);
 
 viewInUse = thisUri.match('@?@?kml-openlayers\/?$');
-if (viewInUse.length == 1) {
+if (viewInUse && viewInUse.length == 1) {
       thisUri = thisUri.replace(viewInUse[0], "");
 }
 

@@ -4,6 +4,9 @@ Changelog
 0.2 (unreleased)
 ----------------
 
+* Added standard above-content elements to the KML-openlayers view
+  (byline, description, etc).
+  [rockdj]
 * Updated the kml_openlayers.js Javascript to handle the case of
   accessing the KML-openlayers view directly.
   [rockdj]
