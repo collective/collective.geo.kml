@@ -4,6 +4,9 @@ Changelog
 0.2 (unreleased)
 ----------------
 
+* Updated the kml_openlayers.js Javascript to handle the case of
+  accessing the KML-openlayers view directly.
+  [rockdj]
 * Changed KML links to content to point to the content's *View* action
   if their portal type is set that way in the Site Properties.  This
   follows in the same manner as views like the Folder Summary View.

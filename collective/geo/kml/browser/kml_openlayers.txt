@@ -58,6 +58,36 @@ and parameter for geo-openlayers.js
     >>> "var googlemaps = true" in browser.contents
     True
 
+We can also check to see if we're able to view the KML view without it being
+our default folder view.  First, we reset our view back a standard folder
+view.
+
+    >>> browser.open(folder_url)
+    >>> browser.getLink('Standard view').click()
+
+Now, we try and load the KML view without setting it as default
+
+    >>> browser.open(folder_url+'/kml-openlayers')
+
+Finally, we can see a div that contains the openlayers map
+    >>> '<div id="map" ' in browser.contents
+    True
+
+openlayers javascript,
+    >>> '<script type="text/javascript" src="./OpenLayers.js"></script>' in browser.contents
+    True
+
+generic collective.geo javascript,
+    >>> '<script type="text/javascript" src="++resource++geo-openlayers.js">' in browser.contents
+    True
+
+kml_openlayers javascript,
+    >>> '<script type="text/javascript" src="++resource++geo.kml.javascripts/kml_openlayers.js">' in browser.contents
+    True
+
+and Openlayers css
+    >>> '<link href="++resource++openlayers.css" rel="stylesheet" type="text/css" />' in browser.contents
+    True
 
 
 The openlayers view can be enabled also for Topic and for Large Plone Folder.
