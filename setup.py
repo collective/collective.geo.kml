@@ -1,13 +1,13 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.1'
+version = '0.2dev'
 
 setup(name='collective.geo.kml',
       version=version,
       description="collective.geo extension for zgeo.kml",
       long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read() + 
+                       open(os.path.join("docs", "HISTORY.txt")).read() +
                        open("TODO.txt").read(),
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
