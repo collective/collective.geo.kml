@@ -35,3 +35,23 @@ class IGeoKmlSettings(Interface):
                           default=0.7,
                           required=True)
 
+
+class IGeoContentKmlView(Interface):
+    """ View to access content kml styles """
+    def isCustomStyled():
+        """Returns True if an object is custom styled"""
+
+    def getStyle(self):
+        """ Public function to get object style """
+
+class IGeoContentKmlForm(Interface):
+    """ Interface for style management form """
+
+class IGeoContentKmlSettings(IGeoKmlSettings):
+    """ Interface for content-specific KML settings """
+
+    use_custom_style = schema.Bool(title=_(u"Use custom styles"),
+                         description=_(u"Select this if you want to use a custom style on the map for this content item.  This overrides any default style set."),
+                         default=False,
+                         required=False)
+

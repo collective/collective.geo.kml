@@ -33,12 +33,15 @@
     <Folder tal:condition="exists:feature/features">
       <name tal:content="feature/name">TITLE</name>
       <description tal:content="feature/description">DESCRIPTION</description>
-      <Placemark tal:repeat="placemark feature/features">
+      <Placemark tal:repeat="placemark feature/features"
+         tal:define="item_object python:placemark.dc;
+                     item_type item_object/portal_type;
+                     item_url item_object/absolute_url;
+                     item_view_url python:(item_type in use_view_action and item_url+'/view') or item_url;
+                     custom_style feature/geom/style;
+                     use_custom_style python:custom_style and custom_style['use_custom_style'];">
         <name tal:content="placemark/name">TITLE</name>
-        <description tal:define="item_object python:placemark.dc;
-                               item_type item_object/portal_type;
-                               item_url item_object/absolute_url;
-                               item_view_url python:(item_type in use_view_action and item_url+'/view') or item_url;">
+        <description> 
         <span tal:replace="structure string:&lt;![CDATA[" />
           <div>
            <a href="#" tal:attributes="href item_view_url;"
@@ -60,7 +63,25 @@
           </div>
         <span tal:replace="structure string:]]&gt;" />
         </description>
-        <styleUrl>#defaultStyle</styleUrl>
+
+	<styleUrl tal:condition="not:use_custom_style">#defaultStyle</styleUrl>
+        <Style tal:condition="use_custom_style">
+          <IconStyle>
+              <scale tal:content="custom_style/marker_image_size">1.0</scale>
+              <Icon>
+                <href tal:content="custom_style/marker_image">http://.../marker.png</href>
+              </Icon>
+              <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction" />
+          </IconStyle>
+          <LineStyle tal:condition="placemark/hasLineString">
+              <color tal:content="python:view.colorconvert(custom_style['linecolor'])">ff000000</color>
+              <width tal:content="custom_style/linewidth">3</width>
+          </LineStyle>
+          <PolyStyle tal:condition="placemark/hasPolygon">
+              <color tal:content="python:view.colorconvert(custom_style['polygoncolor'])">33ff0000</color>
+          </PolyStyle>
+        </Style>
+
         <Point tal:condition="placemark/hasPoint">
           <coordinates tal:content="placemark/coords_kml">
             COORDINATE LIST
@@ -82,12 +103,17 @@
         </Polygon>
       </Placemark>
     </Folder>
-    <Placemark tal:condition="not:exists:feature/features">
-      <name tal:content="feature/name">TITLE</name>
-      <description tal:define="item_object python:feature.dc;
-                               item_type item_object/portal_type;
-                               item_url item_object/absolute_url;
-                               item_view_url python:(item_type in use_view_action and item_url+'/view') or item_url;">
+
+      <Placemark tal:condition="not:exists:feature/features"
+         tal:define="item_object python:feature.dc;
+                     item_type item_object/portal_type;
+                     item_url item_object/absolute_url;
+                     item_view_url python:(item_type in use_view_action and item_url+'/view') or item_url;
+                     custom_style feature/geom/style;
+                     use_custom_style python:custom_style and custom_style['use_custom_style'];
+                     ">
+        <name tal:content="feature/name">TITLE</name>
+        <description> 
         <span tal:replace="structure string:&lt;![CDATA[" />
           <div>
            <a href="#" tal:attributes="href item_view_url;"
@@ -108,28 +134,46 @@
             
           </div>
         <span tal:replace="structure string:]]&gt;" />
-      </description>
-      <styleUrl>#defaultStyle</styleUrl>
-      <Point tal:condition="feature/hasPoint">
-        <coordinates tal:content="feature/coords_kml">
-          COORDINATE LIST
-        </coordinates>
-      </Point>
-      <LineString tal:condition="feature/hasLineString">
-        <coordinates tal:content="feature/coords_kml">
-          COORDINATE LIST
-        </coordinates>
-      </LineString>
-      <Polygon tal:condition="feature/hasPolygon">
-        <outerBoundaryIs>
-          <LinearRing>
-            <coordinates tal:content="feature/coords_kml">
-              COORDINATE LIST
-            </coordinates>
-          </LinearRing>
-        </outerBoundaryIs>
-      </Polygon>
-    </Placemark>
+        </description>
+
+        <styleUrl tal:condition="not:use_custom_style">#defaultStyle</styleUrl>
+        <Style tal:condition="use_custom_style">
+          <IconStyle>
+              <scale tal:content="custom_style/marker_image_size">1.0</scale>
+              <Icon>
+                <href tal:content="custom_style/marker_image">http://.../marker.png</href>
+              </Icon>
+              <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction" />
+          </IconStyle>
+          <LineStyle tal:condition="feature/hasLineString">
+              <color tal:content="python:view.colorconvert(custom_style['linecolor'])">ff000000</color>
+              <width tal:content="custom_style/linewidth">3</width>
+          </LineStyle>
+          <PolyStyle tal:condition="feature/hasPolygon">
+              <color tal:content="python:view.colorconvert(custom_style['polygoncolor'])">33ff0000</color>
+          </PolyStyle>
+        </Style>
+
+        <Point tal:condition="feature/hasPoint">
+          <coordinates tal:content="feature/coords_kml">
+            COORDINATE LIST
+          </coordinates>
+        </Point>
+        <LineString tal:condition="feature/hasLineString">
+          <coordinates tal:content="feature/coords_kml">
+            COORDINATE LIST
+          </coordinates>
+        </LineString>
+        <Polygon tal:condition="feature/hasPolygon">
+          <outerBoundaryIs>
+            <LinearRing>
+              <coordinates tal:content="feature/coords_kml">
+                COORDINATE LIST
+              </coordinates>
+            </LinearRing>
+          </outerBoundaryIs>
+        </Polygon>
+      </Placemark>
     </tal:features>
   </Document>
 </kml>

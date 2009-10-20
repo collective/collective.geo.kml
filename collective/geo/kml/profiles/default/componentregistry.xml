@@ -2,8 +2,12 @@
 <componentregistry>
     <utilities>
      <utility
-        interface="collective.geo.kml.interfaces.IGeoKmlSettings"
         factory="collective.geo.kml.geokmlconfig.GeoKmlSettings"
-        />
+        id="geo_content_settings"
+        interface="collective.geo.kml.interfaces.IGeoKmlSettings" />
+     <utility
+        factory="collective.geo.kml.geokmlconfig.GeoContentKmlSettings"
+        id="geo_content_kml_settings"
+        interface="collective.geo.kml.interfaces.IGeoContentKmlSettings" />
     </utilities>
 </componentregistry>

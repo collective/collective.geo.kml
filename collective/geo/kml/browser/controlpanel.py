@@ -7,7 +7,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
 from zope.app.component.hooks import getSite
 
-from collective.geo.kml.interfaces import IGeoKmlSettings
+from collective.geo.kml.interfaces import IGeoKmlSettings, IGeoContentKmlSettings
 from collective.geo.kml import GeoKmlMessageFactory as _
 
 def geo_kml_settings(context):

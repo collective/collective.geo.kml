@@ -4,6 +4,12 @@ Changelog
 0.2 (unreleased)
 ----------------
 
+* Added further unit tests to test the KML document view (in conjunction with
+  testing customised styles)
+  [rockdj]
+* Added ability to display custom styles for content in the KML-openlayers
+  view, with the styles managed through the relevant annotation.
+  [rockdj]
 * Added standard above-content elements to the KML-openlayers view
   (byline, description, etc).
   [rockdj]
