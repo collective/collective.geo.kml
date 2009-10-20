@@ -34,7 +34,7 @@
     provides="zgeo.kml.interfaces.IFeature"
     />
 
-  <utility
+ <utility
     provides=".interfaces.IGeoKmlConfig"
     factory=".geokmlconfig.GeoKmlConfig"
     name="collective.geo.kmlconfig"
@@ -44,6 +44,12 @@
     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
     provides=".interfaces.IGeoKmlSettings"
     factory=".browser.controlpanel.geo_kml_settings"
+  />  
+
+  <adapter
+    for="Products.ATContentTypes.content.base.BaseContent"
+    provides=".interfaces.IGeoContentKmlSettings"
+    factory=".browser.contentkmlsettings.geo_content_kml_settings"
   />
 
 </configure>

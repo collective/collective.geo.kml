@@ -12,6 +12,20 @@ from zope.component import getUtility
 from zope.formlib.namedtemplate import NamedTemplate
 from zope.formlib.namedtemplate import NamedTemplateImplementation
 from zope.app.pagetemplate import ViewPageTemplateFile
+from zgeo.geographer.geo import GeoreferencingAnnotator
+
+import logging
+logger = logging.getLogger('collective.geo.kml')
+
+@property
+def style(self):
+    if not self.geo.has_key('style'):
+        return False
+    return self.geo['style']
+
+GeoreferencingAnnotator.style = style
+logger.info("Patching zgeo.geographer.geo's GeoreferencingAnnotator to return custom geo styles.")
+
 
 class Document(zgeoDocument):
     """
@@ -95,9 +109,10 @@ class Geometry(object):
     
     implements(IGeoreferenced)
 
-    def __init__(self, type, coordinates):
+    def __init__(self, type, coordinates, style):
         self.type = type
         self.coordinates = coordinates
+        self.style = style
 
 
 class BrainPlacemark(Placemark):
@@ -111,7 +126,7 @@ class BrainPlacemark(Placemark):
         self.request = request
         try:
             g = self.context.zgeo_geometry
-            self.geom = Geometry(g['type'], g['coordinates'])
+            self.geom = Geometry(g['type'], g['coordinates'], g['style'])
         except:
             self.geom = NullGeometry()
 

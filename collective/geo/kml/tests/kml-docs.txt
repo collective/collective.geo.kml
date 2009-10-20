@@ -17,6 +17,14 @@ Add geo-referenced content
     >>> geo = IWriteGeoreferenced(doc)
     >>> geo.setGeoInterface('Point', (-105, 40))
 
+Access the custom style properties of the given georeferenced content
+    >>> from zgeo.geographer.event import ObjectGeoreferencedEvent
+    >>> from zope.event import notify
+    >>> from collective.geo.kml.geokmlconfig import GeoContentKmlSettings
+    >>> kml_settings = GeoContentKmlSettings(doc)
+    >>> kml_settings.initialiseStyles(doc)
+    >>> notify(ObjectGeoreferencedEvent(doc))
+
 Check the topic
 
     >>> brain = [b for b in topic.queryCatalog() if b.id == 'doc'][0]

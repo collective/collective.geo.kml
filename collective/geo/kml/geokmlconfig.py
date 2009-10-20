@@ -1,7 +1,11 @@
 from persistent import Persistent
-from zope.interface import implements
-from collective.geo.kml.interfaces import IGeoKmlSettings
+from zope.interface import implements, implementsOnly
+from zope.schema.fieldproperty import FieldProperty
+from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
+
+from collective.geo.kml.interfaces import IGeoKmlSettings, IGeoContentKmlSettings
+from zgeo.geographer.geo import KEY
 
 class GeoKmlSettings(Persistent):
     """ 
@@ -61,3 +65,44 @@ class GeoKmlConfig(object):
     """
     def getSettings(self):
         return getUtility(IGeoKmlSettings)
+
+
+class GeoContentKmlSettings(Persistent):
+    """ """ 
+    implements(IGeoContentKmlSettings)
+
+    def __init__(self, context=None, form=None):
+        self.context = context
+        self.form = form
+
+    def initialiseStyles(self, context):
+        annotations = IAnnotations(context)
+        geo = annotations.get(KEY)
+        if geo:
+            self.geo_styles = geo.get('style')
+
+            if not self.geo_styles:
+                geo['style'] = {}
+                self.geo_styles = geo['style']
+                self.geo_styles['use_custom_style'] = False
+                self.geo_styles['linecolor'] = u'#FF0000'
+                self.geo_styles['linewidth'] = 2.0
+                self.geo_styles['polygoncolor'] = u'#FF0000'
+                self.geo_styles['marker_image'] = u'img/marker.png'
+                self.geo_styles['marker_image_size'] = 0.7
+        else:
+            self.geo_styles = {}
+
+    def set(self, key,  val):
+        return self.geo_styles.__setitem__(key, val)
+
+    def getStyles(self, context):
+        self.initialiseStyles(context)
+        return self.geo_styles
+
+    def get(self, key,  default=False):
+        try:
+            return self.geo_styles.get(key)
+        except:
+            return default
+
