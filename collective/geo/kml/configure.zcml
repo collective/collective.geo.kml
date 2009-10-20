@@ -11,25 +11,30 @@
    <include package="collective.geo.contentlocations" />
    <include package="collective.z3cform.colorpicker" />
    <include package="zgeo.kml"/>
-  
+
    <include package=".browser"/>
    <include file="profiles.zcml"/>
-  
+
   <five:implements
-    class="Products.ATContentTypes.content.topic.ATTopic"
+    class="Products.CMFDefault.DublinCore.DefaultDublinCoreImpl"
+    interface="zope.dublincore.interfaces.ICMFDublinCore"
+    />
+
+  <five:implements
+    class="Products.Archetypes.ExtensibleMetadata.ExtensibleMetadata"
     interface="zope.dublincore.interfaces.ICMFDublinCore"
     />
 
   <adapter
     factory="zgeo.kml.browser.Placemark"
-    for="Products.ATContentTypes.content.base.BaseContent
+    for="Products.CMFCore.PortalContent.PortalContent
          zope.publisher.interfaces.browser.IBrowserRequest"
     provides="zgeo.kml.interfaces.IFeature"
     />
 
   <adapter
     factory="zgeo.kml.browser.Folder"
-    for="Products.ATContentTypes.content.folder.ATFolder
+    for="Products.CMFCore.interfaces.IFolderish
          zope.publisher.interfaces.browser.IBrowserRequest"
     provides="zgeo.kml.interfaces.IFeature"
     />
