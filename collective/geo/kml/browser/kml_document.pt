@@ -2,6 +2,7 @@
 <kml
   xmlns="http://www.opengis.net/kml/2.2"
   xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:atom="http://www.w3.org/2005/Atom"
   >
   <tal:b 
     condition="python:request and request.response.setHeader(
@@ -41,6 +42,11 @@
                      custom_style feature/geom/style;
                      use_custom_style python:custom_style and custom_style['use_custom_style'];">
         <name tal:content="placemark/name">TITLE</name>
+        <atom:author>
+          <atom:name tal:content="placemark/author/name">Author name</atom:name>
+        </atom:author>
+        <atom:link href="link to the content"
+                   tal:attributes="href placemark/alternate_link"/>
         <description> 
         <span tal:replace="structure string:&lt;![CDATA[" />
           <div>
@@ -103,16 +109,20 @@
         </Polygon>
       </Placemark>
     </Folder>
-
       <Placemark tal:condition="not:exists:feature/features"
          tal:define="item_object python:feature.dc;
                      item_type item_object/portal_type;
                      item_url item_object/absolute_url;
                      item_view_url python:(item_type in use_view_action and item_url+'/view') or item_url;
-                     custom_style feature/geom/style;
+                     custom_style feature/geom/style | nothing;
                      use_custom_style python:custom_style and custom_style['use_custom_style'];
                      ">
         <name tal:content="feature/name">TITLE</name>
+        <atom:author>
+          <atom:name tal:content="feature/author/name">Author name</atom:name>
+        </atom:author>
+        <atom:link href="link to the content"
+                   tal:attributes="href feature/alternate_link"/>
         <description> 
         <span tal:replace="structure string:&lt;![CDATA[" />
           <div>
