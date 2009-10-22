@@ -67,7 +67,7 @@ class GeoKmlConfig(object):
         return getUtility(IGeoKmlSettings)
 
 
-class GeoContentKmlSettings(Persistent):
+class GeoContentKmlSettings(object):
     """ """ 
     implements(IGeoContentKmlSettings)
 
