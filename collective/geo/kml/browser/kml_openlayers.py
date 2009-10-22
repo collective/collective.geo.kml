@@ -6,7 +6,7 @@ class KmlOpenLayers(BrowserView):
 
     @property
     def geosettings(self):
-        return self.context.restrictedTraverse('@@geosettings-macros')
+        return self.context.restrictedTraverse('@@geosettings-view')
 
     @property
     def google_maps_js(self):

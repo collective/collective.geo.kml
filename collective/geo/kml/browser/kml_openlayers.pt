@@ -1,12 +1,6 @@
 <html metal:use-macro="here/main_template/macros/master">
-    <metal:block metal:fill-slot="javascript_head_slot"
-                 tal:define="geosettings view/geosettings">
-      <script type="text/javascript"
-              tal:condition="view/google_maps_js"
-              tal:attributes="src view/google_maps_js"></script>
-      <script type="text/javascript" src="./OpenLayers.js"></script>
-      <script type="text/javascript"
-              tal:content="geosettings/geo_setting_js"></script>
+    <metal:block metal:fill-slot="javascript_head_slot">
+      <metal:use use-macro="context/@@geosettings-macros/openlayers" />
     </metal:block>
     <metal:block metal:fill-slot="style_slot">
       <link href="++resource++openlayers.css" rel="stylesheet" type="text/css" />
@@ -32,9 +26,7 @@
 
         <div tal:replace="structure provider:plone.abovecontentbody" />
 
-        <metal:map use-macro="context/@@openlayers-macros/map" />
-        <script type="text/javascript" 
-                src="++resource++geo-openlayers.js"></script>
+        <metal:use use-macro="context/@@geosettings-macros/map-widget"  />
         <script type="text/javascript"          
                 src="++resource++geo.kml.javascripts/kml_openlayers.js"></script>
     </div>
