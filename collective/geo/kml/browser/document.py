@@ -13,6 +13,7 @@ from zope.formlib.namedtemplate import NamedTemplate
 from zope.formlib.namedtemplate import NamedTemplateImplementation
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zgeo.geographer.geo import GeoreferencingAnnotator
+from zgeo.kml.browser import NullGeometry
 
 import logging
 logger = logging.getLogger('collective.geo.kml')
@@ -26,6 +27,8 @@ def style(self):
 GeoreferencingAnnotator.style = style
 logger.info("Patching zgeo.geographer.geo's GeoreferencingAnnotator to return custom geo styles.")
 
+NullGeometry.style = None
+logger.info("Patching zgeo.kml.browser's NullGeometry to return a None geo style.")
 
 class Document(zgeoDocument):
     """
@@ -57,6 +60,22 @@ class Document(zgeoDocument):
         the same thing with polygoncolor
         >>> kmldoc.polygoncolor
         '3C0000FF'
+
+        Check to make sure we've also got our style monkey patch in place
+        on the annotator and NullGeometry.
+        >>> from zgeo.geographer.geo import GeoreferencingAnnotator
+        >>> 'style' in dir(GeoreferencingAnnotator)
+        True
+     
+        >>> from zgeo.kml.browser import NullGeometry
+        >>> 'style' in dir(NullGeometry)
+        True
+   
+        >>> NullGeometry.style == None
+        True
+
+
+
     """
     template = NamedTemplate('geo-kml-document')
     # TODO: set opacity from IGeoKmlSettings
