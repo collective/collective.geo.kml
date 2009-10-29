@@ -34,82 +34,80 @@
     <Folder tal:condition="exists:feature/features">
       <name tal:content="feature/name">TITLE</name>
       <description tal:content="feature/description">DESCRIPTION</description>
-      <Placemark tal:repeat="placemark feature/features"
-         tal:define="item_object python:placemark.dc;
-                     item_type item_object/portal_type;
-                     item_url item_object/absolute_url;
-                     item_view_url python:(item_type in use_view_action and item_url+'/view') or item_url;
-                     custom_style feature/geom/style;
-                     use_custom_style python:custom_style and custom_style['use_custom_style'];">
-        <name tal:content="placemark/name">TITLE</name>
-        <atom:author>
-          <atom:name tal:content="placemark/author/name">Author name</atom:name>
-        </atom:author>
-        <atom:link href="link to the content"
-                   tal:attributes="href placemark/alternate_link"/>
-        <description> 
-        <span tal:replace="structure string:&lt;![CDATA[" />
-          <div>
-           <a href="#" tal:attributes="href item_view_url;"
-                       tal:condition="item_object/image|nothing">
-                 <img src="" alt=""
-                             tal:replace="structure python: path('nocall:item_object/tag')(scale='thumb', css_class='tileImage')" />
-           </a>
-            <p tal:content="placemark/description" tal:omit-tag="not:placemark/description">ITEM DESCRIPTION</p>
-            <p><strong>URL:</strong> 
-              <a 
-                tal:attributes="href item_view_url" 
-                >Item URL
+      <Placemark tal:repeat="placemark feature/features">
+        <tal:define
+            tal:define="item_object placemark/dc;
+                        item_type item_object/portal_type;
+                        item_url item_object/absolute_url;
+                        item_view_url python:(item_type in use_view_action and item_url+'/view') or item_url;
+                        custom_style feature/geom/style;
+                        use_custom_style python:custom_style and custom_style['use_custom_style'];">
+          <name tal:content="placemark/name">TITLE</name>
+          <atom:author>
+            <atom:name tal:content="placemark/author/name">Author name</atom:name>
+          </atom:author>
+          <atom:link href="link to the content"
+                     tal:attributes="href placemark/alternate_link"/>
+          <description> 
+            <span tal:replace="structure string:&lt;![CDATA[" />
+            <div>
+              <a href="#" tal:attributes="href item_view_url;"
+                 tal:condition="item_object/image|nothing">
+                <img src="" alt=""
+                     tal:replace="structure python: path('nocall:item_object/tag')(scale='thumb', css_class='tileImage')" />
               </a>
-            </p>
-            <p><strong>Type:</strong> <span tal:content="item_type">Document</span></p>
-            <p><strong>Last Modified:</strong> <span tal:content="python:context.toLocalizedTime(item_object.modification_date, long_format=1)">01 January 2010</span></p>
-            <p><strong>Creation Date:</strong> <span tal:content="python:context.toLocalizedTime(item_object.creation_date, long_format=1)">1 January 2010</span></p>
-            
-          </div>
-        <span tal:replace="structure string:]]&gt;" />
-        </description>
-
-	<styleUrl tal:condition="not:use_custom_style">#defaultStyle</styleUrl>
-        <Style tal:condition="use_custom_style">
-          <IconStyle>
+              <p tal:content="placemark/description" tal:omit-tag="not:placemark/description">ITEM DESCRIPTION</p>
+              <p>
+                <strong>URL:</strong> 
+                <a tal:attributes="href item_view_url">Item URL</a>
+              </p>
+              <p><strong>Type:</strong> <span tal:content="item_type">Document</span></p>
+              <p><strong>Last Modified:</strong> <span tal:content="python:context.toLocalizedTime(item_object.modification_date, long_format=1)">01 January 2010</span></p>
+              <p><strong>Creation Date:</strong> <span tal:content="python:context.toLocalizedTime(item_object.creation_date, long_format=1)">1 January 2010</span></p>
+            </div>
+            <span tal:replace="structure string:]]&gt;" />
+          </description>
+          <styleUrl tal:condition="not:use_custom_style">#defaultStyle</styleUrl>
+          <Style tal:condition="use_custom_style">
+            <IconStyle>
               <scale tal:content="custom_style/marker_image_size">1.0</scale>
               <Icon>
                 <href tal:content="custom_style/marker_image">http://.../marker.png</href>
               </Icon>
               <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction" />
-          </IconStyle>
-          <LineStyle tal:condition="placemark/hasLineString">
+            </IconStyle>
+            <LineStyle tal:condition="placemark/hasLineString">
               <color tal:content="python:view.colorconvert(custom_style['linecolor'])">ff000000</color>
               <width tal:content="custom_style/linewidth">3</width>
-          </LineStyle>
-          <PolyStyle tal:condition="placemark/hasPolygon">
+            </LineStyle>
+            <PolyStyle tal:condition="placemark/hasPolygon">
               <color tal:content="python:view.colorconvert(custom_style['polygoncolor'])">33ff0000</color>
-          </PolyStyle>
-        </Style>
+            </PolyStyle>
+          </Style>
 
-        <Point tal:condition="placemark/hasPoint">
-          <coordinates tal:content="placemark/coords_kml">
-            COORDINATE LIST
-          </coordinates>
-        </Point>
-        <LineString tal:condition="placemark/hasLineString">
-          <coordinates tal:content="placemark/coords_kml">
-            COORDINATE LIST
-          </coordinates>
-        </LineString>
-        <Polygon tal:condition="placemark/hasPolygon">
-          <outerBoundaryIs>
-            <LinearRing>
-              <coordinates tal:content="placemark/coords_kml">
-                COORDINATE LIST
-              </coordinates>
-            </LinearRing>
-          </outerBoundaryIs>
-        </Polygon>
+          <Point tal:condition="placemark/hasPoint">
+            <coordinates tal:content="placemark/coords_kml">
+              COORDINATE LIST
+            </coordinates>
+          </Point>
+          <LineString tal:condition="placemark/hasLineString">
+            <coordinates tal:content="placemark/coords_kml">
+              COORDINATE LIST
+            </coordinates>
+          </LineString>
+          <Polygon tal:condition="placemark/hasPolygon">
+            <outerBoundaryIs>
+              <LinearRing>
+                <coordinates tal:content="placemark/coords_kml">
+                  COORDINATE LIST
+                </coordinates>
+              </LinearRing>
+            </outerBoundaryIs>
+          </Polygon>
+        </tal:define>
       </Placemark>
     </Folder>
-      <Placemark tal:condition="not:exists:feature/features"
+    <Placemark tal:condition="not:exists:feature/features"
          tal:define="item_object python:feature.dc;
                      item_type item_object/portal_type;
                      item_url item_object/absolute_url;
