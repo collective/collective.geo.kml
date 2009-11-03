@@ -33,7 +33,8 @@
     <Folder tal:condition="exists:feature/features">
       <name tal:content="feature/name">TITLE</name>
       <description tal:content="feature/description">DESCRIPTION</description>
-      <Placemark tal:repeat="placemark feature/features"
+      <tal:placemarks tal:repeat="placemark feature/features">
+      <Placemark
          tal:define="item_object python:placemark.dc;
                      item_type item_object/portal_type;
                      item_url item_object/absolute_url;
@@ -102,6 +103,7 @@
           </outerBoundaryIs>
         </Polygon>
       </Placemark>
+      </tal:placemarks>
     </Folder>
 
       <Placemark tal:condition="not:exists:feature/features"
