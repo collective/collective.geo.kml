@@ -2,6 +2,7 @@ from zope.interface import Interface
 from plone.theme.interfaces import IDefaultPloneLayer
 from zope import schema
 from collective.geo.kml import GeoKmlMessageFactory as _
+from collective.geo.kml.config import DISPLAY_VOCABULARY
 
 class IGeoKmlLayer(IDefaultPloneLayer):
     """Marker interface that defines a Zope 3 browser layer.
@@ -35,6 +36,11 @@ class IGeoKmlSettings(Interface):
                           default=0.7,
                           required=True)
 
+    display_properties = schema.List(title=_(u"Properties to display"),
+                          description=_(u"Select what aspects you would like to display to the user."),
+                          required=False, 
+                          value_type=schema.Choice(vocabulary=DISPLAY_VOCABULARY) 
+                          )
 
 class IGeoContentKmlView(Interface):
     """ View to access content kml styles """

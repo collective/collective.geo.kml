@@ -15,6 +15,11 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zgeo.geographer.geo import GeoreferencingAnnotator
 from zgeo.kml.browser import NullGeometry
 
+from collective.geo.kml.interfaces import IGeoContentKmlSettings
+from collective.geo.kml.config import DISPLAY_VOCABULARY, DISPLAY_PROPERTY_STRUCTURES
+
+import Missing
+
 import logging
 logger = logging.getLogger('collective.geo.kml')
 
@@ -45,6 +50,9 @@ class Document(zgeoDocument):
         >>> class TestContent(object):
         ...     interface.implements(ICMFDublinCore)
         >>> document = TestContent()
+        >>> from collective.geo.kml.interfaces import IGeoContentKmlSettings
+        >>> from zope.component import getGlobalSiteManager
+        >>> getGlobalSiteManager().registerUtility(document, IGeoContentKmlSettings)
         >>> kmldoc = Document(document, None)
         >>> kmldoc
         <collective.geo.kml.browser.document.Document object ...>
@@ -74,8 +82,6 @@ class Document(zgeoDocument):
         >>> NullGeometry.style == None
         True
 
-
-
     """
     template = NamedTemplate('geo-kml-document')
     # TODO: set opacity from IGeoKmlSettings
@@ -84,6 +90,7 @@ class Document(zgeoDocument):
     def __init__(self, context, request):
         super(Document, self).__init__(context, request)
         self.settings = getUtility(IGeoKmlSettings)
+        self.contentkmlsettings = getUtility(IGeoContentKmlSettings)
 
     @property
     def linecolor(self):
@@ -111,6 +118,58 @@ class Document(zgeoDocument):
     @property
     def pointmarkersize(self):
         return self.settings.marker_image_size
+
+    #Return a list of dicts of {title: , content: }
+    def display_properties(self, item_object):
+        selected_properties = []
+        custom_styles = self.contentkmlsettings.getStyles(item_object)
+        if 'use_custom_style' in custom_styles and custom_styles['use_custom_style'] and 'display_properties' in custom_styles:
+            #get our custom results
+            selected_properties = custom_styles['display_properties']
+        else:
+            #get stock-standard from settings
+            selected_properties = self.settings.display_properties
+
+        #Fetch our actual information to display on the page
+        catalog = getToolByName(item_object,'portal_catalog')
+        path = '/'.join(item_object.getPhysicalPath())
+        results = catalog.searchResults(path=path,getId=item_object.id,sort_on='created',sort_order='reverse')
+        
+        properties_to_display = []
+        if len(results) > 0:
+            rid = results[0].getRID()
+            if rid:
+                metadata = catalog.getMetadataForRID(rid)
+
+            #iterate through selected properties, and extract data
+            #from the object or its catalog metadata
+            for property in selected_properties:
+                property_title = DISPLAY_VOCABULARY.getTerm(property).title
+                
+                if metadata.has_key(property):
+                    property_content = metadata[property]
+                elif hasattr(item_object, property):
+                    property_content = getattr(item_object, property)
+                    if hasattr(property_content, 'im_func'):
+                        property_content = property_content()
+                else:
+                    property_content = None
+
+		if property in DISPLAY_PROPERTY_STRUCTURES:
+                    if len(property_content) > 0:
+                        property_content = ', '.join(property_content)
+                    else:
+                        property_content = None
+
+                if property_content is Missing.Value or property_content is '':
+                    property_content = None
+                
+                properties_to_display.append({
+                                       'title': property_title,
+                                       'content': str(property_content),
+                                     })
+
+        return properties_to_display
 
     def colorconvert(self, color, opacity = 'FF'):
         # color = '#123456'

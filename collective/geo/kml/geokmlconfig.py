@@ -32,6 +32,10 @@ class GeoKmlSettings(Persistent):
         >>> config.marker_image_size
         1.0
 
+        >>> config.set('display_properties', ['Type', 'CreationDate'])
+        >>> config.display_properties
+        ['Type', 'CreationDate']
+
     """ 
     implements(IGeoKmlSettings)
 
@@ -40,6 +44,7 @@ class GeoKmlSettings(Persistent):
     polygoncolor = '#FF0000'
     marker_image = 'img/marker.png'
     marker_image_size = 0.7
+    display_properties = ['id', 'Type']
 
     def set(self, key,  val):
         return self.__setattr__(key, val)
@@ -90,6 +95,7 @@ class GeoContentKmlSettings(Persistent):
                 self.geo_styles['polygoncolor'] = u'#FF0000'
                 self.geo_styles['marker_image'] = u'img/marker.png'
                 self.geo_styles['marker_image_size'] = 0.7
+                self.geo_styles['display_properties'] = ['id', 'Type']
         else:
             self.geo_styles = {}
 

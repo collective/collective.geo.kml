@@ -4,6 +4,12 @@ Changelog
 0.2 (unreleased)
 ----------------
 
+* Added ability to select what content properties to display either in the 
+  Control Panel or on a per-content basis.  Properties can be changed at will
+  and likewise reordered as required.
+  [rockdj]
+* Moved the link to the given content in the KML view to be the title.
+  [rockdj]
 * Added further unit tests to test the KML document view (in conjunction with
   testing customised styles)
   [rockdj]

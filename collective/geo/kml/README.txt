@@ -16,6 +16,14 @@ We have a generic Document and set some geographical data with IGeoManager from 
     >>> geo = IGeoManager(document)
     >>> geo.setCoordinates('Point', (45, 7))
 
+Set some extra metadata on the document so we can check for those
+
+    >>> document.setSubject(['Mapping', 'Geography', 'Google'])
+    >>> document.setLocation('Somewhere on Earth')
+    >>> document.setCreators(['David', 'John', 'Bob'])
+    >>> document.setRights('Some sort of copyright notice')
+    >>> document.reindexObject()
+
 Set the dates for the content so they are consistent and can be tested
 
     >>> import DateTime
@@ -57,28 +65,38 @@ Folder that contain our document have a kml-document view provided by zgeo.plone
         <open>0</open>
     <BLANKLINE>
     <BLANKLINE>
-        <Placemark>
-          <name>Test document</name>
+    <BLANKLINE>
+          <Placemark>
+            <name>
+            <![CDATA[
+             <a href="http://localhost/plone/Members/test_user_1_/test-document">Test document</a> 
+            ]]>
+            </name>
           <description>
             <![CDATA[
               <div>
     <BLANKLINE>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend</p>
-                <p><strong>URL:</strong> 
-                  <a href="http://localhost/plone/Members/test_user_1_/test-document">Item URL
-                  </a>
-                </p>
-                <p><strong>Type:</strong> <span>Document</span></p>
-                <p><strong>Last Modified:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
-                <p><strong>Creation Date:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
+                <dl>
     <BLANKLINE>
+                  <dt>ID</dt>
+                  <dd>test-document</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Type</dt>
+                  <dd>Page</dd>
+    <BLANKLINE>
+                </dl>
               </div>
             ]]>
-          </description>
-          <styleUrl>#defaultStyle</styleUrl>
-          <Point>
-            <coordinates>45.000000,7.000000,0.0</coordinates>
-          </Point>
+            </description>
+    <BLANKLINE>
+            <styleUrl>#defaultStyle</styleUrl>
+    <BLANKLINE>
+    <BLANKLINE>
+            <Point>
+              <coordinates>45.000000,7.000000,0.0</coordinates>
+            </Point>
     <BLANKLINE>
     <BLANKLINE>
         </Placemark>
@@ -96,12 +114,14 @@ we can change some properties of kml document with IGeoKmlSettings utility
     >>> settings.polygoncolor = '#FFBD00'
     >>> settings.marker_image = 'img/marker-blue.png'
     >>> settings.marker_image_size = 1.0
+    >>> settings.display_properties = ['listCreators', 'Type', 'Subject',
+    ... 'ExpirationDate', 'Contributors', 'Rights']
     >>> r = http(r"""
     ... GET /plone/Members/test_user_1_/@@kml-document HTTP/1.1
     ... Authorization: Basic %s:%s
     ... """ % (portal_owner, default_password), handle_errors=False)
     >>> print r.getBody()
-    <?xml version="1.0" encoding="utf-8"?>
+        <?xml version="1.0" encoding="utf-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2">
     <BLANKLINE>
       <Document>
@@ -126,31 +146,57 @@ we can change some properties of kml document with IGeoKmlSettings utility
         <open>0</open>
     <BLANKLINE>
     <BLANKLINE>
-        <Placemark>
-          <name>Test document</name>
-          <description>
+    <BLANKLINE>
+          <Placemark>
+            <name>
+            <![CDATA[
+             <a href="http://localhost/plone/Members/test_user_1_/test-document">Test document</a> 
+            ]]>
+            </name>
+            <description> 
             <![CDATA[
               <div>
     <BLANKLINE>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend</p>
-                <p><strong>URL:</strong> 
-                  <a href="http://localhost/plone/Members/test_user_1_/test-document">Item URL
-                  </a>
-                </p>
-                <p><strong>Type:</strong> <span>Document</span></p>
-                <p><strong>Last Modified:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
-                <p><strong>Creation Date:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
+                <dl>
     <BLANKLINE>
+                  <dt>Creators</dt>
+                  <dd>David, John, Bob</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Type</dt>
+                  <dd>Page</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Subject</dt>
+                  <dd>Mapping, Geography, Google</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Expiration Date</dt>
+                  <dd>None</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Contributors</dt>
+                  <dd>None</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Rights Statement</dt>
+                  <dd>Some sort of copyright notice</dd>
+    <BLANKLINE>
+                </dl>
               </div>
             ]]>
-          </description>
-          <styleUrl>#defaultStyle</styleUrl>
-          <Point>
-            <coordinates>45.000000,7.000000,0.0</coordinates>
-          </Point>
+            </description>
+    <BLANKLINE>
+            <styleUrl>#defaultStyle</styleUrl>
     <BLANKLINE>
     <BLANKLINE>
-        </Placemark>
+            <Point>
+              <coordinates>45.000000,7.000000,0.0</coordinates>
+            </Point>
+    <BLANKLINE>
+    <BLANKLINE>
+          </Placemark>
     <BLANKLINE>
       </Document>
     </kml>
@@ -198,6 +244,15 @@ We can configure settings through GeoContentKmlSettings using 'set'
     >>> kml_settings.get('marker_image_size')
     1.0
 
+Set some custom display properties to watch the change.
+
+    >>> kml_settings.set('display_properties', ['getLocation', 'Type', 'EffectiveDate', 'ModificationDate'])
+    >>> kml_settings.get('display_properties')
+    ['getLocation', 'Type', 'EffectiveDate', 'ModificationDate']
+
+Make sure we're using the custom styles, or else we won't see anything
+different.
+
     >>> kml_settings.set('use_custom_style', True)
     >>> kml_settings.get('use_custom_style')
     True
@@ -212,7 +267,7 @@ used by other non-customised placemarks.
     ... Authorization: Basic %s:%s
     ... """ % (portal_owner, default_password), handle_errors=False)
     >>> print r.getBody()
-    <?xml version="1.0" encoding="utf-8"?>
+        <?xml version="1.0" encoding="utf-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2">
     <BLANKLINE>
       <Document>
@@ -237,44 +292,59 @@ used by other non-customised placemarks.
         <open>0</open>
     <BLANKLINE>
     <BLANKLINE>
-        <Placemark>
-          <name>Test document</name>
-          <description>
+    <BLANKLINE>
+          <Placemark>
+            <name>
+            <![CDATA[
+             <a href="http://localhost/plone/Members/test_user_1_/test-document">Test document</a> 
+            ]]>
+            </name>
+            <description> 
             <![CDATA[
               <div>
     <BLANKLINE>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend</p>
-                <p><strong>URL:</strong> 
-                  <a href="http://localhost/plone/Members/test_user_1_/test-document">Item URL
-                  </a>
-                </p>
-                <p><strong>Type:</strong> <span>Document</span></p>
-                <p><strong>Last Modified:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
-                <p><strong>Creation Date:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
+                <dl>
     <BLANKLINE>
+                  <dt>Content Location</dt>
+                  <dd>Somewhere on Earth</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Type</dt>
+                  <dd>Page</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Effective Date</dt>
+                  <dd>2010-01-01 09:00:00</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Last Modified Date</dt>
+                  <dd>2010-01-01 09:00:00</dd>
+    <BLANKLINE>
+                </dl>
               </div>
             ]]>
-          </description>
+            </description>
     <BLANKLINE>
     <BLANKLINE>
-          <Style>
-            <IconStyle>
-                <scale>1.0</scale>
-                <Icon>
-                  <href>marker-blue.png</href>
-                </Icon>
-                <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
-            </IconStyle>
+            <Style>
+              <IconStyle>
+                  <scale>1.0</scale>
+                  <Icon>
+                    <href>marker-blue.png</href>
+                  </Icon>
+                  <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+              </IconStyle>
     <BLANKLINE>
     <BLANKLINE>
-          </Style>
+            </Style>
     <BLANKLINE>
-          <Point>
-            <coordinates>45.000000,7.000000,0.0</coordinates>
-          </Point>
+            <Point>
+              <coordinates>45.000000,7.000000,0.0</coordinates>
+            </Point>
     <BLANKLINE>
     <BLANKLINE>
-        </Placemark>
+          </Placemark>
     <BLANKLINE>
       </Document>
     </kml>
@@ -300,7 +370,7 @@ We can check the output now that we're using a custom-styled LineString
     ... Authorization: Basic %s:%s
     ... """ % (portal_owner, default_password), handle_errors=False)
     >>> print r.getBody()
-    <?xml version="1.0" encoding="utf-8"?>
+        <?xml version="1.0" encoding="utf-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2">
     <BLANKLINE>
       <Document>
@@ -325,48 +395,62 @@ We can check the output now that we're using a custom-styled LineString
         <open>0</open>
     <BLANKLINE>
     <BLANKLINE>
-        <Placemark>
-          <name>Test document</name>
-          <description>
+    <BLANKLINE>
+          <Placemark>
+            <name>
+            <![CDATA[
+             <a href="http://localhost/plone/Members/test_user_1_/test-document">Test document</a> 
+            ]]>
+            </name>
+            <description> 
             <![CDATA[
               <div>
     <BLANKLINE>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend</p>
-                <p><strong>URL:</strong> 
-                  <a href="http://localhost/plone/Members/test_user_1_/test-document">Item URL
-                  </a>
-                </p>
-                <p><strong>Type:</strong> <span>Document</span></p>
-                <p><strong>Last Modified:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
-                <p><strong>Creation Date:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
+                <dl>
     <BLANKLINE>
+                  <dt>Content Location</dt>
+                  <dd>Somewhere on Earth</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Type</dt>
+                  <dd>Page</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Effective Date</dt>
+                  <dd>2010-01-01 09:00:00</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Last Modified Date</dt>
+                  <dd>2010-01-01 09:00:00</dd>
+    <BLANKLINE>
+                </dl>
               </div>
             ]]>
-          </description>
+            </description>
     <BLANKLINE>
     <BLANKLINE>
-          <Style>
-            <IconStyle>
-                <scale>1.0</scale>
-                <Icon>
-                  <href>marker-blue.png</href>
-                </Icon>
-                <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
-            </IconStyle>
-            <LineStyle>
-                <color>FFEFCDAB</color>
-                <width>1.0</width>
-            </LineStyle>
+            <Style>
+              <IconStyle>
+                  <scale>1.0</scale>
+                  <Icon>
+                    <href>marker-blue.png</href>
+                  </Icon>
+                  <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+              </IconStyle>
+              <LineStyle>
+                  <color>FFEFCDAB</color>
+                  <width>1.0</width>
+              </LineStyle>
+    <BLANKLINE>
+            </Style>
     <BLANKLINE>
     <BLANKLINE>
-          </Style>
+            <LineString>
+              <coordinates>0.111000,0.222000,0.0</coordinates>
+            </LineString>
     <BLANKLINE>
-          <LineString>
-            <coordinates>0.111000,0.222000,0.0</coordinates>
-          </LineString>
-    <BLANKLINE>
-    <BLANKLINE>
-        </Placemark>
+          </Placemark>
     <BLANKLINE>
       </Document>
     </kml>
@@ -393,7 +477,7 @@ We can check the output now that we're using a custom-styled LineString
     ... Authorization: Basic %s:%s
     ... """ % (portal_owner, default_password), handle_errors=False)
     >>> print r.getBody()
-    <?xml version="1.0" encoding="utf-8"?>
+        <?xml version="1.0" encoding="utf-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2">
     <BLANKLINE>
       <Document>
@@ -418,51 +502,65 @@ We can check the output now that we're using a custom-styled LineString
         <open>0</open>
     <BLANKLINE>
     <BLANKLINE>
-        <Placemark>
-          <name>Test document</name>
-          <description>
+    <BLANKLINE>
+          <Placemark>
+            <name>
+            <![CDATA[
+             <a href="http://localhost/plone/Members/test_user_1_/test-document">Test document</a> 
+            ]]>
+            </name>
+            <description> 
             <![CDATA[
               <div>
     <BLANKLINE>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend</p>
-                <p><strong>URL:</strong> 
-                  <a href="http://localhost/plone/Members/test_user_1_/test-document">Item URL
-                  </a>
-                </p>
-                <p><strong>Type:</strong> <span>Document</span></p>
-                <p><strong>Last Modified:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
-                <p><strong>Creation Date:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
+                <dl>
     <BLANKLINE>
+                  <dt>Content Location</dt>
+                  <dd>Somewhere on Earth</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Type</dt>
+                  <dd>Page</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Effective Date</dt>
+                  <dd>2010-01-01 09:00:00</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Last Modified Date</dt>
+                  <dd>2010-01-01 09:00:00</dd>
+    <BLANKLINE>
+                </dl>
               </div>
             ]]>
-          </description>
+            </description>
     <BLANKLINE>
     <BLANKLINE>
-          <Style>
-            <IconStyle>
-                <scale>1.0</scale>
-                <Icon>
-                  <href>marker-blue.png</href>
-                </Icon>
-                <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
-            </IconStyle>
+            <Style>
+              <IconStyle>
+                  <scale>1.0</scale>
+                  <Icon>
+                    <href>marker-blue.png</href>
+                  </Icon>
+                  <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+              </IconStyle>
     <BLANKLINE>
-            <PolyStyle>
-                <color>FFBADCFE</color>
-            </PolyStyle>
-          </Style>
+              <PolyStyle>
+                  <color>FFBADCFE</color>
+              </PolyStyle>
+            </Style>
     <BLANKLINE>
     <BLANKLINE>
     <BLANKLINE>
-          <Polygon>
-            <outerBoundaryIs>
-              <LinearRing>
-                <coordinates>0.111000,0.222000,0.0 0.222000,0.222000,0.0 0.222000,0.111000,0.0 0.111000,0.111000,0.0</coordinates>
-              </LinearRing>
-            </outerBoundaryIs>
-          </Polygon>
-    <BLANKLINE>
-        </Placemark>
+            <Polygon>
+              <outerBoundaryIs>
+                <LinearRing>
+                  <coordinates>0.111000,0.222000,0.0 0.222000,0.222000,0.0 0.222000,0.111000,0.0 0.111000,0.111000,0.0</coordinates>
+                </LinearRing>
+              </outerBoundaryIs>
+            </Polygon>
+          </Placemark>
     <BLANKLINE>
       </Document>
     </kml>

@@ -41,7 +41,11 @@
                      item_view_url python:(item_type in use_view_action and item_url+'/view') or item_url;
                      custom_style feature/geom/style;
                      use_custom_style python:custom_style and custom_style['use_custom_style'];">
-        <name tal:content="placemark/name">TITLE</name>
+        <name>
+        <span tal:replace="structure string:&lt;![CDATA[" />
+         <a href="#" tal:attributes="href item_view_url;" tal:content="placemark/name">TITLE</a> 
+        <span tal:replace="structure string:]]&gt;" />
+        </name>
         <description> 
         <span tal:replace="structure string:&lt;![CDATA[" />
           <div>
@@ -51,16 +55,12 @@
                              tal:replace="structure python: path('nocall:item_object/tag')(scale='thumb', css_class='tileImage')" />
            </a>
             <p tal:content="placemark/description" tal:omit-tag="not:placemark/description">ITEM DESCRIPTION</p>
-            <p><strong>URL:</strong> 
-              <a 
-                tal:attributes="href item_view_url" 
-                >Item URL
-              </a>
-            </p>
-            <p><strong>Type:</strong> <span tal:content="item_type">Document</span></p>
-            <p><strong>Last Modified:</strong> <span tal:content="python:context.toLocalizedTime(item_object.modification_date, long_format=1)">01 January 2010</span></p>
-            <p><strong>Creation Date:</strong> <span tal:content="python:context.toLocalizedTime(item_object.creation_date, long_format=1)">1 January 2010</span></p>
-            
+            <dl>
+            <tal:properties tal:repeat="property python:view.display_properties(item_object)">
+              <dt tal:content="property/title">Display Title</dt>
+              <dd tal:content="property/content">Content</dd>
+            </tal:properties>
+            </dl>
           </div>
         <span tal:replace="structure string:]]&gt;" />
         </description>
@@ -114,7 +114,11 @@
                      custom_style feature/geom/style;
                      use_custom_style python:custom_style and custom_style['use_custom_style'];
                      ">
-        <name tal:content="feature/name">TITLE</name>
+        <name>
+        <span tal:replace="structure string:&lt;![CDATA[" />
+         <a href="#" tal:attributes="href item_view_url;" tal:content="feature/name">TITLE</a> 
+        <span tal:replace="structure string:]]&gt;" />
+        </name>
         <description> 
         <span tal:replace="structure string:&lt;![CDATA[" />
           <div>
@@ -124,16 +128,12 @@
                              tal:replace="structure python: path('nocall:item_object/tag')(scale='thumb', css_class='tileImage')" />
            </a>
             <p tal:content="feature/description" tal:omit-tag="not:feature/description">ITEM DESCRIPTION</p>
-            <p><strong>URL:</strong> 
-              <a 
-                tal:attributes="href item_view_url" 
-                >Item URL
-              </a>
-            </p>
-            <p><strong>Type:</strong> <span tal:content="item_type">Document</span></p>
-            <p><strong>Last Modified:</strong> <span tal:content="python:context.toLocalizedTime(item_object.modification_date, long_format=1)">01 January 2010</span></p>
-            <p><strong>Creation Date:</strong> <span tal:content="python:context.toLocalizedTime(item_object.creation_date, long_format=1)">1 January 2010</span></p>
-            
+            <dl>
+            <tal:properties tal:repeat="property python:view.display_properties(item_object)">
+              <dt tal:content="property/title">Display Title</dt>
+              <dd tal:content="property/content">Content</dd>
+            </tal:properties>
+            </dl>
           </div>
         <span tal:replace="structure string:]]&gt;" />
         </description>

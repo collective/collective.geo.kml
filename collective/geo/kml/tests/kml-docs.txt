@@ -54,7 +54,7 @@ Test the KML document view of the topic
     >>> r.getHeader('Content-Type')
     'application/vnd.google-earth.kml+xml;charset=utf-8'
     >>> print r.getBody()
-    <?xml version="1.0" encoding="utf-8"?>
+        <?xml version="1.0" encoding="utf-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2">
     <BLANKLINE>
       <Document>
@@ -79,31 +79,41 @@ Test the KML document view of the topic
         <open>0</open>
     <BLANKLINE>
     <BLANKLINE>
-        <Placemark>
-          <name>A Document</name>
-          <description>
+    <BLANKLINE>
+          <Placemark>
+            <name>
+            <![CDATA[
+             <a href="http://localhost/plone/Members/test_user_1_/doc">A Document</a> 
+            ]]>
+            </name>
+            <description> 
             <![CDATA[
               <div>
     <BLANKLINE>
                 <p>A test document</p>
-                <p><strong>URL:</strong> 
-                  <a href="http://localhost/plone/Members/test_user_1_/doc">Item URL
-                  </a>
-                </p>
-                <p><strong>Type:</strong> <span>Document</span></p>
-                <p><strong>Last Modified:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
-                <p><strong>Creation Date:</strong> <span>Jan 01, 2010 09:00 AM</span></p>
+                <dl>
     <BLANKLINE>
+                  <dt>ID</dt>
+                  <dd>doc</dd>
+    <BLANKLINE>
+    <BLANKLINE>
+                  <dt>Type</dt>
+                  <dd>Page</dd>
+    <BLANKLINE>
+                </dl>
               </div>
             ]]>
-          </description>
-          <styleUrl>#defaultStyle</styleUrl>
-          <Point>
-            <coordinates>-105.000000,40.000000,0.0</coordinates>
-          </Point>
+            </description>
+    <BLANKLINE>
+            <styleUrl>#defaultStyle</styleUrl>
     <BLANKLINE>
     <BLANKLINE>
-        </Placemark>
+            <Point>
+              <coordinates>-105.000000,40.000000,0.0</coordinates>
+            </Point>
+    <BLANKLINE>
+    <BLANKLINE>
+          </Placemark>
     <BLANKLINE>
       </Document>
     </kml>
