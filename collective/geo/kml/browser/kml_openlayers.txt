@@ -108,7 +108,24 @@ We have a Topic in portal root for testing that
     >>> browser.open(topic_url)
     >>> browser.getLink('Kml Openlayers View').click()
 
-now we run the same test with a Large Plone Folder in portal root
+Check to make sure the map div appears fine
+    >>> '<div id="map" ' in browser.contents
+    True
+
+Now, add some body text to the Topic to check it appears on the KML OpenLayers
+view.
+
+    >>> text = '<strong>Example description</strong>'
+    >>> self.portal.test_topic.setText(text)
+
+Reload the view and check to make sure we can see the description and the map
+    >>> browser.getLink('View').click()
+    >>> text in browser.contents
+    True
+    >>> '<div id="map" ' in browser.contents
+    True
+
+Now we run the same test with a Large Plone Folder in portal root
     >>> largefolder_url = self.portal.test_largefolder.absolute_url()
     >>> browser.open(largefolder_url)
     >>> browser.getLink('Kml Openlayers View').click()

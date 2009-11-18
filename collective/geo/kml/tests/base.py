@@ -59,6 +59,7 @@ class CollectiveGeoKMLFunctionalTestCase(ptc.FunctionalTestCase):
         self.folder['test-document'].setTitle('Test document')
         self.folder['test-document'].setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend')
 
+        _createObjectByType("Document", self.portal, 'test-document-geostyles')
         _createObjectByType("Topic", self.portal, 'test_topic')
         _createObjectByType("Large Plone Folder", self.portal, 'test_largefolder')
 

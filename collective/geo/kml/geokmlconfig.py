@@ -7,6 +7,8 @@ from zope.component import getUtility
 from collective.geo.kml.interfaces import IGeoKmlSettings, IGeoContentKmlSettings
 from zgeo.geographer.geo import KEY
 
+from Products.CMFCore.utils import getToolByName
+
 class GeoKmlSettings(Persistent):
     """ 
         GeoKmlSettings have some propreties. We can get its propterties directly
@@ -42,7 +44,7 @@ class GeoKmlSettings(Persistent):
     linecolor = '#FF0000'
     linewidth = 2.0
     polygoncolor = '#FF0000'
-    marker_image = 'img/marker.png'
+    marker_image = u'img/marker.png'
     marker_image_size = 0.7
     display_properties = ['id', 'Type']
 
@@ -80,6 +82,14 @@ class GeoContentKmlSettings(Persistent):
         self.context = context
         self.form = form
 
+        if self.context is not None:
+            #get our site's config to set the default values from it
+            portal_url = getToolByName(self.context, 'portal_url')
+            portal = portal_url.getPortalObject()
+            self.siteconfig = IGeoKmlSettings(portal)
+        else:
+            self.siteconfig = None
+
     def initialiseStyles(self, context):
         annotations = IAnnotations(context)
         geo = annotations.get(KEY)
@@ -90,12 +100,21 @@ class GeoContentKmlSettings(Persistent):
                 geo['style'] = {}
                 self.geo_styles = geo['style']
                 self.geo_styles['use_custom_style'] = False
-                self.geo_styles['linecolor'] = u'#FF0000'
-                self.geo_styles['linewidth'] = 2.0
-                self.geo_styles['polygoncolor'] = u'#FF0000'
-                self.geo_styles['marker_image'] = u'img/marker.png'
-                self.geo_styles['marker_image_size'] = 0.7
-                self.geo_styles['display_properties'] = ['id', 'Type']
+
+                if self.siteconfig is not None:
+                    self.geo_styles['linecolor'] = self.siteconfig.get('linecolor')
+                    self.geo_styles['linewidth'] = self.siteconfig.get('linewidth')
+                    self.geo_styles['polygoncolor'] = self.siteconfig.get('polygoncolor')
+                    self.geo_styles['marker_image'] = self.siteconfig.get('marker_image')
+                    self.geo_styles['marker_image_size'] = self.siteconfig.get('marker_image_size')
+                    self.geo_styles['display_properties'] = self.siteconfig.get('display_properties')
+                else:
+                    self.geo_styles['linecolor'] = '#FF0000'
+                    self.geo_styles['linewidth'] = 2.0
+                    self.geo_styles['polygoncolor'] = '#FF0000'
+                    self.geo_styles['marker_image'] = u'img/marker.png'
+                    self.geo_styles['marker_image_size'] = 0.7
+                    self.geo_styles['display_properties'] = ['id', 'Type']
         else:
             self.geo_styles = {}
 

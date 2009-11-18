@@ -204,8 +204,10 @@ we can change some properties of kml document with IGeoKmlSettings utility
 
 
 We can also change properties on a per-document basis with the IGeoContentKmlSettings utility
-    >>> from collective.geo.kml.interfaces import IGeoContentKmlSettings
-    >>> kml_settings = IGeoContentKmlSettings(document)
+    >>> from collective.geo.kml.geokmlconfig import GeoContentKmlSettings
+    >>> kml_settings = GeoContentKmlSettings(document)
+    >>> kml_settings.siteconfig
+    <collective.geo.kml.geokmlconfig.GeoKmlSettings object at ...>
     >>> kml_settings.initialiseStyles(document)
 
 We can obtain a given KML property by the 'get' method.

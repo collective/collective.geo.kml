@@ -1,4 +1,8 @@
-<html metal:use-macro="here/main_template/macros/master">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
     <metal:block metal:fill-slot="javascript_head_slot"
                  tal:define="geosettings view/geosettings">
       <script type="text/javascript"
@@ -12,7 +16,10 @@
       <link href="++resource++openlayers.css" rel="stylesheet" type="text/css" />
     </metal:block>
  <body>
-  <metal:main fill-slot="main">
+  <metal:main fill-slot="main" 
+       tal:define="kssClassesView context/@@kss_field_decorator_view;
+                   getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
+                   templateId template/getId" >
     <div>
         <div tal:replace="structure provider:plone.abovecontenttitle" />
 
@@ -31,6 +38,15 @@
         </p>
 
         <div tal:replace="structure provider:plone.abovecontentbody" />
+        <div metal:define-macro="text-field-view"
+             id="parent-fieldname-text" class="stx"
+             tal:define="kss_class python:getKssClasses('text',
+                         templateId=templateId, macro='text-field-view');
+                         text here/getText|nothing"
+             tal:condition="text"
+             tal:attributes="class python:(here.Format() in ('text/structured','text/x-rst', )) and ('stx' + kss_class) or ('plain' + kss_class);">
+            <div metal:define-slot="inside" tal:replace="structure text">The body</div>
+        </div>
 
         <metal:map use-macro="context/@@openlayers-macros/map" />
         <script type="text/javascript" 
