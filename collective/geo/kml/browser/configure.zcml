@@ -54,6 +54,14 @@
       permission = "zope2.View"
       />
 
+  <adapter
+      for="..interfaces.IGeoKMLOpenLayersView
+           zope.interface.Interface
+           zope.interface.Interface
+           zope.interface.Interface"
+      factory=".kml_openlayers.KMLMapLayers"
+      />
+
   <include package="plone.app.contentmenu" />
 
   <browser:menuItem
