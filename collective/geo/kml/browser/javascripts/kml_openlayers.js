@@ -1,5 +1,8 @@
 
 
+//cgmap.extendconfig({},
+//'map');
+
 jq(document).ready(function() {
 
   var thisUri = window.location.href;
@@ -14,19 +17,20 @@ jq(document).ready(function() {
     thisUri += '/';
   }
 
-  var map = cgmap.config['map'].map;
+  var map = cgmap.config['default-cgmap'].map;
 
-  var kml = new OpenLayers.Layer.GML("KML Layer", thisUri + "@@kml-document",
-              {
-                format: OpenLayers.Format.KML,
-                projection: map.displayProjection,
-                formatOptions: {
-                  extractStyles: true,
-                  extractAttributes: true
-                }
-              });
+  // var kml = new OpenLayers.Layer.GML("KML Layer", thisUri + "@@kml-document",
+  //             {
+  //               format: OpenLayers.Format.KML,
+  //               projection: map.displayProjection,
+  //               formatOptions: {
+  //                 extractStyles: true,
+  //                 extractAttributes: true
+  //               }
+  //             });
 
-  map.addLayer(kml);
+  // map.addLayer(kml);
+  var kml = map.getLayersByName('KML Layer')[0];
   var select = new OpenLayers.Control.SelectFeature(kml);
 
   kml.events.on({

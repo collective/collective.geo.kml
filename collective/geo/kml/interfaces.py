@@ -3,6 +3,8 @@ from plone.theme.interfaces import IDefaultPloneLayer
 from zope import schema
 from collective.geo.kml import GeoKmlMessageFactory as _
 
+from collective.geo.settings.interfaces import IMapView
+
 class IGeoKmlLayer(IDefaultPloneLayer):
     """Marker interface that defines a Zope 3 browser layer.
     """
@@ -55,3 +57,5 @@ class IGeoContentKmlSettings(IGeoKmlSettings):
                          default=False,
                          required=False)
 
+class IGeoKMLOpenLayersView(IMapView):
+    """ Marker interface to look up mapwidget manager and layermanager """
