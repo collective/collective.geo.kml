@@ -22,6 +22,9 @@ class KmlOpenLayers(BrowserView):
     #     return self.geosettings.google_maps_js
 
 class KMLMapLayers(MapLayers):
+    '''
+    create all layers for this view.
+    '''
 
     def layers(self):
         layers = super(KMLMapLayers, self).layers()
@@ -46,7 +49,7 @@ class KMLMapLayer(MapLayer):
         return"""
         function() { return new OpenLayers.Layer.GML('%s', '%s' + '/@@kml-document',
             { format: OpenLayers.Format.KML,
-              projection: cgmap.config['default'].options.displayProjection,
+              projection: cgmap.createDefaultOptions().displayProjection,
               formatOptions: {
                   extractStyles: true,
                   extractAttributes: true }
