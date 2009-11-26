@@ -29,7 +29,7 @@
 
   <!--  was ATBTreeFolder and ATFolder -->
   <browser:page
-      for="Products.CMFCore.interfaces.IContentish"
+      for="Products.CMFCore.interfaces.IFolderish"
       name="kml-document"
       class=".document.Document"
       layer = "..interfaces.IGeoKmlLayer"
@@ -47,7 +47,7 @@
   <!--  was ATTopic, ATFolder, ATBTreeFolder,  -->
   <browser:page
       name="kml-openlayers"
-      for="Products.CMFCore.interfaces.IContentish"
+      for="Products.CMFCore.interfaces.IFolderish"
       class=".kml_openlayers.KmlOpenLayers"
       layer = "..interfaces.IGeoKmlLayer"
       template = "kml_openlayers.pt"

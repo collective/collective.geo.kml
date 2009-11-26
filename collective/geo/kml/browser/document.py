@@ -1,4 +1,3 @@
-from zope.dublincore.interfaces import ICMFDublinCore
 from zope.interface import implements
 from zgeo.geographer.interfaces import IGeoreferenced
 from zgeo.kml.interfaces import IFeature, IPlacemark, IContainer
@@ -104,9 +103,8 @@ document_template = NamedTemplateImplementation(
     ViewPageTemplateFile('kml_document.pt')
     )
 
-
 class Geometry(object):
-    
+
     implements(IGeoreferenced)
 
     def __init__(self, type, coordinates, style):
@@ -153,7 +151,7 @@ class BrainPlacemark(Placemark):
     @property
     def alternate_link(self):
         return '/'.join(
-            [self.request['BASE1']] 
+            [self.request['BASE1']]
             + self.request.physicalPathToVirtualPath(self.context.getPath())
             )
 

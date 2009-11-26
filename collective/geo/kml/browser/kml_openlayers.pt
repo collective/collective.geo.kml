@@ -10,7 +10,7 @@
     <div>
         <div tal:replace="structure provider:plone.abovecontenttitle" />
 
-        <h1 class="documentFirstHeading"> 
+        <h1 class="documentFirstHeading">
             <metal:field use-macro="python:here.widget('title', mode='view')">
             Title
             </metal:field>
@@ -27,7 +27,7 @@
         <div tal:replace="structure provider:plone.abovecontentbody" />
 
         <metal:use use-macro="context/@@geosettings-macros/map-widget"  />
-        <script type="text/javascript"          
+        <script type="text/javascript"
                 src="++resource++geo.kml.javascripts/kml_openlayers.js"></script>
     </div>
     <div tal:replace="structure provider:plone.belowcontentbody" />
