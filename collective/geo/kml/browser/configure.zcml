@@ -101,4 +101,13 @@
             description="Set Openlayers Kml as default view."
     />
 
+    <!-- Render the visible feature viewlet -->
+    <browser:viewlet
+        name="collective.geo.kml.belowcontentbody.visiblefeatures"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+        class=".visiblefeatures.VisibleFeaturesViewlet"
+        permission="zope2.View"
+        />
+
 </configure>
+

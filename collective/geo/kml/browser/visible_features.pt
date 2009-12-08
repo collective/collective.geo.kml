@@ -1,0 +1,14 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+     xmlns:tal="http://xml.zope.org/namespaces/tal"
+     class="geoVisibleFeatures"
+     id="geo-visible-features"
+     i18n:domain="collective.geo.kml"
+     tal:condition="view/displayGeoVisibleFeatures">
+      <dl id="geo-visible-features" class="collapsible collapsedOnLoad">
+        <dt class="collapsibleHeader" i18n:translate="label_visible-features">Visible Features (KML)</dt>
+        <dd class="collapsibleContent">
+            <a href="#">Test me!</a>
+        </dd>
+      </dl>
+</div>
