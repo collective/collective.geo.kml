@@ -57,3 +57,7 @@ function geo_kml() {
 	}
 }
 
+jq(window).load(function() {
+    geo_kml();
+}); 
+
