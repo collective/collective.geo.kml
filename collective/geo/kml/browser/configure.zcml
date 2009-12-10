@@ -106,6 +106,7 @@
         name="collective.geo.kml.belowcontentbody.visiblefeatures"
         manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
         class=".visiblefeatures.VisibleFeaturesViewlet"
+        for="Products.ATContentTypes.interface.IATTopic"
         permission="zope2.View"
         />
 
