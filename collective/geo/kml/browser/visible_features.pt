@@ -17,8 +17,8 @@
             tal:attributes="src string:$portal_url/jscalendar/calendar-en.js"></script>
 
 
-      <dl id="geo-visible-features" class="collapsible collapsedOnLoad">
-        <dt class="collapsibleHeader" i18n:translate="label_visible-features">Visible Features</dt>
+      <dl id="geo-date-range-search" class="collapsible collapsedOnLoad">
+        <dt class="collapsibleHeader" i18n:translate="label_date-range-search">Date Range Search</dt>
         <dd class="collapsibleContent">
            <div style="margin-bottom: 1em;">
 		<form id="date_form"
@@ -58,6 +58,14 @@
  
 		  </form>
             </div>
+        </dd>
+      </dl>
+
+      <dl id="geo-visible-features" class="collapsible collapsedOnLoad">
+        <dt class="collapsibleHeader" i18n:translate="label_visible-features">Visible Features</dt>
+        <dd class="collapsibleContent">
+           <div style="margin-bottom: 1em;">
+           </div>
         </dd>
       </dl>
 </div>
