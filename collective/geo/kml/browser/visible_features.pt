@@ -4,11 +4,60 @@
      class="geoVisibleFeatures"
      id="geo-visible-features"
      i18n:domain="collective.geo.kml"
-     tal:condition="view/displayGeoVisibleFeatures">
+     tal:condition="view/displayGeoVisibleFeatures"
+     tal:define="portal_url string:${context/portal_url};
+                 portal context/portal_url/getPortalObject;">
+
+<style type="text/css" media="all"
+            tal:content="string:@import url($portal_url/jscalendar/calendar-system.css);"></style>
+    <script type="text/javascript"
+            tal:attributes="src string:$portal_url/jscalendar/calendar_stripped.js"></script>
+    <script type="text/javascript" charset="iso-8859-1"
+            tal:condition="exists: portal/jscalendar/calendar-en.js"
+            tal:attributes="src string:$portal_url/jscalendar/calendar-en.js"></script>
+
+
       <dl id="geo-visible-features" class="collapsible collapsedOnLoad">
-        <dt class="collapsibleHeader" i18n:translate="label_visible-features">Visible Features (KML)</dt>
+        <dt class="collapsibleHeader" i18n:translate="label_visible-features">Visible Features</dt>
         <dd class="collapsibleContent">
-            <a href="#">Test me!</a>
+           <div style="margin-bottom: 1em;">
+		<form id="date_form"
+		      class="enableAutoFocus"
+		      name="date_form"
+		      method="get"
+		      action="here"
+		  tal:attributes="action here/absolute_url;"
+		  tal:define="uniqueItemIndex view/uniqueItemIndex;
+                              starting_year python:1950;
+                              ending_year python:here.ZopeTime().year();
+                              inputvalue python:None;
+                              show_hm python:False;
+                              show_ymd python:True;
+                              formname string:date_form;">
+          <label for="start_date" class="formQuestion">Starting Date</label>
+          <div id="start_date_help" class="formHelp">Select the starting date, or select none to search for content up until the end date specified.</div> 
+
+			<div tal:define="inputname string:start-date;
+                                         inputvalue python:'start-date' in view.form and view.form['start-date'] or inputvalue;">
+			      <div metal:use-macro="here/calendar_macros/macros/calendarDatePickerBox">
+				calendar pop-up
+			      </div>
+			</div>
+
+	 <label for="end_date" class="formQuestion">Ending Date</label>
+	 <div id="end_date_help" class="formHelp">Select the ending date or select none to search for content onwards from the start date specified.</div> 
+ 
+			<div tal:define="inputname string:end-date;
+                                         inputvalue python:'end-date' in view.form and view.form['end-date'] or inputvalue;">
+			      <div metal:use-macro="here/calendar_macros/macros/calendarDatePickerBox">
+				calendar pop-up
+			      </div>
+			</div>
+                     <input type="submit" class="context" value="Show me" />
+
+ 
+		  </form>
+            </div>
         </dd>
       </dl>
 </div>

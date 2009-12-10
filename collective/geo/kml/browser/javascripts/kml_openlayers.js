@@ -6,11 +6,20 @@ if (viewInUse && viewInUse.length == 1) {
       thisUri = thisUri.replace(viewInUse[0], "");
 }
 
+thisUriSections = thisUri.split('?');
+thisUri = thisUriSections[0];
+argumentsSection = '';
+if (thisUriSections.length > 1) {
+      argumentsSection = '?'+thisUriSections[1];
+}
+
 if (!thisUri.match('\/$')) {
       thisUri += '/';
 }
 
-kml = new OpenLayers.Layer.GML("KML Layer", thisUri + "@@kml-document",
+kmlDocUrl = thisUri + "@@kml-document" + argumentsSection;
+
+kml = new OpenLayers.Layer.GML("KML Layer", kmlDocUrl,
 {
     format: OpenLayers.Format.KML, 
     projection: map.displayProjection,

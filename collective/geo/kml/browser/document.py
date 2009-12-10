@@ -235,10 +235,33 @@ class BrainPlacemark(Placemark):
             + self.request.physicalPathToVirtualPath(self.context.getPath())
             )
 
+from DateTime import DateTime
 
 class TopicDocument(Document):
 
     @property
     def features(self):
-        for brain in self.context.queryCatalog():
+        kw = {}
+        start_date = None
+        end_date = None
+
+        if 'start-date' in self.request.form:
+            try:
+                start_date = DateTime(self.request.form['start-date'])
+            except:
+                pass
+        if 'end-date' in self.request.form:
+            try:
+                end_date = DateTime(self.request.form['end-date'])
+            except:
+                pass
+
+        if start_date and end_date:
+            kw['effective'] = {'query': (start_date, end_date), 'range': 'min:max'}
+        elif start_date:
+            kw['effective'] = {'query': start_date, 'range': 'min'}
+        elif end_date:
+            kw['effective'] = {'query': end_date, 'range': 'max'}
+
+        for brain in self.context.queryCatalog(REQUEST=None, batch=False, b_size=None,full_objects=False,**kw):
             yield BrainPlacemark(brain, self.request)
