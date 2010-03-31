@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <object>
   <order manager="plone.belowcontentbody" skinname="collective.geo.kml" purge="True">
+    <viewlet name="collective.geo.kml.belowcontentbody.daterangesearch" purge="True" />
     <viewlet name="collective.geo.kml.belowcontentbody.visiblefeatures" purge="True" />
   </order>
 </object>

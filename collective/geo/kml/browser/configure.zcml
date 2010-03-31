@@ -101,12 +101,35 @@
             description="Set Openlayers Kml as default view."
     />
 
+    <!-- Render the date range search viewlet -->
+    <browser:viewlet
+        name="collective.geo.kml.belowcontentbody.daterangesearch"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+        class=".daterangesearch.DateRangeSearchViewlet"
+        for="Products.ATContentTypes.interface.IATTopic"
+        permission="zope2.View"
+        />
+
     <!-- Render the visible feature viewlet -->
     <browser:viewlet
         name="collective.geo.kml.belowcontentbody.visiblefeatures"
         manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
-        class=".visiblefeatures.VisibleFeaturesViewlet"
+        class=".visiblefeatures.VisibleFeaturesTopicViewlet"
         for="Products.ATContentTypes.interface.IATTopic"
+        permission="zope2.View"
+        />
+    <browser:viewlet
+        name="collective.geo.kml.belowcontentbody.visiblefeatures"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+        class=".visiblefeatures.VisibleFeaturesFolderViewlet"
+        for="Products.ATContentTypes.interface.IATFolder"
+        permission="zope2.View"
+        />
+    <browser:viewlet
+        name="collective.geo.kml.belowcontentbody.visiblefeatures"
+        manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+        class=".visiblefeatures.VisibleFeaturesFolderViewlet"
+        for="Products.ATContentTypes.interface.IATBTreeFolder"
         permission="zope2.View"
         />
 

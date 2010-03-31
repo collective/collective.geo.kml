@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <object>
   <order manager="plone.belowcontentbody" skinname="collective.geo.kml">
+    <viewlet name="collective.geo.kml.belowcontentbody.daterangesearch" insert-before="plone.belowcontentbody.contenthistory" />
     <viewlet name="collective.geo.kml.belowcontentbody.visiblefeatures" insert-before="plone.belowcontentbody.contenthistory" />
   </order>
 </object>
