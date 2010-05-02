@@ -3,18 +3,12 @@
       metal:use-macro="here/main_template/macros/master"
       i18n:domain="plone">
 
-    <metal:block metal:fill-slot="javascript_head_slot"
-                 tal:define="geosettings view/geosettings">
-      <script type="text/javascript"
-              tal:condition="view/google_maps_js"
-              tal:attributes="src view/google_maps_js"></script>
-      <script type="text/javascript" src="./OpenLayers.js"></script>
-      <script type="text/javascript"
-              tal:content="geosettings/geo_setting_js"></script>
+    <metal:block metal:fill-slot="javascript_head_slot">
+      <metal:use use-macro="context/@@collectivegeo-macros/openlayers" />
     </metal:block>
-    <metal:block metal:fill-slot="style_slot">
+    <!-- <metal:block metal:fill-slot="style_slot">
       <link href="++resource++openlayers.css" rel="stylesheet" type="text/css" />
-    </metal:block>
+    </metal:block> -->
  <body>
   <metal:main fill-slot="main" 
        tal:define="kssClassesView context/@@kss_field_decorator_view;
@@ -23,7 +17,7 @@
     <div>
         <div tal:replace="structure provider:plone.abovecontenttitle" />
 
-        <h1 class="documentFirstHeading"> 
+        <h1 class="documentFirstHeading">
             <metal:field use-macro="python:here.widget('title', mode='view')">
             Title
             </metal:field>
@@ -48,10 +42,8 @@
             <div metal:define-slot="inside" tal:replace="structure text">The body</div>
         </div>
 
-        <metal:map use-macro="context/@@openlayers-macros/map" />
-        <script type="text/javascript" 
-                src="++resource++geo-openlayers.js"></script>
-        <script type="text/javascript"          
+        <metal:use use-macro="context/@@collectivegeo-macros/map-widget"  />
+        <script type="text/javascript"
                 src="++resource++geo.kml.javascripts/kml_openlayers.js"></script>
     </div>
     <div tal:replace="structure provider:plone.belowcontentbody" />

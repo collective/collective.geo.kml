@@ -1,22 +1,31 @@
-from zope.dublincore.interfaces import ICMFDublinCore
 from zope.interface import implements
+from zope.component import getMultiAdapter
+from zope.component import getUtility
+
+# from zope.app.pagetemplate import ViewPageTemplateFile
+from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+
+
+from zope.formlib.namedtemplate import NamedTemplate
+from zope.formlib.namedtemplate import NamedTemplateImplementation
+
+from Products.CMFCore.utils import getToolByName
+
+from plone.registry.interfaces import IRegistry
+
 from zgeo.geographer.interfaces import IGeoreferenced
-from zgeo.kml.interfaces import IFeature, IPlacemark, IContainer
+from zgeo.geographer.geo import GeoreferencingAnnotator
+
+from zgeo.kml.interfaces import IPlacemark #IFeature, IContainer
 from zgeo.kml.browser import NullGeometry
 from zgeo.kml.browser import Document as zgeoDocument
 from zgeo.kml.browser import Placemark
-from Products.CMFCore.utils import getToolByName
-from collective.geo.kml.interfaces import IGeoKmlSettings
-from zope.component import getMultiAdapter
-from zope.component import getUtility
-from zope.formlib.namedtemplate import NamedTemplate
-from zope.formlib.namedtemplate import NamedTemplateImplementation
-from zope.app.pagetemplate import ViewPageTemplateFile
-from zgeo.geographer.geo import GeoreferencingAnnotator
-from zgeo.kml.browser import NullGeometry
 
-from collective.geo.kml.interfaces import IGeoContentKmlSettings
-from collective.geo.kml.config import DISPLAY_VOCABULARY, DISPLAY_PROPERTY_STRUCTURES
+from collective.geo.settings.interfaces import IGeoFeatureStyle
+from collective.geo.kml.utils import web2kmlcolor
+
+# from collective.geo.kml.interfaces import IGeoContentKmlSettings
+# from collective.geo.kml.config import DISPLAY_VOCABULARY, DISPLAY_PROPERTY_STRUCTURES
 
 import Missing
 
@@ -38,7 +47,7 @@ logger.info("Patching zgeo.kml.browser's NullGeometry to return a None geo style
 class Document(zgeoDocument):
     """
         This class extends zgeo.kml.browser.Document class
-        and provides some properties for kml-document from IGeoKmlSettings
+        and provides some properties for kml-document from IGeoFeatureStyle
 
         The most important properties are linecolor and polygoncolor
         because they are converted to kml format
@@ -50,24 +59,6 @@ class Document(zgeoDocument):
         >>> class TestContent(object):
         ...     interface.implements(ICMFDublinCore)
         >>> document = TestContent()
-        >>> from collective.geo.kml.interfaces import IGeoContentKmlSettings
-        >>> from zope.component import getGlobalSiteManager
-        >>> getGlobalSiteManager().registerUtility(document, IGeoContentKmlSettings)
-        >>> kmldoc = Document(document, None)
-        >>> kmldoc
-        <collective.geo.kml.browser.document.Document object ...>
-
-        in GeoKmlSetting we have registered this value for line color
-        >>> kmldoc.settings.linecolor
-        '#FF0000'
-
-        kml doc must convert web exadecimal code in kml color code
-        >>> kmldoc.linecolor
-        'FF0000FF'
-
-        the same thing with polygoncolor
-        >>> kmldoc.polygoncolor
-        '3C0000FF'
 
         Check to make sure we've also got our style monkey patch in place
         on the annotator and NullGeometry.
@@ -83,21 +74,21 @@ class Document(zgeoDocument):
         True
 
     """
-    template = NamedTemplate('geo-kml-document')
-    # TODO: set opacity from IGeoKmlSettings
+    # template = NamedTemplate('geo-kml-document')
+    template = ViewPageTemplateFile('kml_document.pt')
+
+    # TODO: set opacity from IGeoSettings
     opacity = '3C'
 
     def __init__(self, context, request):
         super(Document, self).__init__(context, request)
-        self.settings = getUtility(IGeoKmlSettings)
-        self.contentkmlsettings = getUtility(IGeoContentKmlSettings)
+        registry = getUtility(IRegistry)
+        self.settings = registry.forInterface(IGeoFeatureStyle)
+        # self.contentkmlsettings = getUtility(IGeoContentKmlSettings)
 
     @property
     def linecolor(self):
-        color = self.settings.linecolor
-        if color:
-            return self.colorconvert(color)
-        return ''
+        return web2kmlcolor(self.settings.linecolor)
 
     @property
     def linewidth(self):
@@ -105,10 +96,7 @@ class Document(zgeoDocument):
 
     @property
     def polygoncolor(self):
-        color = self.settings.polygoncolor
-        if color:
-            return self.colorconvert(color, self.opacity)
-        return ''
+        return web2kmlcolor(self.settings.polygoncolor)
 
     @property
     def pointmarker(self):
@@ -122,13 +110,14 @@ class Document(zgeoDocument):
     #Return a list of dicts of {title: , content: }
     def display_properties(self, item_object):
         selected_properties = []
-        custom_styles = self.contentkmlsettings.getStyles(item_object)
-        if 'use_custom_style' in custom_styles and custom_styles['use_custom_style'] and 'display_properties' in custom_styles:
-            #get our custom results
-            selected_properties = custom_styles['display_properties']
-        else:
-            #get stock-standard from settings
-            selected_properties = self.settings.display_properties
+        # custom_styles = self.contentkmlsettings.getStyles(item_object)
+        #         if 'use_custom_style' in custom_styles and custom_styles['use_custom_style'] and 'display_properties' in custom_styles:
+        #             #get our custom results
+        #             selected_properties = custom_styles['display_properties']
+        #         else:
+        #             #get stock-standard from settings
+        #             selected_properties = self.settings.display_properties
+        selected_properties = self.settings.display_properties
 
         #Fetch our actual information to display on the page
         catalog = getToolByName(item_object,'portal_catalog')
@@ -144,7 +133,7 @@ class Document(zgeoDocument):
             #iterate through selected properties, and extract data
             #from the object or its catalog metadata
             for property in selected_properties:
-                property_title = DISPLAY_VOCABULARY.getTerm(property).title
+                # property_title = DISPLAY_VOCABULARY.getTerm(property).title
                 
                 if metadata.has_key(property):
                     property_content = metadata[property]
@@ -155,36 +144,29 @@ class Document(zgeoDocument):
                 else:
                     property_content = None
 
-		if property in DISPLAY_PROPERTY_STRUCTURES:
-                    if len(property_content) > 0:
-                        property_content = ', '.join(property_content)
-                    else:
-                        property_content = None
-
-                if property_content is Missing.Value or property_content is '':
-                    property_content = None
-                
-                properties_to_display.append({
-                                       'title': property_title,
-                                       'content': str(property_content),
-                                     })
+        # if property in DISPLAY_PROPERTY_STRUCTURES:
+        #                     if len(property_content) > 0:
+        #                         property_content = ', '.join(property_content)
+        #                     else:
+        #                         property_content = None
+        # 
+        #                 if property_content is Missing.Value or property_content is '':
+        #                     property_content = None
+        #                 
+        #                 properties_to_display.append({
+        #                                        'title': property_title,
+        #                                        'content': str(property_content),
+        #                                      })
 
         return properties_to_display
 
-    def colorconvert(self, color, opacity = 'FF'):
-        # color = '#123456'
-        r = color[1:3]
-        g = color[3:5]
-        b = color[5:]
-        return opacity + b + g + r
 
-document_template = NamedTemplateImplementation(
-    ViewPageTemplateFile('kml_document.pt')
-    )
-
+# document_template = NamedTemplateImplementation(
+#     ViewPageTemplateFile('kml_document.pt')
+#     )
 
 class Geometry(object):
-    
+
     implements(IGeoreferenced)
 
     def __init__(self, type, coordinates, style):
@@ -231,7 +213,7 @@ class BrainPlacemark(Placemark):
     @property
     def alternate_link(self):
         return '/'.join(
-            [self.request['BASE1']] 
+            [self.request['BASE1']]
             + self.request.physicalPathToVirtualPath(self.context.getPath())
             )
 

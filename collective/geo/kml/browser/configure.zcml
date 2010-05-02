@@ -4,101 +4,68 @@
   xmlns:browser="http://namespaces.zope.org/browser"
   i18n_domain="collective.geo.kml">
 
-  <browser:page
-    name="geokml-controlpanel"
-    for="*"
-    class=".controlpanel.GeoKmlControlpanel"
-    permission = "cmf.ManagePortal" />
-
-  <browser:resource
-    name="geokml.png"
-    file="geokml.png"
-  />
-
   <browser:resourceDirectory
-    name="geo.kml.javascripts"
-    directory="javascripts"
-  />
+      name="geo.kml.javascripts"
+      directory="javascripts"
+      />
+
+  <!-- <adapter
+      factory=".document.document_template"
+      for=".document.Document"
+      name="geo-kml-document"
+      /> -->
+
+  <!--  was ATBTreeFolder and ATFolder -->
+  <browser:page
+      for="Products.CMFCore.interfaces.IFolderish"
+      name="kml-document"
+      class=".document.Document"
+      layer = "..interfaces.IGeoKmlLayer"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      for="Products.ATContentTypes.interface.IATTopic"
+      name="kml-document"
+      layer = "..interfaces.IGeoKmlLayer"
+      class=".document.TopicDocument"
+      permission="zope2.View"
+      />
+
+  <!--  was ATTopic, ATFolder, ATBTreeFolder,  -->
+  <browser:page
+      name="kml-openlayers"
+      for="Products.CMFCore.interfaces.IFolderish"
+      class=".kmlopenlayersview.KmlOpenLayersView"
+      layer = "..interfaces.IGeoKmlLayer"
+      template = "kmlopenlayersview.pt"
+      permission = "zope2.View"
+      />
 
   <adapter
-    factory=".document.document_template"
-    for=".document.Document"
-    name="geo-kml-document"
-    />
+      for="..interfaces.IKMLOpenLayersView
+           zope.interface.Interface
+           zope.interface.Interface
+           zope.interface.Interface"
+      factory=".kmlopenlayersview.KMLMapLayers"
+      />
 
+  <include package="plone.app.contentmenu" />
 
-  <browser:page
-    for="Products.ATContentTypes.content.topic.ATTopic"
-    name="kml-document"
-    layer = "..interfaces.IGeoKmlLayer"
-    class=".document.TopicDocument"
-    permission="zope2.View"
-    />
-
-  <browser:page
-    for="Products.ATContentTypes.content.folder.ATBTreeFolder"
-    name="kml-document"
-    layer = "..interfaces.IGeoKmlLayer"
-    class=".document.Document"
-    permission="zope2.View"
-    />
+  <browser:menuItem
+      title="Kml Openlayers View"
+      for="Products.CMFCore.interfaces.IFolderish"
+      menu="plone_displayviews"
+      action="kml-openlayers"
+      description="Set Openlayers Kml as default view."
+      />
 
   <browser:page
-    for="Products.ATContentTypes.content.folder.ATFolder"
-    name="kml-document"
-    layer = "..interfaces.IGeoKmlLayer"
-    class=".document.Document"
-    permission="zope2.View"
-    />
+      name="kmldocument-macros"
+      for="*"
+      class=".kmldocument_macros.KmlDocumentMacros"
+      permission="zope2.View"
+      />
 
-    <browser:page
-        name="kml-openlayers"
-        for="Products.ATContentTypes.content.topic.ATTopic"
-        class=".kml_openlayers.KmlOpenLayers"
-        layer = "..interfaces.IGeoKmlLayer"
-        template = "kml_openlayers.pt"
-        permission = "zope2.View" />
-
-    <browser:page
-        name="kml-openlayers"
-        for="Products.ATContentTypes.content.folder.ATFolder"
-        class=".kml_openlayers.KmlOpenLayers"
-        layer = "..interfaces.IGeoKmlLayer"
-        template = "kml_openlayers.pt"
-        permission = "zope2.View" />
-
-
-    <browser:page
-        name="kml-openlayers"
-        for="Products.ATContentTypes.content.folder.ATBTreeFolder"
-        class=".kml_openlayers.KmlOpenLayers"
-        layer = "..interfaces.IGeoKmlLayer"
-        template = "kml_openlayers.pt"
-        permission = "zope2.View" />
-
-    <include package="plone.app.contentmenu" />
-    <browser:menuItem
-            title="Kml Openlayers View"
-            for="Products.ATContentTypes.interface.IATFolder"
-            menu="plone_displayviews"
-            action="kml-openlayers"
-            description="Set Openlayers Kml as default view."
-    />
-
-    <browser:menuItem
-            title="Kml Openlayers View"
-            for="Products.ATContentTypes.interface.IATTopic"
-            menu="plone_displayviews"
-            action="kml-openlayers"
-            description="Set Openlayers Kml as default view."
-    />
-
-    <browser:menuItem
-            title="Kml Openlayers View"
-            for="Products.ATContentTypes.interface.IATBTreeFolder"
-            menu="plone_displayviews"
-            action="kml-openlayers"
-            description="Set Openlayers Kml as default view."
-    />
 
 </configure>

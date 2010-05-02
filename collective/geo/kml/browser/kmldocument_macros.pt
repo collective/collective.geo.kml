@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="collective.geo.kml"
+      tal:omit-tag="">
+
+    <tal:comment>A macro to include all style declarations</tal:comment>
+    <metal:kmlstyle define-macro="kmlstyle">
+      <Style tal:attributes="id styleid | nothing">
+        <IconStyle tal:condition="python:pointmarkersize and pointmarker">
+          <scale tal:content="pointmarkersize">0.7</scale>
+         <Icon>
+          <href tal:content="pointmarker">http://.../marker.png</href>
+         </Icon>
+         <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction" />
+        </IconStyle>
+        <LineStyle tal:condition="python:linecolor and linewidth">
+         <color tal:content="linecolor">ff000000</color>
+         <width tal:content="linewidth">3.0</width>
+        </LineStyle>
+        <PolyStyle tal:condition="polygoncolor">
+          <color tal:content="polygoncolor">33ff0000</color>
+        </PolyStyle>
+      </Style>
+    </metal:kmlstyle>
+
+</kml>

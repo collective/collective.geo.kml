@@ -1,60 +1,55 @@
 <configure
-  xmlns="http://namespaces.zope.org/zope"
-  xmlns:five="http://namespaces.zope.org/five"
-  xmlns:i18n="http://namespaces.zope.org/i18n"
-  i18n_domain="collective.geo.kml">
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="collective.geo.kml">
 
-    <i18n:registerTranslations directory="locales" />
+  <i18n:registerTranslations directory="locales" />
 
-<!--    <include package="collective.geo.geographer"/> -->
-   <include package="plone.browserlayer" />
-   <include package="collective.geo.contentlocations" />
-   <include package="collective.z3cform.colorpicker" />
-   <include package="zgeo.kml"/>
+  <!--    <include package="collective.geo.geographer"/> -->
+  <include package="plone.browserlayer" />
+  <include package="collective.geo.contentlocations" />
+  <include package="collective.z3cform.colorpicker" />
+  <include package="zgeo.kml"/>
 
-   <include package=".browser"/>
-   <include file="profiles.zcml"/>
-
-  <five:implements
-    class="Products.CMFDefault.DublinCore.DefaultDublinCoreImpl"
-    interface="zope.dublincore.interfaces.ICMFDublinCore"
-    />
+  <include package=".browser"/>
+  <include file="profiles.zcml"/>
 
   <five:implements
-    class="Products.Archetypes.ExtensibleMetadata.ExtensibleMetadata"
-    interface="zope.dublincore.interfaces.ICMFDublinCore"
-    />
+      class="Products.CMFDefault.DublinCore.DefaultDublinCoreImpl"
+      interface="zope.dublincore.interfaces.ICMFDublinCore"
+      />
+
+  <five:implements
+      class="Products.Archetypes.ExtensibleMetadata.ExtensibleMetadata"
+      interface="zope.dublincore.interfaces.ICMFDublinCore"
+      />
 
   <adapter
-    factory="zgeo.kml.browser.Placemark"
-    for="Products.CMFCore.PortalContent.PortalContent
-         zope.publisher.interfaces.browser.IBrowserRequest"
-    provides="zgeo.kml.interfaces.IFeature"
-    />
+      factory="zgeo.kml.browser.Placemark"
+      for="Products.CMFCore.interfaces.IContentish
+           zope.publisher.interfaces.browser.IBrowserRequest"
+      provides="zgeo.kml.interfaces.IFeature"
+      />
 
   <adapter
-    factory="zgeo.kml.browser.Folder"
-    for="Products.CMFCore.interfaces.IFolderish
-         zope.publisher.interfaces.browser.IBrowserRequest"
-    provides="zgeo.kml.interfaces.IFeature"
-    />
+      factory="zgeo.kml.browser.Folder"
+      for="Products.CMFCore.interfaces.IFolderish
+           zope.publisher.interfaces.browser.IBrowserRequest"
+      provides="zgeo.kml.interfaces.IFeature"
+      />
 
- <utility
-    provides=".interfaces.IGeoKmlConfig"
-    factory=".geokmlconfig.GeoKmlConfig"
-    name="collective.geo.kmlconfig"
-    />
+  <!-- <adapter
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      provides=".interfaces.IGeoKmlSettings"
+      factory=".browser.controlpanel.geo_kml_settings"
+      /> -->
 
-  <adapter
-    for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-    provides=".interfaces.IGeoKmlSettings"
-    factory=".browser.controlpanel.geo_kml_settings"
-  />  
-
-  <adapter
-    for="Products.ATContentTypes.content.base.BaseContent"
-    provides=".interfaces.IGeoContentKmlSettings"
-    factory=".geokmlconfig.GeoContentKmlSettings"
-  />
+  <!-- this adapter is not contentspcific.  -->
+  <!-- <adapter
+      for="Products.CMFCore.interfaces.IContentish"
+      provides=".interfaces.IGeoContentKmlSettings"
+      factory=".browser.contentkmlsettings.geo_content_kml_settings"
+      /> -->
 
 </configure>

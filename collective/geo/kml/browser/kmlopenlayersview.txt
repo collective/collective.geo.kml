@@ -1,0 +1,95 @@
+collective.geo.kml openlayers
+=============================
+
+Overview
+--------
+kmlopenlayersview is a BrowserView showing an openlayers map for folderish content.
+The map will show all geo referenced objects in that folderish object.
+
+Tests
+-----
+we start the tests with the usual boilerplate
+    >>> from Products.Five.testbrowser import Browser
+    >>> browser = Browser()
+    >>> portal_url = self.portal.absolute_url()
+    >>> folder_url = self.folder.absolute_url()
+    >>> self.portal.error_log._ignored_exceptions = ()
+
+we log in for tests in user member area
+    >>> from Products.PloneTestCase.setup import portal_owner
+    >>> from Products.PloneTestCase.setup import default_password
+    >>> browser.addHeader('Authorization',
+    ...                   'Basic %s:%s' % (portal_owner, default_password))
+
+we can set kmlopenlayers view as default view for Folder
+    >>> browser.open(folder_url)
+    >>> browser.getLink('Kml Openlayers View').click()
+
+Check to see that the byline is visible,
+    >>> '<div class="documentByLine" id="plone-document-byline">' in browser.contents
+    True
+
+the description is visible,
+    >>> '<p class="documentDescription">' in browser.contents
+    True
+
+In this view we can see a div that contains the openlayers map
+    >>> '<div id="default-cgmap" class="widget-cgmap"' in browser.contents
+    True
+
+openlayers javascript,
+    >>> '<script type="text/javascript" src="%s/OpenLayers.js"></script>' % \
+    ...                             self.portal.absolute_url() in browser.contents
+    True
+
+Kml map layer javascript
+    >>> "function() { return new OpenLayers.Layer.GML('%s', '%s' + '@@kml-document'," % \
+    ...                                 (self.folder.Title(), browser.url) in browser.contents
+    True
+
+and 'Download KML' link
+    >>> browser.getLink('Download KML')
+    <Link text='Download KML' url='...@@kml-document'>
+
+We can also check to see if we're able to view the KML view without it being
+our default folder view.  First, we reset our view back a standard folder
+view.
+
+    >>> browser.open(folder_url)
+    >>> browser.getLink('Standard view').click()
+
+Now, we try and load the KML view without setting it as default
+
+    >>> browser.open(folder_url+'/kml-openlayers')
+
+Finally, we can see a div that contains the openlayers map
+    >>> '<div id="default-cgmap" class="widget-cgmap"' in browser.contents
+    True
+
+The openlayers view can be enabled also for Topic and for Large Plone Folder.
+We have a Topic in portal root for testing that
+    >>> topic_url = self.portal.test_topic.absolute_url()
+    >>> browser.open(topic_url)
+    >>> browser.getLink('Kml Openlayers View').click()
+
+Check to make sure the map div appears fine
+    >>> '<div id="default-cgmap" class="widget-cgmap"' in browser.contents
+    True
+
+Now, add some body text to the Topic to check it appears on the KML OpenLayers
+view.
+
+    >>> text = 'Example description'
+    >>> self.portal.test_topic.setText(text)
+
+Reload the view and check to make sure we can see the description and the map
+    >>> browser.getLink('View').click()
+    >>> text in browser.contents
+    True
+    >>> '<div id="default-cgmap" class="widget-cgmap"' in browser.contents
+    True
+
+Now we run the same test with a Large Plone Folder in portal root
+    >>> largefolder_url = self.portal.test_largefolder.absolute_url()
+    >>> browser.open(largefolder_url)
+    >>> browser.getLink('Kml Openlayers View').click()

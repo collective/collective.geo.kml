@@ -35,56 +35,55 @@ Test the KML document view
     200
     >>> r.getHeader('Content-Type')
     'application/vnd.google-earth.kml+xml;charset=utf-8'
+
     >>> print r.getBody()
-        <?xml version="1.0" encoding="utf-8"?>
-    <kml xmlns="http://www.opengis.net/kml/2.2">
+    <?xml version="1.0" encoding="utf-8"?>
+    <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
     <BLANKLINE>
       <Document>
         <Style id="defaultStyle">
           <IconStyle>
             <scale>0.7</scale>
-            <Icon>
-                <href>http://localhost/plone/img/marker.png</href>
-            </Icon>
-            <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+           <Icon>
+            <href>http://localhost/plone/img/marker.png</href>
+           </Icon>
+           <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
           </IconStyle>
           <LineStyle>
-            <color>FF0000FF</color>
-            <width>2.0</width>
+           <color>FF0000ff</color>
+           <width>2.0</width>
           </LineStyle>
           <PolyStyle>
-            <color>3C0000FF</color>
+            <color>FF0000ff</color>
           </PolyStyle>
         </Style>
+    <BLANKLINE>
         <name>Large</name>
         <visibility>1</visibility>
         <open>0</open>
     <BLANKLINE>
     <BLANKLINE>
     <BLANKLINE>
+    <BLANKLINE>
           <Placemark>
             <name>
-            <![CDATA[
-             <a href="http://localhost/plone/Members/test_user_1_/large/doc">A Document</a> 
-            ]]>
+              <![CDATA[
+              <a href="http://localhost/plone/Members/test_user_1_/large/doc">A Document</a> 
+              ]]>
             </name>
+            <atom:author>
+              <atom:name>test_user_1_</atom:name>
+            </atom:author>
+            <atom:link href="http://localhost/plone/Members/test_user_1_/large/doc"/>
             <description> 
-            <![CDATA[
+              <![CDATA[
               <div>
     <BLANKLINE>
-                <p>A test document</p>
-                <dl>
-    <BLANKLINE>
-                  <dt>ID</dt>
-                  <dd>doc</dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                  <dt>Type</dt>
-                  <dd>Page</dd>
-    <BLANKLINE>
-                </dl>
+              <p>A test document</p>
+              <dl>
+              </dl>
               </div>
-            ]]>
+              ]]>
             </description>
     <BLANKLINE>
             <styleUrl>#defaultStyle</styleUrl>

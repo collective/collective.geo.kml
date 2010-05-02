@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <componentregistry>
-    <utilities>
+    <!-- <utilities>
      <utility
         factory="collective.geo.kml.geokmlconfig.GeoKmlSettings"
         id="geo_content_settings"
@@ -9,5 +9,5 @@
         factory="collective.geo.kml.geokmlconfig.GeoContentKmlSettings"
         id="geo_content_kml_settings"
         interface="collective.geo.kml.interfaces.IGeoContentKmlSettings" />
-    </utilities>
+    </utilities> -->
 </componentregistry>

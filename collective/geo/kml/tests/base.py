@@ -19,9 +19,6 @@ def setup_product():
 
     fiveconfigure.debug_mode = False
 
-    #ztc.installPackage('collective.geo.kml')
-    #ztc.installPackage('zgeo.plone.kml')
-
 setup_product()
 ptc.setupPloneSite(products=['collective.geo.kml'])
 
@@ -37,12 +34,12 @@ ptc.setupPloneSite(products=['collective.geo.kml'])
 #setup_plone_kml()
 #ptc.setupPloneSite(products=['collective.geo.kml',])
 
-class CollectiveGeoKMLTestCase(ptc.PloneTestCase):
+class TestCase(ptc.PloneTestCase):
     """We use this base class for all the tests in this package. If necessary,
     we can put common utility or setup code in here.
     """
 
-class CollectiveGeoKMLFunctionalTestCase(ptc.FunctionalTestCase):
+class FunctionalTestCase(ptc.FunctionalTestCase):
     """We use this base class for all the tests in this package. If necessary,
     we can put common utility or setup code in here.
     """

@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <metadata>
-  <version>1.0</version>
+  <version>0.2dev</version>
   <dependencies>
-    <dependency>profile-collective.geo.contentlocations:default</dependency>
-  </dependencies>  
+    <dependency>profile-collective.geo.settings:default</dependency>
+    <dependency>profile-collective.geo.geographer:default</dependency>
+  </dependencies>
 </metadata>
