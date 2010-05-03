@@ -124,7 +124,7 @@ we can change some properties of kml document with IGeoKmlSettings utility
     <BLANKLINE>
     <BLANKLINE>
                         <dt>Creation Date</dt>
-                        <dd>Jan 01, 2010 08:00 AM</dd>
+                        <dd>Jan 01, 2010 ...</dd>
     <BLANKLINE>
     <BLANKLINE>
                         <dt>Contributors</dt>
