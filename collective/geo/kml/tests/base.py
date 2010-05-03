@@ -31,9 +31,9 @@ class CustomStyleManager(object):
 
    geostyles = {
      'use_custom_styles': True,
-     'linecolor': u'#FEDCBA',
+     'linecolor': u'FEDCBA3C',
      'linewidth': 2.0,
-     'polygoncolor': u'#FEDCBA',
+     'polygoncolor': u'FEDCBA3C',
      'marker_image': u'img/marker.png',
      'marker_image_size': 1.0,
      'display_properties': ['Type', 'EffectiveDate', 'ModificationDate'],

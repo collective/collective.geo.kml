@@ -49,11 +49,11 @@ Test the KML document view
                <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
               </IconStyle>
               <LineStyle>
-               <color>3C0000ff</color>
+               <color>3c0000ff</color>
                <width>2.0</width>
               </LineStyle>
               <PolyStyle>
-                <color>3C0000ff</color>
+                <color>3c0000ff</color>
               </PolyStyle>
             </Style>
     ...

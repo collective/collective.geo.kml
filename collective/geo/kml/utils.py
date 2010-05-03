@@ -1,4 +1,4 @@
-def web2kmlcolor(color, opacity = '3C'):
+def web2kmlcolor(color, opacity = '3c'):
     """This function convert a web exadecimal color in a kml color
        color = rrggbb or rrggbbaa
     """

@@ -52,11 +52,11 @@ Folder that contain our document have a kml-document view provided by zgeo.plone
                <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
               </IconStyle>
               <LineStyle>
-               <color>3C0000ff</color>
+               <color>3c0000ff</color>
                <width>2.0</width>
               </LineStyle>
               <PolyStyle>
-                <color>3C0000ff</color>
+                <color>3c0000ff</color>
               </PolyStyle>
             </Style>
     ...
@@ -93,9 +93,9 @@ we can change some properties of kml document with IGeoKmlSettings utility
     >>> registry = getUtility(IRegistry)
     >>> from collective.geo.settings.interfaces import IGeoFeatureStyle
     >>> settings = registry.forInterface(IGeoFeatureStyle)
-    >>> settings.linecolor = u'#33DD22'
+    >>> settings.linecolor = u'33DD223C'
     >>> settings.linewidth = 3.0
-    >>> settings.polygoncolor = u'#FFBD00'
+    >>> settings.polygoncolor = u'FFBD003C'
     >>> settings.marker_image = u'img/marker-blue.png'
     >>> settings.marker_image_size = 1.0
     >>> settings.display_properties = ['listCreators', 'Type', 'Subject',
@@ -154,7 +154,7 @@ see:
         2.0
 
         >>> custom_styles.geostyles.get('polygoncolor')
-        u'#FEDCBA'
+        u'FEDCBA3C'
 
 Now that we're using a custom style, we should see that reflected in our KML
 document view.
