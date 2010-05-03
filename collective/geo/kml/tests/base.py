@@ -1,8 +1,6 @@
 from Products.Five import zcml
 from Products.Five import fiveconfigure
 
-from Testing import ZopeTestCase as ztc
-
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import onsetup
 from Products.CMFPlone.utils import _createObjectByType
@@ -23,16 +21,29 @@ setup_product()
 ptc.setupPloneSite(products=['collective.geo.kml'])
 
 
-#@onsetup
-#def setup_plone_kml():
-    
-    #fiveconfigure.debug_mode = True
-    #import collective.geo.kml
-    #zcml.load_config('configure.zcml', collective.geo.kml)
-    #fiveconfigure.debug_mode = False
+from collective.geo.settings.interfaces import IGeoCustomFeatureStyle
+from Products.CMFCore.PortalContent import PortalContent
+from zope.interface import implements
+from zope.component import provideAdapter
 
-#setup_plone_kml()
-#ptc.setupPloneSite(products=['collective.geo.kml',])
+class CustomStyleManager(object):
+   implements(IGeoCustomFeatureStyle)
+
+   geostyles = {
+     'use_custom_styles': True,
+     'linecolor': u'#FEDCBA',
+     'linewidth': 2.0,
+     'polygoncolor': u'#FEDCBA',
+     'marker_image': u'img/marker.png',
+     'marker_image_size': 1.0,
+     'display_properties': ['Type', 'EffectiveDate', 'ModificationDate'],
+    }
+
+   def __init__(self, context):
+       pass
+
+
+
 
 class TestCase(ptc.PloneTestCase):
     """We use this base class for all the tests in this package. If necessary,
@@ -60,3 +71,23 @@ class FunctionalTestCase(ptc.FunctionalTestCase):
         _createObjectByType("Topic", self.portal, 'test_topic')
         _createObjectByType("Large Plone Folder", self.portal, 'test_largefolder')
 
+
+class CustomStylesFunctionalTestCase(FunctionalTestCase):
+    """We use this base class for all the tests in this package. If necessary,
+    we can put common utility or setup code in here.
+    """
+
+    def afterSetUp(self):
+        super(CustomStylesFunctionalTestCase, self).afterSetUp()
+        # register adapter for custom styles
+
+    def tearDown(self):
+        # unregister the previous adapter
+        from zope.component import getGlobalSiteManager
+        gsm = getGlobalSiteManager()
+        gsm.unregisterAdapter(CustomStyleManager, (PortalContent,), IGeoCustomFeatureStyle)
+            # IGeoFeatureStyle(document)
+            #             Traceback (most recent call last):
+            #             ...
+            #             TypeError: ('Could not adapt',...)
+     

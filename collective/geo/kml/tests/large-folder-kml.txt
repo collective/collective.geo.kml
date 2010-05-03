@@ -39,64 +39,47 @@ Test the KML document view
     >>> print r.getBody()
     <?xml version="1.0" encoding="utf-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
-    <BLANKLINE>
-      <Document>
-        <Style id="defaultStyle">
-          <IconStyle>
-            <scale>0.7</scale>
-           <Icon>
-            <href>http://localhost/plone/img/marker.png</href>
-           </Icon>
-           <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
-          </IconStyle>
-          <LineStyle>
-           <color>FF0000ff</color>
-           <width>2.0</width>
-          </LineStyle>
-          <PolyStyle>
-            <color>FF0000ff</color>
-          </PolyStyle>
-        </Style>
-    <BLANKLINE>
-        <name>Large</name>
-        <visibility>1</visibility>
-        <open>0</open>
-    <BLANKLINE>
-    <BLANKLINE>
-    <BLANKLINE>
-    <BLANKLINE>
+    ...
+            <Style id="defaultStyle">
+              <IconStyle>
+                <scale>0.7</scale>
+               <Icon>
+                <href>http://localhost/plone/img/marker.png</href>
+               </Icon>
+               <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+              </IconStyle>
+              <LineStyle>
+               <color>3C0000ff</color>
+               <width>2.0</width>
+              </LineStyle>
+              <PolyStyle>
+                <color>3C0000ff</color>
+              </PolyStyle>
+            </Style>
+    ...
           <Placemark>
-            <name>
-              <![CDATA[
-              <a href="http://localhost/plone/Members/test_user_1_/large/doc">A Document</a> 
-              ]]>
-            </name>
+            <name>A Document</name>
             <atom:author>
-              <atom:name>test_user_1_</atom:name>
+               <atom:name>test_user_1_</atom:name>
             </atom:author>
             <atom:link href="http://localhost/plone/Members/test_user_1_/large/doc"/>
-            <description> 
-              <![CDATA[
-              <div>
-    <BLANKLINE>
-              <p>A test document</p>
-              <dl>
-              </dl>
-              </div>
-              ]]>
-            </description>
-    <BLANKLINE>
-            <styleUrl>#defaultStyle</styleUrl>
+    ...
+                <p>A test document</p>
+    ...
+                        <dt>Title</dt>
+                        <dd>A Document</dd>
     <BLANKLINE>
     <BLANKLINE>
-            <Point>
+                        <dt>Description</dt>
+                        <dd>A test document</dd>
+    ...
+                <p class="placemark-url">
+                    <a href="http://localhost/plone/Members/test_user_1_/large/doc">See the original resource</a>
+                </p>
+    ...
+                <styleUrl>#defaultStyle</styleUrl>
+    ...
               <coordinates>-105.000000,40.000000,0.0</coordinates>
             </Point>
-    <BLANKLINE>
-    <BLANKLINE>
-          </Placemark>
-    <BLANKLINE>
-      </Document>
+    ...
     </kml>
-    <BLANKLINE>
-

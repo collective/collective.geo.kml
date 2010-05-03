@@ -9,12 +9,12 @@ Some kml properties can be set at site level.
 
 Test
 ----
-We have a generic Document and set some geographical data with IGeoManager from collective.geo.contentlocations package
+We have a generic Document and set some geographical data with zgeo.gographer package
 
     >>> document = self.folder['test-document']
-    >>> from collective.geo.contentlocations.interfaces import IGeoManager
-    >>> geo = IGeoManager(document)
-    >>> geo.setCoordinates('Point', (45, 7))
+    >>> from zgeo.geographer.interfaces import IWriteGeoreferenced
+    >>> geo = IWriteGeoreferenced(document)
+    >>> geo.setGeoInterface('Point', (-100, 40))
 
 Set some extra metadata on the document so we can check for those
 
@@ -41,529 +41,191 @@ Folder that contain our document have a kml-document view provided by zgeo.plone
     ... """ % (portal_owner, default_password), handle_errors=False)
     >>> print r.getBody()
     <?xml version="1.0" encoding="utf-8"?>
-    <kml xmlns="http://www.opengis.net/kml/2.2">
-    <BLANKLINE>
-      <Document>
-        <Style id="defaultStyle">
-          <IconStyle>
-            <scale>0.7</scale>
-            <Icon>
+    <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+    ...
+            <Style id="defaultStyle">
+              <IconStyle>
+                <scale>0.7</scale>
+               <Icon>
                 <href>http://localhost/plone/img/marker.png</href>
-            </Icon>
-            <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
-          </IconStyle>
-          <LineStyle>
-            <color>FF0000FF</color>
-            <width>2.0</width>
-          </LineStyle>
-          <PolyStyle>
-            <color>3C0000FF</color>
-          </PolyStyle>
-        </Style>
-        <name></name>
-        <visibility>1</visibility>
-        <open>0</open>
-    <BLANKLINE>
-    <BLANKLINE>
-    <BLANKLINE>
+               </Icon>
+               <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+              </IconStyle>
+              <LineStyle>
+               <color>3C0000ff</color>
+               <width>2.0</width>
+              </LineStyle>
+              <PolyStyle>
+                <color>3C0000ff</color>
+              </PolyStyle>
+            </Style>
+    ...
           <Placemark>
-            <name>
-            <![CDATA[
-             <a href="http://localhost/plone/Members/test_user_1_/test-document">Test document</a> 
-            ]]>
-            </name>
-          <description>
-            <![CDATA[
-              <div>
-    <BLANKLINE>
+            <name>Test document</name>
+            <atom:author>
+               <atom:name>David</atom:name>
+            </atom:author>
+            <atom:link href="http://localhost/plone/Members/test_user_1_/test-document"/>
+    ...
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend</p>
-                <dl>
-    <BLANKLINE>
-                  <dt>ID</dt>
-                  <dd>test-document</dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                  <dt>Type</dt>
-                  <dd>Page</dd>
-    <BLANKLINE>
-                </dl>
-              </div>
-            ]]>
-            </description>
-    <BLANKLINE>
-            <styleUrl>#defaultStyle</styleUrl>
+    ...
+                        <dt>Title</dt>
+                        <dd>Test document</dd>
     <BLANKLINE>
     <BLANKLINE>
-            <Point>
-              <coordinates>45.000000,7.000000,0.0</coordinates>
+                        <dt>Description</dt>
+                        <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend</dd>
+    ...
+                <p class="placemark-url">
+                    <a href="http://localhost/plone/Members/test_user_1_/test-document">See the original resource</a>
+                </p>
+    ...
+                <styleUrl>#defaultStyle</styleUrl>
+    ...
+              <coordinates>-100.000000,40.000000,0.0</coordinates>
             </Point>
-    <BLANKLINE>
-    <BLANKLINE>
-        </Placemark>
-    <BLANKLINE>
-      </Document>
+    ...
     </kml>
-    <BLANKLINE>
 
 we can change some properties of kml document with IGeoKmlSettings utility
     >>> from zope.component import getUtility
-    >>> from collective.geo.kml.interfaces import IGeoKmlSettings
-    >>> settings = getUtility(IGeoKmlSettings)
-    >>> settings.linecolor = '#33DD22'
+    >>> from plone.registry.interfaces import IRegistry
+    >>> registry = getUtility(IRegistry)
+    >>> from collective.geo.settings.interfaces import IGeoFeatureStyle
+    >>> settings = registry.forInterface(IGeoFeatureStyle)
+    >>> settings.linecolor = u'#33DD22'
     >>> settings.linewidth = 3.0
-    >>> settings.polygoncolor = '#FFBD00'
-    >>> settings.marker_image = 'img/marker-blue.png'
+    >>> settings.polygoncolor = u'#FFBD00'
+    >>> settings.marker_image = u'img/marker-blue.png'
     >>> settings.marker_image_size = 1.0
     >>> settings.display_properties = ['listCreators', 'Type', 'Subject',
-    ... 'ExpirationDate', 'Contributors', 'Rights']
+    ...                                'CreationDate', 'Contributors', 'getLocation']
+
     >>> r = http(r"""
     ... GET /plone/Members/test_user_1_/@@kml-document HTTP/1.1
     ... Authorization: Basic %s:%s
     ... """ % (portal_owner, default_password), handle_errors=False)
     >>> print r.getBody()
-        <?xml version="1.0" encoding="utf-8"?>
-    <kml xmlns="http://www.opengis.net/kml/2.2">
+    <?xml version="1.0" encoding="utf-8"?>
+    <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+    ...
+                    <dl class="placemark-properties">
     <BLANKLINE>
-      <Document>
-        <Style id="defaultStyle">
-          <IconStyle>
-            <scale>1.0</scale>
-            <Icon>
-                <href>http://localhost/plone/img/marker-blue.png</href>
-            </Icon>
-            <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
-          </IconStyle>
-          <LineStyle>
-            <color>FF22DD33</color>
-            <width>3.0</width>
-          </LineStyle>
-          <PolyStyle>
-            <color>3C00BDFF</color>
-          </PolyStyle>
-        </Style>
-        <name></name>
-        <visibility>1</visibility>
-        <open>0</open>
+                        <dt>Creators</dt>
+                        <dd>David John Bob</dd>
     <BLANKLINE>
     <BLANKLINE>
-    <BLANKLINE>
-          <Placemark>
-            <name>
-            <![CDATA[
-             <a href="http://localhost/plone/Members/test_user_1_/test-document">Test document</a> 
-            ]]>
-            </name>
-            <description> 
-            <![CDATA[
-              <div>
-    <BLANKLINE>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend</p>
-                <dl>
-    <BLANKLINE>
-                  <dt>Creators</dt>
-                  <dd>David, John, Bob</dd>
+                        <dt>Type</dt>
+                        <dd>Page</dd>
     <BLANKLINE>
     <BLANKLINE>
-                  <dt>Type</dt>
-                  <dd>Page</dd>
+                        <dt>Subject</dt>
+                        <dd>Mapping Geography Google</dd>
     <BLANKLINE>
     <BLANKLINE>
-                  <dt>Subject</dt>
-                  <dd>Mapping, Geography, Google</dd>
+                        <dt>Creation Date</dt>
+                        <dd>Jan 01, 2010 08:00 AM</dd>
     <BLANKLINE>
     <BLANKLINE>
-                  <dt>Expiration Date</dt>
-                  <dd>None</dd>
+                        <dt>Contributors</dt>
+                        <dd></dd>
     <BLANKLINE>
     <BLANKLINE>
-                  <dt>Contributors</dt>
-                  <dd>None</dd>
+                        <dt>Content Location</dt>
+                        <dd>Somewhere on Earth</dd>
     <BLANKLINE>
-    <BLANKLINE>
-                  <dt>Rights Statement</dt>
-                  <dd>Some sort of copyright notice</dd>
-    <BLANKLINE>
-                </dl>
-              </div>
-            ]]>
-            </description>
-    <BLANKLINE>
-            <styleUrl>#defaultStyle</styleUrl>
-    <BLANKLINE>
-    <BLANKLINE>
-            <Point>
-              <coordinates>45.000000,7.000000,0.0</coordinates>
-            </Point>
-    <BLANKLINE>
-    <BLANKLINE>
-          </Placemark>
-    <BLANKLINE>
-      </Document>
+                    </dl>
+    ...
     </kml>
-    <BLANKLINE>
 
 
-We can also change properties on a per-document basis with the IGeoContentKmlSettings utility
-    >>> from collective.geo.kml.geokmlconfig import GeoContentKmlSettings
-    >>> kml_settings = GeoContentKmlSettings(document)
-    >>> kml_settings.siteconfig
-    <collective.geo.kml.geokmlconfig.GeoKmlSettings object at ...>
-    >>> kml_settings.initialiseStyles(document)
+We can also change properties on a per-document registering a proper adapter to annotate the setting in a content type
+see: 
+ collective.geo.contentlocations.geostylemanager
+ collective.geo.kml.tests.base
 
-We can obtain a given KML property by the 'get' method.
-These will just be the the default values at present.
-    >>> styles = kml_settings.getStyles(document)
-    >>> styles['use_custom_style']
-    False
-    >>> styles['marker_image']
-    u'img/marker.png'
+        >>> from collective.geo.settings.interfaces import IGeoCustomFeatureStyle
+        >>> from Products.CMFCore.PortalContent import PortalContent
+        >>> from zope.component import provideAdapter
+        >>> from collective.geo.kml.tests.base import CustomStyleManager
+        >>> provideAdapter(CustomStyleManager, (PortalContent,), IGeoCustomFeatureStyle)
+        >>> custom_styles = IGeoFeatureStyle(document)
+        >>> custom_styles.geostyles.get('linewidth')
+        2.0
 
-We typically use the 'get' method to access our properties
-    >>> kml_settings.get('use_custom_style')
-    False
-    >>> kml_settings.get('linewidth')
-    2.0
-
-We can configure settings through GeoContentKmlSettings using 'set'
-
-    >>> kml_settings.set('linecolor', '#ABCDEF')
-    >>> kml_settings.get('linecolor')
-    '#ABCDEF'
-
-    >>> kml_settings.set('linewidth', 1.0)
-    >>> kml_settings.get('linewidth')
-    1.0
-
-    >>> kml_settings.set('polygoncolor', '#FEDCBA')
-    >>> kml_settings.get('polygoncolor')
-    '#FEDCBA'
-
-    >>> kml_settings.set('marker_image', 'marker-blue.png')
-    >>> kml_settings.get('marker_image')
-    'marker-blue.png'
-
-    >>> kml_settings.set('marker_image_size', 1.0)
-    >>> kml_settings.get('marker_image_size')
-    1.0
-
-Set some custom display properties to watch the change.
-
-    >>> kml_settings.set('display_properties', ['getLocation', 'Type', 'EffectiveDate', 'ModificationDate'])
-    >>> kml_settings.get('display_properties')
-    ['getLocation', 'Type', 'EffectiveDate', 'ModificationDate']
-
-Make sure we're using the custom styles, or else we won't see anything
-different.
-
-    >>> kml_settings.set('use_custom_style', True)
-    >>> kml_settings.get('use_custom_style')
-    True
+        >>> custom_styles.geostyles.get('polygoncolor')
+        u'#FEDCBA'
 
 Now that we're using a custom style, we should see that reflected in our KML
-document view.  The styleUrl tag disappears and we see the custom style
-instead.  Note the defaultStyle identifier is still present as this can be
-used by other non-customised placemarks.
-
+document view.
     >>> r = http(r"""
     ... GET /plone/Members/test_user_1_/@@kml-document HTTP/1.1
     ... Authorization: Basic %s:%s
     ... """ % (portal_owner, default_password), handle_errors=False)
     >>> print r.getBody()
-        <?xml version="1.0" encoding="utf-8"?>
-    <kml xmlns="http://www.opengis.net/kml/2.2">
-    <BLANKLINE>
-      <Document>
-        <Style id="defaultStyle">
-          <IconStyle>
-            <scale>1.0</scale>
-            <Icon>
-                <href>http://localhost/plone/img/marker-blue.png</href>
-            </Icon>
-            <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
-          </IconStyle>
-          <LineStyle>
-            <color>FF22DD33</color>
-            <width>3.0</width>
-          </LineStyle>
-          <PolyStyle>
-            <color>3C00BDFF</color>
-          </PolyStyle>
-        </Style>
-        <name></name>
-        <visibility>1</visibility>
-        <open>0</open>
-    <BLANKLINE>
-    <BLANKLINE>
-    <BLANKLINE>
-          <Placemark>
-            <name>
-            <![CDATA[
-             <a href="http://localhost/plone/Members/test_user_1_/test-document">Test document</a> 
-            ]]>
-            </name>
-            <description> 
-            <![CDATA[
-              <div>
-    <BLANKLINE>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend</p>
-                <dl>
-    <BLANKLINE>
-                  <dt>Content Location</dt>
-                  <dd>Somewhere on Earth</dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                  <dt>Type</dt>
-                  <dd>Page</dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                  <dt>Effective Date</dt>
-                  <dd>2010-01-01 09:00:00</dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                  <dt>Last Modified Date</dt>
-                  <dd>2010-01-01 09:00:00</dd>
-    <BLANKLINE>
-                </dl>
-              </div>
-            ]]>
-            </description>
-    <BLANKLINE>
-    <BLANKLINE>
-            <Style>
-              <IconStyle>
-                  <scale>1.0</scale>
-                  <Icon>
-                    <href>marker-blue.png</href>
-                  </Icon>
-                  <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
-              </IconStyle>
-    <BLANKLINE>
-    <BLANKLINE>
-            </Style>
-    <BLANKLINE>
-            <Point>
-              <coordinates>45.000000,7.000000,0.0</coordinates>
-            </Point>
-    <BLANKLINE>
-    <BLANKLINE>
-          </Placemark>
-    <BLANKLINE>
-      </Document>
+    <?xml version="1.0" encoding="utf-8"?>
+    <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+    ...
+    <Style>
+      <IconStyle>
+        <scale>1.0</scale>
+       <Icon>
+        <href>http://localhost/plone/img/marker.png</href>
+       </Icon>
+       <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+      </IconStyle>
+    ...
+    <Point>
+      <coordinates>-100.000000,40.000000,0.0</coordinates>
+    </Point>
+    ...
     </kml>
-    <BLANKLINE>
 
 Let's try a LineString instead to see it's custom styles
 
->>> geo.setCoordinates('LineString', ((0.111,0.222),) )
-
-Set the dates for the content (again) so they are consistent and can be tested
-
-    >>> import DateTime
-    >>> testDate = DateTime.DateTime('2010/01/01 09:00:00.000 '+DateTime.DateTime().timezone())
-    >>> document.setCreationDate(testDate)
-    >>> document.setEffectiveDate(testDate)
-    >>> document.setModificationDate(testDate)
-    >>> document.indexObject()
+    >>> geo.setGeoInterface('LineString', ((0.111,0.222),) )
 
 We can check the output now that we're using a custom-styled LineString
-
     >>> r = http(r"""
     ... GET /plone/Members/test_user_1_/@@kml-document HTTP/1.1
     ... Authorization: Basic %s:%s
     ... """ % (portal_owner, default_password), handle_errors=False)
     >>> print r.getBody()
-        <?xml version="1.0" encoding="utf-8"?>
-    <kml xmlns="http://www.opengis.net/kml/2.2">
-    <BLANKLINE>
-      <Document>
-        <Style id="defaultStyle">
-          <IconStyle>
-            <scale>1.0</scale>
-            <Icon>
-                <href>http://localhost/plone/img/marker-blue.png</href>
-            </Icon>
-            <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
-          </IconStyle>
-          <LineStyle>
-            <color>FF22DD33</color>
-            <width>3.0</width>
-          </LineStyle>
-          <PolyStyle>
-            <color>3C00BDFF</color>
-          </PolyStyle>
-        </Style>
-        <name></name>
-        <visibility>1</visibility>
-        <open>0</open>
-    <BLANKLINE>
-    <BLANKLINE>
-    <BLANKLINE>
-          <Placemark>
-            <name>
-            <![CDATA[
-             <a href="http://localhost/plone/Members/test_user_1_/test-document">Test document</a> 
-            ]]>
-            </name>
-            <description> 
-            <![CDATA[
-              <div>
-    <BLANKLINE>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend</p>
-                <dl>
-    <BLANKLINE>
-                  <dt>Content Location</dt>
-                  <dd>Somewhere on Earth</dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                  <dt>Type</dt>
-                  <dd>Page</dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                  <dt>Effective Date</dt>
-                  <dd>2010-01-01 09:00:00</dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                  <dt>Last Modified Date</dt>
-                  <dd>2010-01-01 09:00:00</dd>
-    <BLANKLINE>
-                </dl>
-              </div>
-            ]]>
-            </description>
-    <BLANKLINE>
-    <BLANKLINE>
-            <Style>
-              <IconStyle>
-                  <scale>1.0</scale>
-                  <Icon>
-                    <href>marker-blue.png</href>
-                  </Icon>
-                  <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
-              </IconStyle>
-              <LineStyle>
-                  <color>FFEFCDAB</color>
-                  <width>1.0</width>
-              </LineStyle>
-    <BLANKLINE>
-            </Style>
-    <BLANKLINE>
-    <BLANKLINE>
-            <LineString>
-              <coordinates>0.111000,0.222000,0.0</coordinates>
-            </LineString>
-    <BLANKLINE>
-          </Placemark>
-    <BLANKLINE>
-      </Document>
+    <?xml version="1.0" encoding="utf-8"?>
+    <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+    ...
+    <LineStyle>
+     <color>3CBADCFE</color>
+     <width>2.0</width>
+    </LineStyle>
+    ...
+    <LineString>
+      <coordinates>0.111000,0.222000,0.0</coordinates>
+    </LineString>
+    ...
     </kml>
-    <BLANKLINE>
-
 
 Finally, let's try a Polygon to see it's custom styles
 
->>> geo.setCoordinates('Polygon', (((0.111,0.222),(0.222,0.222),(0.222,0.111),(0.111,0.111)),) )
-
-Set the dates for the content (again) so they are consistent and can be tested
-
-    >>> import DateTime
-    >>> testDate = DateTime.DateTime('2010/01/01 09:00:00.000 '+DateTime.DateTime().timezone())
-    >>> document.setCreationDate(testDate)
-    >>> document.setEffectiveDate(testDate)
-    >>> document.setModificationDate(testDate)
-    >>> document.indexObject()
-
-We can check the output now that we're using a custom-styled LineString
-
+    >>> geo.setGeoInterface('Polygon', (((0.111,0.222),(0.222,0.222),(0.222,0.111),(0.111,0.111)),) )
     >>> r = http(r"""
     ... GET /plone/Members/test_user_1_/@@kml-document HTTP/1.1
     ... Authorization: Basic %s:%s
     ... """ % (portal_owner, default_password), handle_errors=False)
     >>> print r.getBody()
-        <?xml version="1.0" encoding="utf-8"?>
-    <kml xmlns="http://www.opengis.net/kml/2.2">
-    <BLANKLINE>
-      <Document>
-        <Style id="defaultStyle">
-          <IconStyle>
-            <scale>1.0</scale>
-            <Icon>
-                <href>http://localhost/plone/img/marker-blue.png</href>
-            </Icon>
-            <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
-          </IconStyle>
-          <LineStyle>
-            <color>FF22DD33</color>
-            <width>3.0</width>
-          </LineStyle>
-          <PolyStyle>
-            <color>3C00BDFF</color>
-          </PolyStyle>
-        </Style>
-        <name></name>
-        <visibility>1</visibility>
-        <open>0</open>
-    <BLANKLINE>
-    <BLANKLINE>
-    <BLANKLINE>
-          <Placemark>
-            <name>
-            <![CDATA[
-             <a href="http://localhost/plone/Members/test_user_1_/test-document">Test document</a> 
-            ]]>
-            </name>
-            <description> 
-            <![CDATA[
-              <div>
-    <BLANKLINE>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend</p>
-                <dl>
-    <BLANKLINE>
-                  <dt>Content Location</dt>
-                  <dd>Somewhere on Earth</dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                  <dt>Type</dt>
-                  <dd>Page</dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                  <dt>Effective Date</dt>
-                  <dd>2010-01-01 09:00:00</dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                  <dt>Last Modified Date</dt>
-                  <dd>2010-01-01 09:00:00</dd>
-    <BLANKLINE>
-                </dl>
-              </div>
-            ]]>
-            </description>
-    <BLANKLINE>
-    <BLANKLINE>
-            <Style>
-              <IconStyle>
-                  <scale>1.0</scale>
-                  <Icon>
-                    <href>marker-blue.png</href>
-                  </Icon>
-                  <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
-              </IconStyle>
-    <BLANKLINE>
-              <PolyStyle>
-                  <color>FFBADCFE</color>
-              </PolyStyle>
-            </Style>
-    <BLANKLINE>
-    <BLANKLINE>
-    <BLANKLINE>
-            <Polygon>
-              <outerBoundaryIs>
-                <LinearRing>
-                  <coordinates>0.111000,0.222000,0.0 0.222000,0.222000,0.0 0.222000,0.111000,0.0 0.111000,0.111000,0.0</coordinates>
-                </LinearRing>
-              </outerBoundaryIs>
-            </Polygon>
-          </Placemark>
-    <BLANKLINE>
-      </Document>
+    <?xml version="1.0" encoding="utf-8"?>
+    <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+    ...
+      <PolyStyle>
+        <color>3CBADCFE</color>
+      </PolyStyle>
+    ...
+    <Polygon>
+    <outerBoundaryIs>
+      <LinearRing>
+        <coordinates>0.111000,0.222000,0.0 0.222000,0.222000,0.0 0.222000,0.111000,0.0 0.111000,0.111000,0.0</coordinates>
+      </LinearRing>
+    </outerBoundaryIs>
+    </Polygon>
+    ...
     </kml>
-    <BLANKLINE>

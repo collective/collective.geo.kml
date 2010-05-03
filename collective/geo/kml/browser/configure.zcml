@@ -9,12 +9,6 @@
       directory="javascripts"
       />
 
-  <!-- <adapter
-      factory=".document.document_template"
-      for=".document.Document"
-      name="geo-kml-document"
-      /> -->
-
   <!--  was ATBTreeFolder and ATFolder -->
   <browser:page
       for="Products.CMFCore.interfaces.IFolderish"

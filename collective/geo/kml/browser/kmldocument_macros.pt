@@ -7,7 +7,7 @@
      i18n:domain="collective.geo.kml"
      tal:omit-tag="">
 
-     <tal:comment>A macro to include all style declarations</tal:comment>
+      <tal:comment>A macro to include all style declarations</tal:comment>
       <metal:kmlstyle define-macro="kmlstyle">
         <Style tal:attributes="id styleid | nothing">
           <IconStyle tal:condition="python:marker_image_size and marker_image">
@@ -33,23 +33,18 @@
           <span tal:replace="structure string:&lt;![CDATA[" />
           <div class="placemark-data">
             <metal:image define-slot="placemark-image">
-              <a href="#" tal:attributes="href item_view_url;"
+              <a class="placemark-image" href="#" 
+                 tal:attributes="href item_view_url;"
                  tal:condition="item_object/image|nothing">
                 <img src="" alt=""
                      tal:replace="structure python: path('nocall:item_object/tag')(scale='thumb', css_class='tileImage')" />
               </a>
             </metal:image>
             <p tal:content="description" tal:omit-tag="not:description">ITEM DESCRIPTION</p>
-            <metal:url define-slot="placemarkurl">
-              <p class="placemark-url">
-                <span>url:</span> 
-                  <a tal:attributes="href item_view_url">Item URL</a>
-              </p>
-            </metal:url>
 
             <metal:properties define-slot="properties">
               <tal:properties condition="display_properties">
-                <dl>
+                <dl class="placemark-properties">
                   <tal:items repeat="prop display_properties">
                     <dt tal:content="python:prop[0]">Key</dt>
                     <dd tal:content="python:prop[1]">Value</dd>
@@ -58,6 +53,13 @@
               </tal:properties>
             </metal:properties>
           </div>
+
+          <metal:url define-slot="placemarkurl">
+            <p class="placemark-url">
+                <a tal:attributes="href item_view_url"
+                   i18n:translate="">See the original resource</a>
+            </p>
+          </metal:url>
 
           <span tal:replace="structure string:]]&gt;" />
         </description>

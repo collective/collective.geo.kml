@@ -3,21 +3,14 @@ from zope.interface import implements
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 
-# from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.app.schema.vocabulary import IVocabularyFactory
-
-# from zope.formlib.namedtemplate import NamedTemplate
-# from zope.formlib.namedtemplate import NamedTemplateImplementation
-
-# from Products.CMFCore.utils import getToolByName
 
 from plone.registry.interfaces import IRegistry
 
 from zgeo.geographer.interfaces import IGeoreferenced
-# from zgeo.geographer.geo import GeoreferencingAnnotator
 
-from zgeo.kml.interfaces import IPlacemark #IFeature, IContainer
+from zgeo.kml.interfaces import IPlacemark
 import zgeo.kml.browser
 
 from collective.geo.settings.interfaces import IGeoFeatureStyle
@@ -43,17 +36,11 @@ class Placemark(zgeo.kml.browser.Placemark):
             labels[k] = v
         return labels
 
-    def use_custom_styles(self, document):
+    @property
+    def use_custom_styles(self):
         if not self.styles:
             return False
-
-        diff = False
-        for k, v in self.styles.items():
-            if getattr(document.styles, k) != v:
-                diff = True
-        if not diff:
-            return False
-        return True
+        return self.styles.get('use_custom_styles', False)
 
     @property
     def linecolor(self):
@@ -91,10 +78,13 @@ class Placemark(zgeo.kml.browser.Placemark):
 
     def display_properties(self, document):
         properties = document.display_properties
-        if self.styles:
+        if self.styles and self.use_custom_styles:
             properties = self.styles['display_properties']
         return [(self.properties_vocabulary_labels.get(prop, prop),
                         self.getDisplayValue(prop)) for prop in properties]
+
+    def getDisplayValue(self, prop):
+        return self.formatDisplayProperty(getattr(self.context, prop), prop)
 
     def formatDisplayProperty(self, value, prop):
         # value could be a bound method...
@@ -128,9 +118,6 @@ class KMLDocument(zgeo.kml.browser.Document):
         and provides some properties for kml-document from IGeoFeatureStyle
     """
     template = ViewPageTemplateFile('kmldocument.pt')
-
-    # TODO: set opacity from IGeoSettings
-    opacity = '3C'
 
     def __init__(self, context, request):
         super(KMLDocument, self).__init__(context, request)
