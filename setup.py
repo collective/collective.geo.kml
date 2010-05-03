@@ -27,10 +27,9 @@ setup(name='collective.geo.kml',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
-          'zgeo.geographer',
           'zgeo.kml',
-          'collective.geo.contentlocations',
-          'collective.z3cform.colorpicker',
+          'collective.geo.mapwidget',
+          'collective.geo.geographer',
       ],
       entry_points="""
       # -*- Entry points: -*-

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<kml
+  xmlns="http://www.opengis.net/kml/2.2"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal">
+  <tal:headers
+    condition="python:request and request.response.setHeader(
+                'Content-Type', 'application/vnd.google-earth.kml+xml;charset=utf-8')"
+    />
+  <Document tal:define="site_properties context/portal_properties/site_properties;
+                        use_view_action site_properties/typesUseViewActionInListings|python:();">
+
+    <tal:defaulstyle define="styleid string:defaultStyle;
+                             marker_image_size view/marker_image_size;
+                             marker_image view/marker_image;
+                             linecolor view/linecolor;
+                             linewidth view/linewidth;
+                             polygoncolor view/polygoncolor">
+           <metal:style use-macro="context/@@kmldocument-macros/kmlstyle"/>
+    </tal:defaulstyle>
+
+    <name tal:content="context/title">TITLE</name>
+    <visibility>1</visibility>
+    <open>0</open>
+
+    <tal:features tal:repeat="feature view/features">
+      <Folder tal:condition="exists:feature/features">
+        <name tal:content="feature/name">TITLE</name>
+        <description tal:content="feature/description">DESCRIPTION</description>
+        <tal:placemarks repeat="placemark feature/features">
+          <tal:feature define="item_object placemark/dc;
+                               item_type item_object/portal_type;
+                               item_url item_object/absolute_url;
+                               item_view_url python:(item_type in use_view_action and item_url+'/view') or item_url;
+                               name placemark/name;
+                               author placemark/author/name;
+                               alternate_link placemark/alternate_link;
+                               description placemark/description;
+                               display_properties python:placemark.display_properties(view);
+                               hasPoint placemark/hasPoint;
+                               hasLineString placemark/hasLineString;
+                               hasPolygon placemark/hasPolygon;
+                               coords_kml placemark/coords_kml;
+                               use_custom_style python:feature.use_custom_styles(view);
+                               styleid nothing;
+                               marker_image_size python:hasPoint and placemark.marker_image_size or None;
+                               marker_image python:hasPoint and placemark.marker_image or None;
+                               linecolor python:hasLineString and placemark.linecolor or None;
+                               linewidth python:hasLineString and placemark.linewidth or None;
+                               polygoncolor python:hasPolygon and placemark.polygoncolor or None;">
+            <metal:placemark use-macro="context/@@kmldocument-macros/placemark">
+              <metal:description fill-slot="description">
+                <metal:kmldescription use-macro="context/@@kmldocument-macros/kmldescription" />
+              </metal:description>
+
+              <metal:style fill-slot="style">
+                <styleUrl tal:condition="not:use_custom_style">#defaultStyle</styleUrl>
+                <tal:customstyle tal:condition="use_custom_style">
+                  <metal:macro use-macro="context/@@kmldocument-macros/kmlstyle" />
+                </tal:customstyle>
+              </metal:style>
+            </metal:placemark>
+          </tal:feature>
+        </tal:placemarks>
+      </Folder>
+
+      <tal:feature condition="not: exists:feature/features"
+                   define="item_object python:feature.dc;
+                           item_type item_object/portal_type;
+                           item_url item_object/absolute_url;
+                           item_view_url python:(item_type in use_view_action and item_url+'/view') or item_url;
+                           name feature/name;
+                           author feature/author/name;
+                           alternate_link feature/alternate_link;
+                           description feature/description;
+                           display_properties python:feature.display_properties(view);
+                           hasPoint feature/hasPoint;
+                           hasLineString feature/hasLineString;
+                           hasPolygon feature/hasPolygon;
+                           coords_kml feature/coords_kml;
+                           use_custom_style python:feature.use_custom_styles(view);
+                           styleid nothing;
+                           marker_image_size python:hasPoint and feature.marker_image_size or None;
+                           marker_image python:hasPoint and feature.marker_image or None;
+                           linecolor python:hasLineString and feature.linecolor or None;
+                           linewidth python:hasLineString and feature.linewidth or None;
+                           polygoncolor python:hasPolygon and feature.polygoncolor or None;">
+        <metal:placemark use-macro="context/@@kmldocument-macros/placemark">
+
+          <metal:description fill-slot="description">
+            <metal:kmldescription use-macro="context/@@kmldocument-macros/kmldescription" />
+          </metal:description>
+
+          <metal:style fill-slot="style">
+            <styleUrl tal:condition="not:use_custom_style">#defaultStyle</styleUrl>
+            <tal:customstyle condition="use_custom_style">
+              <metal:macro use-macro="context/@@kmldocument-macros/kmlstyle" />
+            </tal:customstyle>
+          </metal:style>
+
+        </metal:placemark>
+
+      </tal:feature>
+    </tal:features>
+  </Document>
+</kml>

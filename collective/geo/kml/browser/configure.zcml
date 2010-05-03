@@ -19,7 +19,7 @@
   <browser:page
       for="Products.CMFCore.interfaces.IFolderish"
       name="kml-document"
-      class=".document.Document"
+      class=".kmldocument.KMLDocument"
       layer = "..interfaces.IGeoKmlLayer"
       permission="zope2.View"
       />
@@ -28,7 +28,7 @@
       for="Products.ATContentTypes.interface.IATTopic"
       name="kml-document"
       layer = "..interfaces.IGeoKmlLayer"
-      class=".document.TopicDocument"
+      class=".kmldocument.KMLTopicDocument"
       permission="zope2.View"
       />
 

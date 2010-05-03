@@ -8,7 +8,8 @@
 
   <!--    <include package="collective.geo.geographer"/> -->
   <include package="plone.browserlayer" />
-  <include package="collective.geo.contentlocations" />
+  <include package="collective.geo.mapwidget" />
+  <include package="collective.geo.geographer" />
   <include package="collective.z3cform.colorpicker" />
   <include package="zgeo.kml"/>
 
@@ -26,7 +27,7 @@
       />
 
   <adapter
-      factory="zgeo.kml.browser.Placemark"
+      factory=".browser.kmldocument.Placemark"
       for="Products.CMFCore.interfaces.IContentish
            zope.publisher.interfaces.browser.IBrowserRequest"
       provides="zgeo.kml.interfaces.IFeature"
@@ -38,18 +39,5 @@
            zope.publisher.interfaces.browser.IBrowserRequest"
       provides="zgeo.kml.interfaces.IFeature"
       />
-
-  <!-- <adapter
-      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-      provides=".interfaces.IGeoKmlSettings"
-      factory=".browser.controlpanel.geo_kml_settings"
-      /> -->
-
-  <!-- this adapter is not contentspcific.  -->
-  <!-- <adapter
-      for="Products.CMFCore.interfaces.IContentish"
-      provides=".interfaces.IGeoContentKmlSettings"
-      factory=".browser.contentkmlsettings.geo_content_kml_settings"
-      /> -->
 
 </configure>

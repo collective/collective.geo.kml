@@ -2,7 +2,7 @@
 <metadata>
   <version>0.2dev</version>
   <dependencies>
-    <dependency>profile-collective.geo.settings:default</dependency>
     <dependency>profile-collective.geo.geographer:default</dependency>
+    <dependency>profile-collective.geo.mapwidget:default</dependency>
   </dependencies>
 </metadata>

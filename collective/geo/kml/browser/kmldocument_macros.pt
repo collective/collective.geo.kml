@@ -1,29 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      i18n:domain="collective.geo.kml"
-      tal:omit-tag="">
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:metal="http://xml.zope.org/namespaces/metal"
+     xmlns:tal="http://xml.zope.org/namespaces/tal"
+     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+     i18n:domain="collective.geo.kml"
+     tal:omit-tag="">
 
-    <tal:comment>A macro to include all style declarations</tal:comment>
-    <metal:kmlstyle define-macro="kmlstyle">
-      <Style tal:attributes="id styleid | nothing">
-        <IconStyle tal:condition="python:pointmarkersize and pointmarker">
-          <scale tal:content="pointmarkersize">0.7</scale>
-         <Icon>
-          <href tal:content="pointmarker">http://.../marker.png</href>
-         </Icon>
-         <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction" />
-        </IconStyle>
-        <LineStyle tal:condition="python:linecolor and linewidth">
-         <color tal:content="linecolor">ff000000</color>
-         <width tal:content="linewidth">3.0</width>
-        </LineStyle>
-        <PolyStyle tal:condition="polygoncolor">
-          <color tal:content="polygoncolor">33ff0000</color>
-        </PolyStyle>
-      </Style>
-    </metal:kmlstyle>
+     <tal:comment>A macro to include all style declarations</tal:comment>
+      <metal:kmlstyle define-macro="kmlstyle">
+        <Style tal:attributes="id styleid | nothing">
+          <IconStyle tal:condition="python:marker_image_size and marker_image">
+            <scale tal:content="marker_image_size">0.7</scale>
+           <Icon>
+            <href tal:content="marker_image">http://.../marker.png</href>
+           </Icon>
+           <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction" />
+          </IconStyle>
+          <LineStyle tal:condition="python:linecolor and linewidth">
+           <color tal:content="linecolor">ff000000</color>
+           <width tal:content="linewidth">3.0</width>
+          </LineStyle>
+          <PolyStyle tal:condition="polygoncolor">
+            <color tal:content="polygoncolor">33ff0000</color>
+          </PolyStyle>
+        </Style>
+      </metal:kmlstyle>
+
+      <tal:comment>A macro to include the placemark data</tal:comment>
+      <metal:description define-macro="kmldescription">
+        <description>
+          <span tal:replace="structure string:&lt;![CDATA[" />
+          <div class="placemark-data">
+            <metal:image define-slot="placemark-image">
+              <a href="#" tal:attributes="href item_view_url;"
+                 tal:condition="item_object/image|nothing">
+                <img src="" alt=""
+                     tal:replace="structure python: path('nocall:item_object/tag')(scale='thumb', css_class='tileImage')" />
+              </a>
+            </metal:image>
+            <p tal:content="description" tal:omit-tag="not:description">ITEM DESCRIPTION</p>
+            <metal:url define-slot="placemarkurl">
+              <p class="placemark-url">
+                <span>url:</span> 
+                  <a tal:attributes="href item_view_url">Item URL</a>
+              </p>
+            </metal:url>
+
+            <metal:properties define-slot="properties">
+              <tal:properties condition="display_properties">
+                <dl>
+                  <tal:items repeat="prop display_properties">
+                    <dt tal:content="python:prop[0]">Key</dt>
+                    <dd tal:content="python:prop[1]">Value</dd>
+                  </tal:items>
+                </dl>
+              </tal:properties>
+            </metal:properties>
+          </div>
+
+          <span tal:replace="structure string:]]&gt;" />
+        </description>
+      </metal:description>
+
+
+      <tal:comment>A macro to describe a placemark</tal:comment>
+      <metal:placemark define-macro="placemark">
+      <Placemark>
+        <name tal:content="name">TITLE</name>
+        <atom:author>
+           <atom:name tal:content="author">Author name</atom:name>
+        </atom:author>
+        <atom:link href="link to the content"
+                   tal:attributes="href alternate_link"/>
+        <metal:description define-slot="description" />
+
+        <metal:style define-slot="style" />
+
+        <Point tal:condition="hasPoint">
+          <coordinates tal:content="coords_kml">
+            COORDINATE LIST
+          </coordinates>
+        </Point>
+        <LineString tal:condition="hasLineString">
+          <coordinates tal:content="coords_kml">
+            COORDINATE LIST
+          </coordinates>
+        </LineString>
+        <Polygon tal:condition="hasPolygon">
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates tal:content="coords_kml">
+              COORDINATE LIST
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+        </Polygon>
+
+      </Placemark>
+      </metal:placemark>
 
 </kml>
