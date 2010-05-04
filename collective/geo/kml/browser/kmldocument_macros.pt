@@ -68,7 +68,7 @@
 
       <tal:comment>A macro to describe a placemark</tal:comment>
       <metal:placemark define-macro="placemark">
-      <Placemark>
+      <Placemark tal:condition="coords_kml | nothing">
         <name tal:content="name">TITLE</name>
         <atom:author>
            <atom:name tal:content="author">Author name</atom:name>

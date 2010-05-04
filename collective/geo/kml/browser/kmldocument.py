@@ -28,6 +28,13 @@ class Placemark(zgeo.kml.browser.Placemark):
             self.styles = None
 
     @property
+    def coords_kml(self):
+        try:
+            return zgeo.kml.browser.coords_to_kml(self.geom)
+        except:
+            pass
+
+    @property
     def properties_vocabulary_labels(self):
         terms = getUtility(IVocabularyFactory,
                     name="displaypropertiesVocab").terms
