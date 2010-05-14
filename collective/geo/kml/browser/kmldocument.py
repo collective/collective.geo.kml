@@ -18,6 +18,14 @@ from collective.geo.kml.utils import web2kmlcolor
 from collective.geo.settings import DISPLAY_PROPERTIES_DATES
 
 
+# # support to collective.contentleadimage
+has_leadimage = True
+try:
+    from collective.contentleadimage.config import IMAGE_FIELD_NAME
+except:
+    has_leadimage = False
+
+
 class Placemark(zgeo.kml.browser.Placemark):
 
     def __init__(self, context, request):
@@ -118,6 +126,21 @@ class Placemark(zgeo.kml.browser.Placemark):
             return string
         return value
 
+    def lead_image(self, scale='thumb', css_class="tileImage"):
+        #is brain?
+        try:
+            obj = self.context.getObject()
+        except AttributeError:
+            obj = self.context
+
+        image_field = obj.getField('image')
+        if has_leadimage and not image_field:
+            image_field = obj.getField(IMAGE_FIELD_NAME)
+
+        if image_field:
+            return image_field.tag(obj, scale=scale, css_class=css_class)
+        return None
+
 
 class KMLDocument(zgeo.kml.browser.Document):
     """
@@ -196,12 +219,6 @@ class BrainPlacemark(Placemark):
             'name': self.context.Creator,
             'uri': '',
             'email': ''}
-
-    @property
-    def alternate_link(self):
-        return '/'.join(
-            [self.request['BASE1']]
-            + self.request.physicalPathToVirtualPath(self.context.getPath()))
 
     def getDisplayValue(self, prop):
         return self.formatDisplayProperty(getattr(self.context, prop), prop)

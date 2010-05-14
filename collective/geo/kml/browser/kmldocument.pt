@@ -37,7 +37,6 @@
                                item_view_url python:(item_type in use_view_action and item_url+'/view') or item_url;
                                name placemark/name;
                                author placemark/author/name;
-                               alternate_link placemark/alternate_link;
                                description placemark/description;
                                display_properties python:placemark.display_properties(view);
                                hasPoint placemark/hasPoint;
@@ -50,7 +49,8 @@
                                marker_image python:hasPoint and placemark.marker_image or None;
                                linecolor python:hasLineString and placemark.linecolor or None;
                                linewidth python:hasLineString and placemark.linewidth or None;
-                               polygoncolor python:hasPolygon and placemark.polygoncolor or None;">
+                               polygoncolor python:hasPolygon and placemark.polygoncolor or None;
+                               placemark_lead_image python:placemark.lead_image()">
             <metal:placemark use-macro="context/@@kmldocument-macros/placemark">
               <metal:description fill-slot="description">
                 <metal:kmldescription use-macro="context/@@kmldocument-macros/kmldescription" />
@@ -74,7 +74,6 @@
                            item_view_url python:(item_type in use_view_action and item_url+'/view') or item_url;
                            name feature/name;
                            author feature/author/name;
-                           alternate_link feature/alternate_link;
                            description feature/description;
                            display_properties python:feature.display_properties(view);
                            hasPoint feature/hasPoint;
@@ -87,7 +86,8 @@
                            marker_image python:hasPoint and feature.marker_image or None;
                            linecolor python:hasLineString and feature.linecolor or None;
                            linewidth python:hasLineString and feature.linewidth or None;
-                           polygoncolor python:hasPolygon and feature.polygoncolor or None;">
+                           polygoncolor python:hasPolygon and feature.polygoncolor or None;
+                           placemark_lead_image python:feature.lead_image()">
         <metal:placemark use-macro="context/@@kmldocument-macros/placemark">
 
           <metal:description fill-slot="description">

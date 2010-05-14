@@ -35,9 +35,9 @@
             <metal:image define-slot="placemark-image">
               <a class="placemark-image" href="#" 
                  tal:attributes="href item_view_url;"
-                 tal:condition="item_object/image|nothing">
+                 tal:condition="placemark_lead_image|nothing">
                 <img src="" alt=""
-                     tal:replace="structure python: path('nocall:item_object/tag')(scale='thumb', css_class='tileImage')" />
+                    tal:replace="structure placemark_lead_image"/>
               </a>
             </metal:image>
             <p tal:content="description" tal:omit-tag="not:description">ITEM DESCRIPTION</p>
@@ -74,7 +74,7 @@
            <atom:name tal:content="author">Author name</atom:name>
         </atom:author>
         <atom:link href="link to the content"
-                   tal:attributes="href alternate_link"/>
+                   tal:attributes="href item_view_url"/>
         <metal:description define-slot="description" />
 
         <metal:style define-slot="style" />
