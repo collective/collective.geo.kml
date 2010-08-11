@@ -12,7 +12,7 @@ Add geo-referenced content
 
     >>> oid = self.folder.invokeFactory('Document', 'doc', title='A Document', description='A test document')
     >>> doc = self.folder[oid]
-    >>> from zgeo.geographer.interfaces import IWriteGeoreferenced
+    >>> from collective.geo.geographer.interfaces import IWriteGeoreferenced
     >>> geo = IWriteGeoreferenced(doc)
     >>> geo.setGeoInterface('Point', (-105, 40))
 

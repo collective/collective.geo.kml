@@ -4,15 +4,15 @@ collective.geo.kml
 Overview
 --------
 collective.geo.kml provides the necessary javascript to integrate a kml document in an opelayers layer.
-It uses zgeo.plone.kml to build a kml file for Folder and Topic objects.
+It build a kml file for Folder and Topic objects. 
 Some kml properties can be set at site level.
 
 Test
 ----
-We have a generic Document and set some geographical data with zgeo.gographer package
+We have a generic Document and set some geographical data with collective.geo.geographer package
 
     >>> document = self.folder['test-document']
-    >>> from zgeo.geographer.interfaces import IWriteGeoreferenced
+    >>> from collective.geo.geographer.interfaces import IWriteGeoreferenced
     >>> geo = IWriteGeoreferenced(document)
     >>> geo.setGeoInterface('Point', (-100, 40))
 
@@ -33,7 +33,7 @@ Set the dates for the content so they are consistent and can be tested
     >>> document.setModificationDate(testDate)
     >>> document.indexObject()
 
-Folder that contain our document have a kml-document view provided by zgeo.plone.kml
+Folder that contain our document have a kml-document view
     >>> from Products.PloneTestCase.setup import portal_owner, default_password
     >>> r = http(r"""
     ... GET /plone/Members/test_user_1_/@@kml-document HTTP/1.1

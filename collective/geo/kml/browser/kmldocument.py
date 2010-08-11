@@ -1,3 +1,23 @@
+
+#import time
+
+from zope.traversing.browser.interfaces import IAbsoluteURL
+from zope.dublincore.interfaces import ICMFDublinCore
+
+#try:
+#    from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+#    raise Exception, "Five's ViewPageTemplateFile doesn't work with named templating"
+#except:
+#    from zope.app.pagetemplate import ViewPageTemplateFile
+
+from zope.publisher.browser import BrowserPage
+#from zope.formlib.namedtemplate import NamedTemplate
+#from zope.formlib.namedtemplate import NamedTemplateImplementation
+
+from collective.geo.kml.interfaces import IFeature, IContainer #, IPlacemark #, 
+
+
+
 from zope.interface import implements
 
 from zope.component import getMultiAdapter
@@ -8,10 +28,9 @@ from zope.app.schema.vocabulary import IVocabularyFactory
 
 from plone.registry.interfaces import IRegistry
 
-from zgeo.geographer.interfaces import IGeoreferenced
+from collective.geo.geographer.interfaces import IGeoreferenced
 
-from zgeo.kml.interfaces import IPlacemark
-import zgeo.kml.browser
+from collective.geo.kml.interfaces import IPlacemark
 
 from collective.geo.settings.interfaces import IGeoFeatureStyle
 from collective.geo.kml.utils import web2kmlcolor
@@ -26,19 +45,98 @@ except:
     has_leadimage = False
 
 
-class Placemark(zgeo.kml.browser.Placemark):
+def absoluteURL(ob, request):
+    return getMultiAdapter((ob, request), IAbsoluteURL)()
+
+
+def coords_to_kml(geom):
+    gtype = geom.type
+    if gtype == 'Point':
+        coords = (geom.coordinates,)
+    elif gtype == 'Polygon':
+        coords = geom.coordinates[0]
+    else:
+        coords = geom.coordinates
+    if len(coords[0]) == 2:
+        tuples = ('%f,%f,0.0' % tuple(c) for c in coords)
+    elif len(coords[0]) == 3:
+        tuples = ('%f,%f,%f' % tuple(c) for c in coords)
+    else:
+        raise ValueError, "Invalid dimensions"
+    return ' '.join(tuples)
+
+class NullGeometry(object):
+    type = None
+    coordinates = None
+
+
+class Feature(BrowserPage):
+    """Not to be instantiated.
+    """
+    implements(IFeature)
+
+    @property
+    def id(self):
+        return '%s/@@%s' % (absoluteURL(self.context, self.request), self.__name__)
+
+    @property
+    def name(self):
+        return self.dc.Title()
+
+    @property
+    def description(self):
+        return self.dc.Description()
+
+    @property
+    def author(self):
+        return {
+            'name': self.dc.Creator(),
+            'uri': '',
+            'email': ''
+            }
+
+    @property
+    def alternate_link(self):
+        return absoluteURL(self.context, self.request)
+
+
+class Placemark(Feature):
+    implements(IPlacemark)
+    __name__ = 'kml-placemark'
 
     def __init__(self, context, request):
-        super(Placemark, self).__init__(context, request)
+        self.context = context
+        self.request = request
+        self.dc = ICMFDublinCore(self.context)
+        try:
+            self.geom = IGeoreferenced(self.context)
+        except:
+            self.geom = NullGeometry()
+
         try:
             self.styles = IGeoFeatureStyle(context).geostyles
         except:
             self.styles = None
 
+    def __call__(self):
+        return self.template().encode('utf-8')
+
+    @property
+    def hasPoint(self):
+        return int(self.geom.type == 'Point')
+
+    @property
+    def hasLineString(self):
+        return int(self.geom.type == 'LineString')
+
+    @property
+    def hasPolygon(self):
+        return int(self.geom.type == 'Polygon')
+
     @property
     def coords_kml(self):
         try:
-            return zgeo.kml.browser.coords_to_kml(self.geom)
+            return coords_to_kml(self.geom)
         except:
             pass
 
@@ -142,17 +240,45 @@ class Placemark(zgeo.kml.browser.Placemark):
         return None
 
 
-class KMLDocument(zgeo.kml.browser.Document):
+class Folder(Feature):
+
+    implements(IContainer)
+    __name__ = 'kml-folder'
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        self.dc = ICMFDublinCore(self.context)
+
+    @property
+    def features(self):
+        for item in self.context.values():
+            yield Placemark(item, self.request)
+
+
+class KMLDocument(Feature):
     """
-        This class extends zgeo.kml.browser.Document class
+        This class extends Feature class
         and provides some properties for kml-document from IGeoFeatureStyle
     """
+    implements(IContainer)
+    __name__ = 'kml-document'
     template = ViewPageTemplateFile('kmldocument.pt')
 
     def __init__(self, context, request):
-        super(KMLDocument, self).__init__(context, request)
+        self.context = context
+        self.request = request
+        self.dc = ICMFDublinCore(self.context)
         registry = getUtility(IRegistry)
         self.styles = registry.forInterface(IGeoFeatureStyle)
+
+    @property
+    def features(self):
+        for item in self.context.values():
+            yield getMultiAdapter((item, self.request), IFeature)
+
+    def __call__(self):
+        return self.template().encode('utf-8')
 
     @property
     def linecolor(self):
@@ -194,7 +320,7 @@ class BrainPlacemark(Placemark):
         try:
             self.geom = IGeoreferenced(self.dc)
         except:
-            self.geom = zgeo.kml.browser.NullGeometry()
+            self.geom = NullGeometry()
 
         try:
             self.styles = self.context.collective_geo_styles

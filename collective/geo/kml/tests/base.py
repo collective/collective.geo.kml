@@ -24,7 +24,7 @@ ptc.setupPloneSite(products=['collective.geo.kml'])
 from collective.geo.settings.interfaces import IGeoCustomFeatureStyle
 from Products.CMFCore.PortalContent import PortalContent
 from zope.interface import implements
-from zope.component import provideAdapter
+# from zope.component import provideAdapter
 
 class CustomStyleManager(object):
    implements(IGeoCustomFeatureStyle)
@@ -43,8 +43,6 @@ class CustomStyleManager(object):
        pass
 
 
-
-
 class TestCase(ptc.PloneTestCase):
     """We use this base class for all the tests in this package. If necessary,
     we can put common utility or setup code in here.
@@ -56,12 +54,10 @@ class FunctionalTestCase(ptc.FunctionalTestCase):
     """
 
     def afterSetUp(self):
-        lpf = self.portal.portal_types['Topic']
-        lpf_allow = lpf.global_allow
-        lpf.global_allow = True
-        lpf = self.portal.portal_types['Large Plone Folder']
-        lpf_allow = lpf.global_allow
-        lpf.global_allow = True
+        topic_pt = self.portal.portal_types['Topic']
+        topic_pt.global_allow = True
+        folder_pt = self.portal.portal_types['Folder']
+        folder_pt.global_allow = True
 
         self.folder.invokeFactory('Document', 'test-document')
         self.folder['test-document'].setTitle('Test document')
@@ -69,7 +65,7 @@ class FunctionalTestCase(ptc.FunctionalTestCase):
 
         _createObjectByType("Document", self.portal, 'test-document-geostyles')
         _createObjectByType("Topic", self.portal, 'test_topic')
-        _createObjectByType("Large Plone Folder", self.portal, 'test_largefolder')
+        _createObjectByType("Folder", self.portal, 'test_folder')
 
 
 class CustomStylesFunctionalTestCase(FunctionalTestCase):

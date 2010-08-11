@@ -27,7 +27,6 @@ setup(name='collective.geo.kml',
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
-          'zgeo.kml',
           'collective.geo.mapwidget',
           'collective.geo.geographer',
       ],

@@ -4,14 +4,14 @@ Make a topic in our folder
     >>> self.setRoles(('Manager',))
 
     >>> folder = self.folder
-    >>> oid = self.folder.invokeFactory('Large Plone Folder', 'large', title='Large')
+    >>> oid = self.folder.invokeFactory('Folder', 'large', title='Large')
     >>> large = self.folder[oid]
 
 Add geo-referenced content
 
     >>> oid = large.invokeFactory('Document', 'doc', title='A Document', description='A test document')
     >>> doc = large[oid]
-    >>> from zgeo.geographer.interfaces import IWriteGeoreferenced
+    >>> from collective.geo.geographer.interfaces import IWriteGeoreferenced
     >>> geo = IWriteGeoreferenced(doc)
     >>> geo.setGeoInterface('Point', (-105, 40))
 

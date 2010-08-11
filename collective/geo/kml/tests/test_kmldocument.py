@@ -1,5 +1,5 @@
 import unittest
-from zope.testing import doctest
+import doctest
 
 import collective.geo.kml.browser.kmldocument
 

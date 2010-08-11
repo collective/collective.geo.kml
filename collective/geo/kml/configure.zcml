@@ -6,12 +6,10 @@
 
   <i18n:registerTranslations directory="locales" />
 
-  <!--    <include package="collective.geo.geographer"/> -->
   <include package="plone.browserlayer" />
   <include package="collective.geo.mapwidget" />
   <include package="collective.geo.geographer" />
   <include package="collective.z3cform.colorpicker" />
-  <include package="zgeo.kml"/>
 
   <include package=".browser"/>
   <include file="profiles.zcml"/>
@@ -30,14 +28,14 @@
       factory=".browser.kmldocument.Placemark"
       for="Products.CMFCore.interfaces.IContentish
            zope.publisher.interfaces.browser.IBrowserRequest"
-      provides="zgeo.kml.interfaces.IFeature"
+      provides="collective.geo.kml.interfaces.IFeature"
       />
 
   <adapter
-      factory="zgeo.kml.browser.Folder"
+      factory=".browser.kmldocument.Folder"
       for="Products.CMFCore.interfaces.IFolderish
            zope.publisher.interfaces.browser.IBrowserRequest"
-      provides="zgeo.kml.interfaces.IFeature"
+      provides="collective.geo.kml.interfaces.IFeature"
       />
 
 </configure>

@@ -66,7 +66,7 @@ Finally, we can see a div that contains the openlayers map
     >>> '<div id="default-cgmap" class="widget-cgmap"' in browser.contents
     True
 
-The openlayers view can be enabled also for Topic and for Large Plone Folder.
+The openlayers view can be enabled also for Topic and for Folder.
 We have a Topic in portal root for testing that
     >>> topic_url = self.portal.test_topic.absolute_url()
     >>> browser.open(topic_url)
@@ -89,7 +89,7 @@ Reload the view and check to make sure we can see the description and the map
     >>> '<div id="default-cgmap" class="widget-cgmap"' in browser.contents
     True
 
-Now we run the same test with a Large Plone Folder in portal root
-    >>> largefolder_url = self.portal.test_largefolder.absolute_url()
+Now we run the same test with a Folder in portal root
+    >>> largefolder_url = self.portal.test_folder.absolute_url()
     >>> browser.open(largefolder_url)
     >>> browser.getLink('Kml Openlayers View').click()

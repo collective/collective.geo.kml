@@ -9,7 +9,6 @@ Requirements
 ------------
 * plone >= 3.2.1
 * collective.geo.contentlocations
-* zgeo.plone.kml
 
 Installation
 ============

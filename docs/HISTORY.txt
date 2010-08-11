@@ -3,7 +3,8 @@ Changelog
 
 0.2 (unreleased)
 ----------------
-
+* Removed zgeo.kml dependency
+* Removed Large Plone Folder configurations
 * Added ability to select what content properties to display either in the 
   Control Panel or on a per-content basis.  Properties can be changed at will
   and likewise reordered as required.
