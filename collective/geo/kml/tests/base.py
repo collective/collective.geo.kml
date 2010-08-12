@@ -1,9 +1,15 @@
+from zope.interface import implements, alsoProvides
+
 from Products.Five import zcml
 from Products.Five import fiveconfigure
 
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import onsetup
 from Products.CMFPlone.utils import _createObjectByType
+
+from collective.geo.settings.interfaces import IGeoCustomFeatureStyle
+from collective.geo.geographer.interfaces import IGeoreferenceable
+
 
 @onsetup
 def setup_product():
@@ -20,11 +26,6 @@ def setup_product():
 setup_product()
 ptc.setupPloneSite(products=['collective.geo.kml'])
 
-
-from collective.geo.settings.interfaces import IGeoCustomFeatureStyle
-from Products.CMFCore.PortalContent import PortalContent
-from zope.interface import implements
-# from zope.component import provideAdapter
 
 class CustomStyleManager(object):
    implements(IGeoCustomFeatureStyle)
@@ -48,6 +49,7 @@ class TestCase(ptc.PloneTestCase):
     we can put common utility or setup code in here.
     """
 
+
 class FunctionalTestCase(ptc.FunctionalTestCase):
     """We use this base class for all the tests in this package. If necessary,
     we can put common utility or setup code in here.
@@ -58,7 +60,7 @@ class FunctionalTestCase(ptc.FunctionalTestCase):
         topic_pt.global_allow = True
         folder_pt = self.portal.portal_types['Folder']
         folder_pt.global_allow = True
-
+        
         self.folder.invokeFactory('Document', 'test-document')
         self.folder['test-document'].setTitle('Test document')
         self.folder['test-document'].setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend')
@@ -66,6 +68,10 @@ class FunctionalTestCase(ptc.FunctionalTestCase):
         _createObjectByType("Document", self.portal, 'test-document-geostyles')
         _createObjectByType("Topic", self.portal, 'test_topic')
         _createObjectByType("Folder", self.portal, 'test_folder')
+
+        # provide IGeoreferenceable interface to document created
+        alsoProvides(self.folder['test-document'], IGeoreferenceable)
+        alsoProvides(self.portal['test-document-geostyles'], IGeoreferenceable)
 
 
 class CustomStylesFunctionalTestCase(FunctionalTestCase):
@@ -81,9 +87,4 @@ class CustomStylesFunctionalTestCase(FunctionalTestCase):
         # unregister the previous adapter
         from zope.component import getGlobalSiteManager
         gsm = getGlobalSiteManager()
-        gsm.unregisterAdapter(CustomStyleManager, (PortalContent,), IGeoCustomFeatureStyle)
-            # IGeoFeatureStyle(document)
-            #             Traceback (most recent call last):
-            #             ...
-            #             TypeError: ('Could not adapt',...)
-     
+        gsm.unregisterAdapter(CustomStyleManager, (IGeoreferenceable,), IGeoCustomFeatureStyle)

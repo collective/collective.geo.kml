@@ -9,7 +9,7 @@ Some kml properties can be set at site level.
 
 Test
 ----
-We have a generic Document and set some geographical data with collective.geo.geographer package
+We have a generic (georeferenceable) Document and set some geographical data with collective.geo.geographer package
 
     >>> document = self.folder['test-document']
     >>> from collective.geo.geographer.interfaces import IWriteGeoreferenced
@@ -145,10 +145,10 @@ see:
  collective.geo.kml.tests.base
 
         >>> from collective.geo.settings.interfaces import IGeoCustomFeatureStyle
-        >>> from Products.CMFCore.PortalContent import PortalContent
+        >>> from collective.geo.geographer.interfaces import IGeoreferenceable
         >>> from zope.component import provideAdapter
         >>> from collective.geo.kml.tests.base import CustomStyleManager
-        >>> provideAdapter(CustomStyleManager, (PortalContent,), IGeoCustomFeatureStyle)
+        >>> provideAdapter(CustomStyleManager, (IGeoreferenceable,), IGeoCustomFeatureStyle)
         >>> custom_styles = IGeoFeatureStyle(document)
         >>> custom_styles.geostyles.get('linewidth')
         2.0

@@ -12,6 +12,10 @@ Add geo-referenced content
 
     >>> oid = self.folder.invokeFactory('Document', 'doc', title='A Document', description='A test document')
     >>> doc = self.folder[oid]
+    >>> from zope.interface import alsoProvides
+    >>> from collective.geo.geographer.interfaces import IGeoreferenceable
+    >>> alsoProvides(doc, IGeoreferenceable)
+
     >>> from collective.geo.geographer.interfaces import IWriteGeoreferenced
     >>> geo = IWriteGeoreferenced(doc)
     >>> geo.setGeoInterface('Point', (-105, 40))
