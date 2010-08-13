@@ -5,7 +5,7 @@ version = '0.2dev'
 
 setup(name='collective.geo.kml',
       version=version,
-      description="collective.geo extension for zgeo.kml",
+      description="Kml view for collective.geo",
       long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read() +
                        open("TODO.txt").read(),
