@@ -9,11 +9,19 @@
       directory="javascripts"
       />
 
+      <browser:page
+          for="collective.geo.geographer.interfaces.IGeoreferenceable"
+          name="kml-document"
+          class=".kmldocument.KMLDocument"
+          layer = "..interfaces.IGeoKmlLayer"
+          permission="zope2.View"
+          />
+
   <!--  was ATBTreeFolder and ATFolder -->
   <browser:page
       for="Products.CMFCore.interfaces.IFolderish"
       name="kml-document"
-      class=".kmldocument.KMLDocument"
+      class=".kmldocument.KMLFolderDocument"
       layer = "..interfaces.IGeoKmlLayer"
       permission="zope2.View"
       />

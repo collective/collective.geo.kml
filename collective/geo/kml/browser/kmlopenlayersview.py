@@ -14,13 +14,6 @@ class KmlOpenLayersView(BrowserView):
 
     implements(IKMLOpenLayersView)
 
-    # @property
-    # def geosettings(self):
-    #     return self.context.restrictedTraverse('@@geosettings-view')
-
-    # @property
-    # def google_maps_js(self):
-    #     return self.geosettings.google_maps_js
 
 class KMLMapLayers(MapLayers):
     '''

@@ -22,7 +22,7 @@ def test_suite():
             optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
 
         ztc.FunctionalDocFileSuite(
-            'large-folder-kml.txt', package='collective.geo.kml.tests',
+            'folder-kml.txt', package='collective.geo.kml.tests',
             test_class=base.FunctionalTestCase,
             optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
 

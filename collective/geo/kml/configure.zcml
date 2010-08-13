@@ -26,6 +26,13 @@
 
   <adapter
       factory=".browser.kmldocument.Placemark"
+      for="collective.geo.geographer.interfaces.IGeoreferenceable
+           zope.publisher.interfaces.browser.IBrowserRequest"
+      provides="collective.geo.kml.interfaces.IFeature"
+      />
+
+  <adapter
+      factory=".browser.kmldocument.Placemark"
       for="Products.CMFCore.interfaces.IContentish
            zope.publisher.interfaces.browser.IBrowserRequest"
       provides="collective.geo.kml.interfaces.IFeature"

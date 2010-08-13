@@ -1,27 +1,10 @@
-
-#import time
+from zope.interface import implements
+from zope.component import getMultiAdapter, queryMultiAdapter
+from zope.component import getUtility
 
 from zope.traversing.browser.interfaces import IAbsoluteURL
 from zope.dublincore.interfaces import ICMFDublinCore
-
-#try:
-#    from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-#    raise Exception, "Five's ViewPageTemplateFile doesn't work with named templating"
-#except:
-#    from zope.app.pagetemplate import ViewPageTemplateFile
-
 from zope.publisher.browser import BrowserPage
-#from zope.formlib.namedtemplate import NamedTemplate
-#from zope.formlib.namedtemplate import NamedTemplateImplementation
-
-from collective.geo.kml.interfaces import IFeature, IContainer #, IPlacemark #, 
-
-
-
-from zope.interface import implements
-
-from zope.component import getMultiAdapter
-from zope.component import getUtility
 
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.app.schema.vocabulary import IVocabularyFactory
@@ -29,15 +12,14 @@ from zope.app.schema.vocabulary import IVocabularyFactory
 from plone.registry.interfaces import IRegistry
 
 from collective.geo.geographer.interfaces import IGeoreferenced
-
-from collective.geo.kml.interfaces import IPlacemark
-
 from collective.geo.settings.interfaces import IGeoFeatureStyle
-from collective.geo.kml.utils import web2kmlcolor
 from collective.geo.settings import DISPLAY_PROPERTIES_DATES
 
+from collective.geo.kml.interfaces import IFeature, IContainer, IPlacemark
+from collective.geo.kml.utils import web2kmlcolor
 
-# # support to collective.contentleadimage
+
+# support to collective.contentleadimage
 has_leadimage = True
 try:
     from collective.contentleadimage.config import IMAGE_FIELD_NAME
@@ -256,58 +238,6 @@ class Folder(Feature):
             yield Placemark(item, self.request)
 
 
-class KMLDocument(Feature):
-    """
-        This class extends Feature class
-        and provides some properties for kml-document from IGeoFeatureStyle
-    """
-    implements(IContainer)
-    __name__ = 'kml-document'
-    template = ViewPageTemplateFile('kmldocument.pt')
-
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-        self.dc = ICMFDublinCore(self.context)
-        registry = getUtility(IRegistry)
-        self.styles = registry.forInterface(IGeoFeatureStyle)
-
-    @property
-    def features(self):
-        for item in self.context.values():
-            yield getMultiAdapter((item, self.request), IFeature)
-
-    def __call__(self):
-        return self.template().encode('utf-8')
-
-    @property
-    def linecolor(self):
-        return web2kmlcolor(self.styles.linecolor)
-
-    @property
-    def linewidth(self):
-        return self.styles.linewidth
-
-    @property
-    def polygoncolor(self):
-        return web2kmlcolor(self.styles.polygoncolor)
-
-    @property
-    def marker_image(self):
-        portal_state = getMultiAdapter((self.context, self.request),
-                                                name=u"plone_portal_state")
-        return '%s/%s' % (portal_state.portal_url(),
-                                self.styles.marker_image)
-
-    @property
-    def marker_image_size(self):
-        return self.styles.marker_image_size
-
-    @property
-    def display_properties(self):
-        return self.styles.display_properties
-
-
 class BrainPlacemark(Placemark):
 
     implements(IPlacemark)
@@ -350,7 +280,79 @@ class BrainPlacemark(Placemark):
         return self.formatDisplayProperty(getattr(self.context, prop), prop)
 
 
-class KMLTopicDocument(KMLDocument):
+class KMLBaseDocument(Feature):
+    """
+        This class extends Feature class
+        and provides some properties for kml-document from IGeoFeatureStyle
+    """
+    implements(IContainer)
+    __name__ = 'kml-document'
+    template = ViewPageTemplateFile('kmldocument.pt')
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        self.dc = ICMFDublinCore(self.context)
+        registry = getUtility(IRegistry)
+        self.styles = registry.forInterface(IGeoFeatureStyle)
+
+    @property
+    def features(self):
+        raise NotImplementedError
+
+    def __call__(self):
+        return self.template().encode('utf-8')
+
+    @property
+    def linecolor(self):
+        return web2kmlcolor(self.styles.linecolor)
+
+    @property
+    def linewidth(self):
+        return self.styles.linewidth
+
+    @property
+    def polygoncolor(self):
+        return web2kmlcolor(self.styles.polygoncolor)
+
+    @property
+    def marker_image(self):
+        portal_state = getMultiAdapter((self.context, self.request),
+                                                name=u"plone_portal_state")
+        return '%s/%s' % (portal_state.portal_url(),
+                                self.styles.marker_image)
+
+    @property
+    def marker_image_size(self):
+        return self.styles.marker_image_size
+
+    @property
+    def display_properties(self):
+        return self.styles.display_properties
+
+
+class KMLDocument(KMLBaseDocument):
+
+    @property
+    def features(self):
+        feature = queryMultiAdapter((self.context, self.request), IFeature)
+        if feature:
+            return [feature]
+        return []
+
+
+class KMLFolderDocument(KMLBaseDocument):
+
+    @property
+    def features(self):
+        for item in self.context.values():
+            feature = queryMultiAdapter((item, self.request), IFeature)
+            if not feature:
+                continue
+            yield feature
+
+
+class KMLTopicDocument(KMLBaseDocument):
 
     @property
     def features(self):
