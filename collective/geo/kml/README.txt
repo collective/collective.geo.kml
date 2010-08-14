@@ -96,7 +96,7 @@ we can change some properties of kml document with IGeoKmlSettings utility
     >>> settings.linecolor = u'33DD223C'
     >>> settings.linewidth = 3.0
     >>> settings.polygoncolor = u'FFBD003C'
-    >>> settings.marker_image = u'img/marker-blue.png'
+    >>> settings.marker_image = u'string:${portal_url}/img/marker-blue.png'
     >>> settings.marker_image_size = 1.0
     >>> settings.display_properties = ['listCreators', 'Type', 'Subject',
     ...                                'CreationDate', 'Contributors', 'getLocation']

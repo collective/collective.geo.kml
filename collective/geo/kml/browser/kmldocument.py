@@ -9,6 +9,7 @@ from zope.publisher.browser import BrowserPage
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.app.schema.vocabulary import IVocabularyFactory
 
+from Products.CMFCore.Expression import Expression, getExprContext
 from plone.registry.interfaces import IRegistry
 
 from collective.geo.geographer.interfaces import IGeoreferenced
@@ -25,6 +26,14 @@ try:
     from collective.contentleadimage.config import IMAGE_FIELD_NAME
 except:
     has_leadimage = False
+
+
+def get_marker_image(context, marker_img):
+    try:
+         marker_img = Expression(str(marker_img))(getExprContext(context))
+    except:
+         marker_img = ''
+    return marker_img
 
 
 def absoluteURL(ob, request):
@@ -158,11 +167,7 @@ class Placemark(Feature):
     @property
     def marker_image(self):
         if self.styles:
-            portal_state = getMultiAdapter((self.context, self.request),
-                                                    name=u"plone_portal_state")
-            return '%s/%s' % (portal_state.portal_url(),
-                                    self.styles['marker_image'])
-
+            return get_marker_image(self.context, self.styles['marker_image'])
         return u''
 
     @property
@@ -322,10 +327,7 @@ class KMLBaseDocument(Feature):
 
     @property
     def marker_image(self):
-        portal_state = getMultiAdapter((self.context, self.request),
-                                                name=u"plone_portal_state")
-        return '%s/%s' % (portal_state.portal_url(),
-                                self.styles.marker_image)
+        return get_marker_image(self.context, self.styles.marker_image)
 
     @property
     def marker_image_size(self):
