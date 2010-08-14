@@ -49,3 +49,9 @@ class IGeoContentKmlView(Interface):
 
 class IKMLOpenLayersView(IMapView):
     """ Marker interface to look up mapwidget manager and layermanager """
+
+
+class IKMLOpenLayersViewlet(Interface):
+    """Marker interface for Viewlet"""
+
+

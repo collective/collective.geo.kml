@@ -301,6 +301,11 @@ class KMLBaseDocument(Feature):
         raise NotImplementedError
 
     def __call__(self):
+        # bha! --- Internet explorer cache the kml-document
+        # self.request.RESPONSE.setHeader('Cache-Control','max-age=3600')
+        # self.request.RESPONSE.setHeader('Expires','Thu, 01 Aug 2000 09:00:00 GMT')
+        # self.request.RESPONSE.setHeader('Last-Modified', 'Thu, 01 Aug 2000 09:00:00 GMT')
+        # self.request.RESPONSE.setHeader('Pragma', 'no-cache')
         return self.template().encode('utf-8')
 
     @property

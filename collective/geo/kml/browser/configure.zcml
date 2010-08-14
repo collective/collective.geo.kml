@@ -69,5 +69,22 @@
       permission="zope2.View"
       />
 
+  <browser:viewlet
+      name="collective.geo.kml.kmlcontentviewlet"
+      for="collective.geo.geographer.interfaces.IGeoreferenceable"
+      class=".viewlets.ContentViewlet"
+      manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+      template="kmlcontentviewlet.pt"
+      layer="..interfaces.IGeoKmlLayer"
+      permission="zope2.View"
+  />
+
+  <adapter
+      for="..interfaces.IKMLOpenLayersViewlet
+           zope.interface.Interface
+           zope.interface.Interface
+           zope.interface.Interface"
+      factory=".viewlets.KMLMapViewletLayers"
+      />
 
 </configure>

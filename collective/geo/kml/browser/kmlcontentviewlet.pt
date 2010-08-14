@@ -1,0 +1,4 @@
+<div id="kml-content-viewlet">
+  <metal:use use-macro="context/@@collectivegeo-macros/openlayers" />
+  <metal:use use-macro="context/@@collectivegeo-macros/map-widget" />
+</div>
