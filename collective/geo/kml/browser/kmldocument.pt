@@ -50,7 +50,7 @@
                                linecolor python:hasLineString and placemark.linecolor or None;
                                linewidth python:hasLineString and placemark.linewidth or None;
                                polygoncolor python:hasPolygon and placemark.polygoncolor or None;
-                               placemark_lead_image python:placemark.lead_image()">
+                               placemark_lead_image placemark/lead_image|nothing">
             <metal:placemark use-macro="context/@@kmldocument-macros/placemark">
               <metal:description fill-slot="description">
                 <metal:kmldescription use-macro="context/@@kmldocument-macros/kmldescription" />
@@ -87,7 +87,7 @@
                            linecolor python:hasLineString and feature.linecolor or None;
                            linewidth python:hasLineString and feature.linewidth or None;
                            polygoncolor python:hasPolygon and feature.polygoncolor or None;
-                           placemark_lead_image python:feature.lead_image()">
+                           placemark_lead_image feature/lead_image|nothing">
         <metal:placemark use-macro="context/@@kmldocument-macros/placemark">
 
           <metal:description fill-slot="description">

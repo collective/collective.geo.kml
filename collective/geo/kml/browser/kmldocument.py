@@ -218,7 +218,11 @@ class Placemark(Feature):
         except AttributeError:
             obj = self.context
 
-        image_field = obj.getField('image')
+        try:
+            image_field = obj.getField('image')
+        except:
+            return None
+
         if has_leadimage and not image_field:
             image_field = obj.getField(IMAGE_FIELD_NAME)
 
