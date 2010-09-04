@@ -14,7 +14,7 @@ msgstr ""
 "Language-Code: it\n"
 "Language-Name: Italian\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: collective.habla\n"
+"Domain: collective.geo.kml\n"
 "X-Is-Fallback-For: it-it it-ch it-sm it-hr it-si\n"
 
 #. Default: "See the original resource"
