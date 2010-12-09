@@ -6,7 +6,9 @@ from plone.registry.interfaces import IRegistry
 
 from collective.geo.geographer.interfaces import IGeoreferenced
 
-from collective.geo.settings.interfaces import IGeoCustomFeatureStyle, IGeoFeatureStyle
+from collective.geo.settings.interfaces import IGeoCustomFeatureStyle
+from collective.geo.settings.interfaces import IGeoSettings
+
 from collective.geo.mapwidget.browser.widget import MapLayers
 
 from collective.geo.kml.browser.maplayers import KMLMapLayer
@@ -23,9 +25,16 @@ class ContentViewlet(ViewletBase):
         if dm:
             return dm
         else:
-            defaultstyles = getUtility(IRegistry).forInterface(
-                                                    IGeoFeatureStyle)
-            return defaultstyles.map_display_manager
+            defaultstyles = getUtility(IRegistry).forInterface(IGeoSettings)
+            type_defaults = defaultstyles.map_display_manager_types
+            td_dict = {}
+            for td in type_defaults:
+                k,v = td.split(':')
+                td_dict[k]=v
+            if self.context.portal_type in td_dict.keys():
+                return td_dict[self.context.portal_type]
+            else:
+                return defaultstyles.default_manager
 
 
     @property
