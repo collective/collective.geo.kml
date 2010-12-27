@@ -1,5 +1,11 @@
+collective.geo.kml
+==================
+
+.. contents:: Summary
+   :local:
+
 Introduction
-============
+------------
 
 collective.geo.kml provides KML views for georeferenced objects, allowing Plone containers and collections to be visualized in Google Earth.
 
@@ -12,7 +18,7 @@ Requirements
 * collective.geo.mapwidget
 
 Installation
-============
+------------
 You can install collective.geo.kml as part of a specific project's buildout, by having a buildout configuration such as: ::
 
         [buildout]
@@ -27,7 +33,7 @@ You can install collective.geo.kml as part of a specific project's buildout, by 
 
 
 Contributors
-============
+------------
 
 * Sean Gillies 
 * Giorgio Borelli
