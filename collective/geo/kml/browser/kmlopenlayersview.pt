@@ -6,9 +6,6 @@
     <metal:block metal:fill-slot="javascript_head_slot">
       <metal:use use-macro="context/@@collectivegeo-macros/openlayers" />
     </metal:block>
-    <!-- <metal:block metal:fill-slot="style_slot">
-      <link href="++resource++openlayers.css" rel="stylesheet" type="text/css" />
-    </metal:block> -->
  <body>
   <metal:main fill-slot="main" 
        tal:define="kssClassesView context/@@kss_field_decorator_view;
