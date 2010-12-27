@@ -4,6 +4,7 @@ Changelog
 0.3 (unreleased)
 ----------------
 
+- fixed UnicodeDecodeError in maplayers [gborelli]
 - Added dutch translations [robgietema]
 
 

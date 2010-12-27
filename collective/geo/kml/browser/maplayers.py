@@ -15,7 +15,7 @@ class KMLMapLayer(MapLayer):
         if not context_url.endswith('/'):
             context_url += '/'
 
-        return"""
+        jsfactory = """
         function() { return new OpenLayers.Layer.GML('%s', '%s' + '@@kml-document',
             { format: OpenLayers.Format.KML,
               projection: cgmap.createDefaultOptions().displayProjection,
@@ -24,3 +24,4 @@ class KMLMapLayer(MapLayer):
                   extractAttributes: true }
             });}""" % (self.context.Title().replace("'", "\'"), context_url)
 
+        return unicode(jsfactory, 'utf8')
