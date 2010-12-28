@@ -12,7 +12,7 @@ setup(name='collective.geo.kml',
       classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
-        "Topic :: Software Development :: Libraries :: Python Modules :: Scientific/Engineering :: GIS",
+        "Topic :: Software Development :: Libraries :: Python Modules",
         ],
       keywords='plone geo gis kml google earth',
       author='Giorgio Borelli',
