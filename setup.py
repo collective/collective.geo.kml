@@ -11,10 +11,11 @@ setup(name='collective.geo.kml',
       # Get more strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
+        "Topic :: Internet",
+        "Topic :: Scientific/Engineering :: GIS",
         "Programming Language :: Python",
-        "Topic :: Software Development :: Libraries :: Python Modules",
         ],
-      keywords='plone geo gis kml google earth',
+      keywords='Zope Plone GIS KML Google Maps Bing Yahoo OpenLayers',
       author='Giorgio Borelli',
       author_email='giorgio@giorgioborelli.it',
       url='https://svn.plone.org/svn/collective/collective.geo.kml',
