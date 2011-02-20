@@ -16,12 +16,18 @@ class KMLMapLayer(MapLayer):
             context_url += '/'
 
         jsfactory = """
-        function() { return new OpenLayers.Layer.GML('%s', '%s' + '@@kml-document',
+        function() { var layer = new OpenLayers.Layer.GML('%s', '%s' + '@@kml-document',
             { format: OpenLayers.Format.KML,
               projection: cgmap.createDefaultOptions().displayProjection,
               formatOptions: {
                   extractStyles: true,
                   extractAttributes: true }
-            });}""" % (self.context.Title().replace("'", "\'"), context_url)
+            });
+            layer.events.on({
+                "loadend": function() {
+                    layer.map.zoomToExtent(layer.getDataExtent());
+            }});
+            return layer
+            }""" % (self.context.Title().replace("'", "\'"), context_url)
 
         return unicode(jsfactory, 'utf8')
