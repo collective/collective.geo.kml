@@ -32,5 +32,7 @@ setup(name='collective.geo.kml',
       ],
       entry_points="""
       # -*- Entry points: -*-
+      [z3c.autoinclude.plugin]
+      target = plone
       """,
       )
