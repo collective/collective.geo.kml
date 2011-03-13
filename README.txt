@@ -26,11 +26,6 @@ You can install collective.geo.kml as part of a specific project's buildout, by 
         eggs = 
             collective.geo.kml
         ...
-        [instance]
-        ...
-        zcml = 
-            collective.geo.kml
-
 
 Contributors
 ------------

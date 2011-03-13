@@ -4,6 +4,7 @@ Changelog
 0.2.3 (unreleased)
 ------------------
 
+- changed map widgets jsfactory to provide a simple way to customize it
 - added z3c.autoinclude entry point
 
 

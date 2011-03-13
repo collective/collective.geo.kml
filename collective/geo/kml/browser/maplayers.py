@@ -1,3 +1,4 @@
+from plone.memoize.instance import memoizedproperty
 from collective.geo.mapwidget.maplayers import MapLayer
 
 
@@ -5,29 +6,13 @@ class KMLMapLayer(MapLayer):
     """
     a layer for one level sub objects.
     """
+    name = 'kml'
 
-    def __init__(self, context):
-        self.context = context
-
-    @property
+    @memoizedproperty
     def jsfactory(self):
         context_url = self.context.absolute_url()
         if not context_url.endswith('/'):
             context_url += '/'
-
-        jsfactory = """
-        function() { var layer = new OpenLayers.Layer.GML('%s', '%s' + '@@kml-document',
-            { format: OpenLayers.Format.KML,
-              projection: cgmap.createDefaultOptions().displayProjection,
-              formatOptions: {
-                  extractStyles: true,
-                  extractAttributes: true }
-            });
-            layer.events.on({
-                "loadend": function() {
-                    layer.map.zoomToExtent(layer.getDataExtent());
-            }});
-            return layer
-            }""" % (self.context.Title().replace("'", "\'"), context_url)
-
-        return unicode(jsfactory, 'utf8')
+        template = self.context.restrictedTraverse('%s-layer' % self.name)()
+        return template % (self.context.Title().replace("'", "\'"),
+                           context_url)

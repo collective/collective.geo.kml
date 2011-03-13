@@ -87,4 +87,19 @@
       factory=".viewlets.KMLMapViewletLayers"
       />
 
+  <!-- layers views -->
+  <browser:page
+      name="kml-layer"
+      for="*"
+      template="layers_templates/kml_layer.pt"
+      permission="zope.Public"
+      />
+
+  <browser:page
+      name="kmlviewlet-layer"
+      for="*"
+      template="layers_templates/kml_layer.pt"
+      permission="zope.Public"
+      />
+
 </configure>

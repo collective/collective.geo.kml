@@ -4,8 +4,12 @@ from collective.geo.geographer.interfaces import IGeoreferenced
 
 from collective.geo.mapwidget.browser.widget import MapLayers
 
-from collective.geo.kml.browser.maplayers import KMLMapLayer
+from collective.geo.kml.browser.maplayers import KMLMapLayer as BaseLayer
 from collective.geo.kml.interfaces import IKMLOpenLayersViewlet
+
+
+class KMLMapLayer(BaseLayer):
+    name = 'kmlviewlet'
 
 
 class ContentViewlet(ViewletBase):
@@ -30,5 +34,5 @@ class KMLMapViewletLayers(MapLayers):
 
     def layers(self):
         layers = super(KMLMapViewletLayers, self).layers()
-        layers.append(KMLMapLayer(self.context))
+        layers.append(KMLMapLayer(context=self.context))
         return layers
