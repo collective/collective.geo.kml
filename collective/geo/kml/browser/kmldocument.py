@@ -227,7 +227,7 @@ class Placemark(Feature):
         if has_leadimage and not image_field:
             image_field = obj.getField(IMAGE_FIELD_NAME)
 
-        if image_field:
+        if image_field and image_field.get_size(obj):
             return image_field.tag(obj, scale=scale, css_class=css_class)
         return None
 
