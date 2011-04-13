@@ -4,8 +4,11 @@ Changelog
 0.2.3 (unreleased)
 ------------------
 
-- changed map widgets jsfactory to provide a simple way to customize it
-- added z3c.autoinclude entry point
+- changed Browser import from Testing.testbrowser [gborelli]
+- removed five:implements directive in configure.zcml [gborelli]
+- added extra_requires in setup.py for test [gborelli]
+- changed map widgets jsfactory to provide a simple way to customize it [gborelli]
+- added z3c.autoinclude entry point [gborelli]
 
 
 0.2.2 (2011-02-20)

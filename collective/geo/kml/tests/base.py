@@ -1,6 +1,7 @@
 from zope.interface import implements, alsoProvides
 
-from Products.Five import zcml
+# from Products.Five import zcml
+from Zope2.App import zcml
 from Products.Five import fiveconfigure
 
 from Products.PloneTestCase import PloneTestCase as ptc

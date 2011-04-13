@@ -30,6 +30,10 @@ setup(name='collective.geo.kml',
           'collective.geo.mapwidget',
           'collective.geo.geographer',
       ],
+      extras_require = {
+        'test': [
+            'Products.PloneTestCase']
+      },
       entry_points="""
       # -*- Entry points: -*-
       [z3c.autoinclude.plugin]

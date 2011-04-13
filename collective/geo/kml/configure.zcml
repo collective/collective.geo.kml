@@ -14,15 +14,12 @@
   <include package=".browser"/>
   <include file="profiles.zcml"/>
 
-  <five:implements
-      class="Products.CMFDefault.DublinCore.DefaultDublinCoreImpl"
-      interface="zope.dublincore.interfaces.ICMFDublinCore"
-      />
+  <class class="Products.CMFDefault.DublinCore.DefaultDublinCoreImpl">
+    <implements interface="zope.dublincore.interfaces.ICMFDublinCore" /></class>
 
-  <five:implements
-      class="Products.Archetypes.ExtensibleMetadata.ExtensibleMetadata"
-      interface="zope.dublincore.interfaces.ICMFDublinCore"
-      />
+  <class class="Products.Archetypes.ExtensibleMetadata.ExtensibleMetadata">
+    <implements interface="zope.dublincore.interfaces.ICMFDublinCore" /></class>
+
 
   <adapter
       factory=".browser.kmldocument.Placemark"

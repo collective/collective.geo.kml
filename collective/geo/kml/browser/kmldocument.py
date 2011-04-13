@@ -8,14 +8,7 @@ from zope.publisher.browser import BrowserPage
 
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 
-#robert@redcor.ch
-#the following try block added for plone 4.1 compatibility
-from zope.interface import directlyProvides
-try:
-    from zope.app.schema.vocabulary import IVocabularyFactory
-except ImportError:
-    # robert@redcor.ch Plone 4.1
-    from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.interfaces import IVocabularyFactory
 
 from Products.CMFCore.Expression import Expression, getExprContext
 from plone.registry.interfaces import IRegistry
