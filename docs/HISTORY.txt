@@ -4,6 +4,7 @@ Changelog
 0.2.3 (unreleased)
 ------------------
 
+- fixed UnicodeDecodeError in KMLMapLayer [gborelli]
 - check image size in kml popup, fix #26 [gborelli] 
 - changed Browser import from Testing.testbrowser [gborelli]
 - removed five:implements directive in configure.zcml [gborelli]
