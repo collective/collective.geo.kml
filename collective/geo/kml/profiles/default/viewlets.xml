@@ -3,4 +3,9 @@
  <order manager="plone.abovecontentbody" skinname="*">
   <viewlet name="collective.geo.kml.kmlcontentviewlet" insert-after="*" />
  </order>
+
+ <order manager="plone.belowcontentbody" skinname="*">
+  <viewlet name="collective.geo.kml.kmlbelowcontentviewlet" insert-after="*" />
+ </order>
+
 </object>
