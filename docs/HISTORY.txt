@@ -4,11 +4,13 @@ Changelog
 0.2.3 (unreleased)
 ------------------
 
+- added the possibility to move or hide the kmlviewlet [gborelli|nan]
+- added kmlbelowcontentviewlet viewlet [gborelli]
 - fixed UnicodeDecodeError in KMLMapLayer [gborelli]
 - check image size in kml popup, fix #26 [gborelli] 
+- plone 4.1 fixes [gborelli]
 - changed Browser import from Testing.testbrowser [gborelli]
 - removed five:implements directive in configure.zcml [gborelli]
-- added extra_requires in setup.py for test [gborelli]
 - changed map widgets jsfactory to provide a simple way to customize it [gborelli]
 - added z3c.autoinclude entry point [gborelli]
 
