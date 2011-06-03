@@ -1,5 +1,6 @@
 from zope.interface import implements
 from zope.component import getUtility
+from zope.component import queryAdapter
 
 from plone.app.layout.viewlets import ViewletBase
 from plone.registry.interfaces import IRegistry
@@ -30,8 +31,8 @@ class ContentViewlet(ViewletBase):
 
     @property
     def map_viewlet_position(self):
-        custom_styles = IGeoCustomFeatureStyle(self.context)
-        if custom_styles.use_custom_styles:
+        custom_styles = queryAdapter(IGeoCustomFeatureStyle, self.context)
+        if custom_styles and custom_styles.use_custom_styles:
             return custom_styles.map_viewlet_position
         else:
             defaultstyles = getUtility(IRegistry).forInterface(
