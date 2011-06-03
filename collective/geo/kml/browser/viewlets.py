@@ -31,7 +31,7 @@ class ContentViewlet(ViewletBase):
 
     @property
     def map_viewlet_position(self):
-        custom_styles = queryAdapter(IGeoCustomFeatureStyle, self.context)
+        custom_styles = queryAdapter(self.context, IGeoCustomFeatureStyle
         if custom_styles and custom_styles.use_custom_styles:
             return custom_styles.map_viewlet_position
         else:
