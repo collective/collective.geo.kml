@@ -43,19 +43,37 @@ def absoluteURL(ob, request):
 
 def coords_to_kml(geom):
     gtype = geom.type
+    coordlist = []
     if gtype == 'Point':
         coords = (geom.coordinates,)
+        coordlist.append(coords)
     elif gtype == 'Polygon':
         coords = geom.coordinates[0]
-    else:
+        coordlist.append(coords)
+    elif gtype == 'LineString':
         coords = geom.coordinates
-    if len(coords[0]) == 2:
-        tuples = ('%f,%f,0.0' % tuple(c) for c in coords)
-    elif len(coords[0]) == 3:
-        tuples = ('%f,%f,%f' % tuple(c) for c in coords)
+        coordlist.append(coords)
+    elif gtype == 'MultiPoint':
+        coordlist = geom.coordinates
+    elif gtype == 'MultiPolygon':
+         coordlist = [c[0] for c in geom.coordinates]
+    elif gtype == 'MultiLineString':
+         coordlist = geom.coordinates
     else:
-        raise ValueError, "Invalid dimensions"
-    return ' '.join(tuples)
+        raise ValueError, "Invalid geometry type"
+    coords_kml =[]
+    for coordinates in coordlist:
+        if len(coordinates[0]) == 2:
+            tuples = ('%f,%f,0.0' % tuple(c) for c in coordinates)
+        elif len(coordinates[0]) == 3:
+            tuples = ('%f,%f,%f' % tuple(c) for c in coordinates)
+        else:
+            raise ValueError, "Invalid dimensions"
+        coords_kml.append(' '.join(tuples))
+    if gtype in ['Point', 'Polygon','LineString']:
+        return coords_kml[0]
+    else:
+        return coords_kml
 
 class NullGeometry(object):
     type = None
@@ -124,6 +142,19 @@ class Placemark(Feature):
     @property
     def hasPolygon(self):
         return int(self.geom.type == 'Polygon')
+
+    @property
+    def hasMultiPoint(self):
+        return int(self.geom.type == 'MultiPoint')
+
+    @property
+    def hasMultiLineString(self):
+        return int(self.geom.type == 'MultiLineString')
+
+    @property
+    def hasMultiPolygon(self):
+        return int(self.geom.type == 'MultiPolygon')
+
 
     @property
     def coords_kml(self):

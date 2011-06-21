@@ -79,6 +79,9 @@
                            hasPoint feature/hasPoint;
                            hasLineString feature/hasLineString;
                            hasPolygon feature/hasPolygon;
+                           hasMultiLineString feature/hasMultiLineString;
+                           hasMultiPolygon feature/hasMultiPolygon;
+                           hasMultiPoint feature/hasMultiPoint;
                            coords_kml feature/coords_kml;
                            use_custom_style feature/use_custom_styles;
                            styleid nothing;

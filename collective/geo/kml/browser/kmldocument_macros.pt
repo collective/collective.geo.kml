@@ -33,7 +33,7 @@
           <span tal:replace="structure string:&lt;![CDATA[" />
           <div class="placemark-data">
             <metal:image define-slot="placemark-image">
-              <a class="placemark-image" href="#" 
+              <a class="placemark-image" href="#"
                  tal:attributes="href item_view_url;"
                  tal:condition="placemark_lead_image|nothing">
                 <img src="" alt=""
@@ -98,7 +98,31 @@
           </LinearRing>
         </outerBoundaryIs>
         </Polygon>
-
+        <MultiGeometry tal:condition="hasMultiPoint">
+            <Point tal:repeat="kml_coords coords_kml">
+              <coordinates tal:content="kml_coords">
+                COORDINATE LIST
+              </coordinates>
+            </Point>
+        </MultiGeometry>
+        <MultiGeometry tal:condition="hasMultiLineString">
+            <LineString tal:repeat="kml_coords coords_kml">
+              <coordinates tal:content="kml_coords">
+                COORDINATE LIST
+              </coordinates>
+        </LineString>
+        </MultiGeometry>
+        <MultiGeometry tal:condition="hasMultiPolygon">
+            <Polygon tal:repeat="kml_coords coords_kml">
+            <outerBoundaryIs>
+              <LinearRing>
+                <coordinates tal:content="kml_coords">
+                  COORDINATE LIST
+                </coordinates>
+              </LinearRing>
+            </outerBoundaryIs>
+            </Polygon>
+        </MultiGeometry>
       </Placemark>
       </metal:placemark>
 
