@@ -19,7 +19,7 @@ from collective.geo.settings import DISPLAY_PROPERTIES_DATES
 
 from collective.geo.kml.interfaces import IFeature, IContainer, IPlacemark
 from collective.geo.kml.utils import web2kmlcolor
-
+import cgi
 
 # support to collective.contentleadimage
 has_leadimage = True
@@ -95,7 +95,7 @@ class Feature(BrowserPage):
 
     @property
     def description(self):
-        return self.dc.Description()
+        return cgi.escape(self.dc.Description())
 
     @property
     def author(self):

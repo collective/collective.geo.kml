@@ -40,7 +40,7 @@
                     tal:replace="structure placemark_lead_image"/>
               </a>
             </metal:image>
-            <p tal:content="description" tal:omit-tag="not:description">ITEM DESCRIPTION</p>
+            <p tal:content="structure description" tal:omit-tag="not:description">ITEM DESCRIPTION</p>
 
             <metal:properties define-slot="properties">
               <tal:properties condition="display_properties">

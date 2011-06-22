@@ -85,11 +85,11 @@
                            coords_kml feature/coords_kml;
                            use_custom_style feature/use_custom_styles;
                            styleid nothing;
-                           marker_image_size python:hasPoint and feature.marker_image_size or None;
-                           marker_image python:hasPoint and feature.marker_image or None;
-                           linecolor python:hasLineString and feature.linecolor or None;
-                           linewidth python:hasLineString and feature.linewidth or None;
-                           polygoncolor python:hasPolygon and feature.polygoncolor or None;
+                           marker_image_size python:(hasPoint or hasMultiPoint) and feature.marker_image_size or None;
+                           marker_image python:(hasPoint or hasMultiPoint) and feature.marker_image or None;
+                           linecolor python:(hasLineString or hasMultiLineString) and feature.linecolor or None;
+                           linewidth python:(hasLineString or hasMultiLineString) and feature.linewidth or None;
+                           polygoncolor python:(hasPolygon or hasMultiPolygon) and feature.polygoncolor or None;
                            placemark_lead_image feature/lead_image|nothing">
         <metal:placemark use-macro="context/@@kmldocument-macros/placemark">
 
