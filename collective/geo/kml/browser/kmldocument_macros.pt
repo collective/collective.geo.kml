@@ -7,7 +7,7 @@
      i18n:domain="collective.geo.kml"
      tal:omit-tag="">
 
-      <tal:comment>A macro to include all style declarations</tal:comment>
+      <tal:comment replace="nothing">A macro to include all style declarations</tal:comment>
       <metal:kmlstyle define-macro="kmlstyle">
         <Style tal:attributes="id styleid | nothing">
           <IconStyle tal:condition="python:marker_image_size and marker_image">
@@ -27,7 +27,7 @@
         </Style>
       </metal:kmlstyle>
 
-      <tal:comment>A macro to include the placemark data</tal:comment>
+      <tal:comment replace="nothing">A macro to include the placemark data</tal:comment>
       <metal:description define-macro="kmldescription">
         <description>
           <span tal:replace="structure string:&lt;![CDATA[" />
@@ -66,7 +66,7 @@
       </metal:description>
 
 
-      <tal:comment>A macro to describe a placemark</tal:comment>
+      <tal:comment replace="nothing">A macro to describe a placemark</tal:comment>
       <metal:placemark define-macro="placemark">
       <Placemark tal:condition="coords_kml | nothing">
         <name tal:content="name">TITLE</name>
