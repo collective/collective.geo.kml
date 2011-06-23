@@ -1,0 +1,24 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: collective.geo.kml\n"
+"POT-Creation-Date: 2011-06-23 20:42+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: Rob Gietema <rob@fourdigits.nl>\n"
+"Language-Team: Rob Gietema <rob@fourdigits.nl>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: nl\n"
+"Language-Name: Dutch\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: plone\n"
+
+#: ../profiles/default/actions.xml
+msgid "Download KML"
+msgstr ""
+
+#: ../profiles/default/actions.xml
+msgid "Download the KML file associated with this content"
+msgstr ""
+
