@@ -4,6 +4,9 @@ Changelog
 0.2.3 (unreleased)
 ------------------
 
+- added improvements about the Internationalization [macagua]
+- added support for Spanish localization for collective.geo.kml domain [macagua]
+- added support for Spanish, Italian and Dutch localizations for plone domain on 'i18n' directory [macagua]
 - added the possibility to move or hide the kmlviewlet [gborelli|nan]
 - added kmlbelowcontentviewlet viewlet [gborelli]
 - fixed UnicodeDecodeError in KMLMapLayer [gborelli]
