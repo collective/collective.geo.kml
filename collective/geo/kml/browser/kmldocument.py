@@ -54,7 +54,7 @@ def coords_to_kml(geom):
         coords = geom.coordinates
         coordlist.append(coords)
     elif gtype == 'MultiPoint':
-        coordlist = geom.coordinates
+        coordlist = [[g,] for g in geom.coordinates]
     elif gtype == 'MultiPolygon':
          coordlist = [c[0] for c in geom.coordinates]
     elif gtype == 'MultiLineString':
