@@ -4,6 +4,7 @@ Changelog
 0.2.3 (unreleased)
 ------------------
 
+- Changed javascript to bind window load event to create map. It fixes #29 [gborelli]
 - added improvements about the Internationalization [macagua]
 - added support for Spanish localization for collective.geo.kml domain [macagua]
 - added support for Spanish, Italian and Dutch localizations for plone domain on 'i18n' directory [macagua]

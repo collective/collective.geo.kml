@@ -1,5 +1,4 @@
-
-jq(document).ready(function() {
+jq(window).bind('load', function() {
     var map = cgmap.config['default-cgmap'].map;
 
     var kmls = map.getLayersByClass('OpenLayers.Layer.GML');
