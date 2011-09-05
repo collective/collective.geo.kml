@@ -34,4 +34,5 @@ Contributors
 * Giorgio Borelli
 * Silvio Tomatis
 * David Breitkreutz, rockdj
-
+* Rob Gietema, robgietema
+* Leonardo J. Caballero G, macagua
