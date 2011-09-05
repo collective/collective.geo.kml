@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
-"POT-Creation-Date: 2010-05-03 16:21+0000\n"
+"POT-Creation-Date: 2011-09-05 05:07+0000\n"
 "PO-Revision-Date: 2009-09-20 13:24+0100\n"
 "Last-Translator: Rob Gietema <rob@fourdigits.nl>\n"
 "Language-Team: Rob Gietema <rob@fourdigits.nl>\n"
@@ -14,8 +14,16 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: collective.geo.kml\n"
 
+#: ../profiles/default/actions.xml
+msgid "Download KML"
+msgstr ""
+
+#: ../profiles/default/actions.xml
+msgid "Download the KML file associated with this content"
+msgstr ""
+
 #. Default: "See the original resource"
-#: ./browser/kmldocument_macros.pt:59
+#: ../browser/kmldocument_macros.pt:43
 msgid "See the original resource"
 msgstr "Zie de originele bron"
 

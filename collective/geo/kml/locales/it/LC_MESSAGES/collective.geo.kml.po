@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
-"POT-Creation-Date: 2010-05-03 16:21+0000\n"
+"POT-Creation-Date: 2011-09-05 05:07+0000\n"
 "PO-Revision-Date: 2009-06-12 19:29+0000\n"
 "Last-Translator: Giorgio Borelli\n"
 "Language-Team: <giorgio@giorgioborelli.it>\n"
@@ -17,8 +17,16 @@ msgstr ""
 "Domain: collective.geo.kml\n"
 "X-Is-Fallback-For: it-it it-ch it-sm it-hr it-si\n"
 
+#: ../profiles/default/actions.xml
+msgid "Download KML"
+msgstr "Scarica KML"
+
+#: ../profiles/default/actions.xml
+msgid "Download the KML file associated with this content"
+msgstr "Scarica il file KML associato al contenuto"
+
 #. Default: "See the original resource"
-#: ./browser/kmldocument_macros.pt:59
+#: ../browser/kmldocument_macros.pt:43
 msgid "See the original resource"
 msgstr "Visualizza la risorsa originale"
 
