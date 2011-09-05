@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.2.3'
+version = '0.2.4dev'
 
 setup(name='collective.geo.kml',
       version=version,
