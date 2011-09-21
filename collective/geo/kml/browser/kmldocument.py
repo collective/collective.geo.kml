@@ -208,6 +208,16 @@ class Placemark(Feature):
             return self.styles['marker_image_size']
         return u''
 
+    @property
+    def item_type(self):
+         return self.dc.portal_type()
+
+    @property
+    def item_url(self):
+        return self.dc.absolute_url()
+
+
+
     def display_properties(self, document):
         properties = document.display_properties
         if self.styles and self.use_custom_styles:
@@ -287,12 +297,10 @@ class BrainPlacemark(Placemark):
     def __init__(self, context, request, document):
         self.context = context
         self.request = request
-        self.dc = context.getObject()
-        try:
-            self.geom = IGeoreferenced(self.dc)
-        except:
-            self.geom = NullGeometry()
-
+        self.geom = NullGeometry()
+        if context.zgeo_geometry:
+            self.geom.type = context.zgeo_geometry['type']
+            self.geom.coordinates = context.zgeo_geometry['coordinates']
         try:
             self.styles = self.context.collective_geo_styles
         except:
@@ -319,6 +327,14 @@ class BrainPlacemark(Placemark):
 
     def getDisplayValue(self, prop):
         return self.formatDisplayProperty(getattr(self.context, prop), prop)
+
+    @property
+    def item_type(self):
+         return self.context.portal_type;
+    @property
+    def item_url(self):
+        return self.context.getURL()
+
 
 
 class KMLBaseDocument(Feature):

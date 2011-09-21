@@ -68,9 +68,8 @@
       </Folder>
 
       <tal:feature condition="not: exists:feature/features"
-                   define="item_object python:feature.dc;
-                           item_type item_object/portal_type;
-                           item_url item_object/absolute_url;
+                   define="item_type feature/item_type;
+                           item_url feature/item_url;
                            item_view_url python:(item_type in use_view_action and item_url+'/view') or item_url;
                            name feature/name;
                            author feature/author/name;
