@@ -210,7 +210,7 @@ class Placemark(Feature):
 
     @property
     def item_type(self):
-         return self.dc.portal_type()
+         return self.dc.portal_type
 
     @property
     def item_url(self):
