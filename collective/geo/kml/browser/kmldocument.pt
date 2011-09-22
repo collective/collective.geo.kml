@@ -31,9 +31,8 @@
         <name tal:content="feature/name"><tal:comment replace="nothing">TITLE</tal:comment></name>
         <description tal:content="feature/description"><tal:comment replace="nothing">DESCRIPTION</tal:comment></description>
         <tal:placemarks repeat="placemark feature/features">
-          <tal:feature define="item_object placemark/dc;
-                               item_type item_object/portal_type;
-                               item_url item_object/absolute_url;
+          <tal:feature define="item_type view/item_type;
+                               item_url view/item_url;
                                item_view_url python:(item_type in use_view_action and item_url+'/view') or item_url;
                                name placemark/name;
                                author placemark/author/name;
@@ -42,6 +41,9 @@
                                hasPoint placemark/hasPoint;
                                hasLineString placemark/hasLineString;
                                hasPolygon placemark/hasPolygon;
+                               hasMultiLineString feature/hasMultiLineString;
+                               hasMultiPolygon feature/hasMultiPolygon;
+                               hasMultiPoint feature/hasMultiPoint;
                                coords_kml placemark/coords_kml;
                                use_custom_style feature/use_custom_styles;
                                styleid nothing;

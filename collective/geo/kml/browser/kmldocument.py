@@ -210,7 +210,10 @@ class Placemark(Feature):
 
     @property
     def item_type(self):
-         return self.dc.portal_type
+        if callable(self.dc.portal_type):
+            return self.dc.portal_type()
+        else:
+            return self.dc.portal_type
 
     @property
     def item_url(self):
@@ -331,6 +334,7 @@ class BrainPlacemark(Placemark):
     @property
     def item_type(self):
          return self.context.portal_type;
+
     @property
     def item_url(self):
         return self.context.getURL()
