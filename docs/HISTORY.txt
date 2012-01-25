@@ -4,7 +4,7 @@ Changelog
 0.2.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- - Added French translation [Fabien Moret]
 
 
 0.2.3 (2011-09-05)
