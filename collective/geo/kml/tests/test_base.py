@@ -14,16 +14,19 @@ def test_suite():
         ztc.FunctionalDocFileSuite(
             'README.txt', package='collective.geo.kml',
             test_class=base.CustomStylesFunctionalTestCase,
-            optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
+            optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | \
+                        doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
 
         ztc.FunctionalDocFileSuite(
             'kml-docs.txt', package='collective.geo.kml.tests',
             test_class=base.FunctionalTestCase,
-            optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
+            optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | \
+                    doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
 
         ztc.FunctionalDocFileSuite(
             'folder-kml.txt', package='collective.geo.kml.tests',
             test_class=base.FunctionalTestCase,
-            optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
+            optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | \
+                    doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS),
 
         ])

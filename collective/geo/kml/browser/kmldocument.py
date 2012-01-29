@@ -31,9 +31,9 @@ except:
 
 def get_marker_image(context, marker_img):
     try:
-         marker_img = Expression(str(marker_img))(getExprContext(context))
+        marker_img = Expression(str(marker_img))(getExprContext(context))
     except:
-         marker_img = ''
+        marker_img = ''
     return marker_img
 
 
@@ -54,26 +54,27 @@ def coords_to_kml(geom):
         coords = geom.coordinates
         coordlist.append(coords)
     elif gtype == 'MultiPoint':
-        coordlist = [[g,] for g in geom.coordinates]
+        coordlist = [[g, ] for g in geom.coordinates]
     elif gtype == 'MultiPolygon':
-         coordlist = [c[0] for c in geom.coordinates]
+        coordlist = [c[0] for c in geom.coordinates]
     elif gtype == 'MultiLineString':
-         coordlist = geom.coordinates
+        coordlist = geom.coordinates
     else:
-        raise ValueError, "Invalid geometry type"
-    coords_kml =[]
+        raise ValueError("Invalid geometry type")
+    coords_kml = []
     for coordinates in coordlist:
         if len(coordinates[0]) == 2:
             tuples = ('%f,%f,0.0' % tuple(c) for c in coordinates)
         elif len(coordinates[0]) == 3:
             tuples = ('%f,%f,%f' % tuple(c) for c in coordinates)
         else:
-            raise ValueError, "Invalid dimensions"
+            raise ValueError("Invalid dimensions")
         coords_kml.append(' '.join(tuples))
-    if gtype in ['Point', 'Polygon','LineString']:
+    if gtype in ['Point', 'Polygon', 'LineString']:
         return coords_kml[0]
     else:
         return coords_kml
+
 
 class NullGeometry(object):
     type = None
@@ -87,7 +88,8 @@ class Feature(BrowserPage):
 
     @property
     def id(self):
-        return '%s/@@%s' % (absoluteURL(self.context, self.request), self.__name__)
+        return '%s/@@%s' % (absoluteURL(self.context, self.request),
+                            self.__name__)
 
     @property
     def name(self):
@@ -155,7 +157,6 @@ class Placemark(Feature):
     def hasMultiPolygon(self):
         return int(self.geom.type == 'MultiPolygon')
 
-
     @property
     def coords_kml(self):
         try:
@@ -218,8 +219,6 @@ class Placemark(Feature):
     @property
     def item_url(self):
         return self.dc.absolute_url()
-
-
 
     def display_properties(self, document):
         properties = document.display_properties
@@ -333,18 +332,16 @@ class BrainPlacemark(Placemark):
 
     @property
     def item_type(self):
-         return self.context.portal_type;
+        return self.context.portal_type
 
     @property
     def item_url(self):
         return self.context.getURL()
 
 
-
 class KMLBaseDocument(Feature):
-    """
-        This class extends Feature class
-        and provides some properties for kml-document from IGeoFeatureStyle
+    """This class extends Feature class
+    and provides some properties for kml-document from IGeoFeatureStyle
     """
     implements(IContainer)
     __name__ = 'kml-document'
@@ -364,8 +361,10 @@ class KMLBaseDocument(Feature):
     def __call__(self):
         # bha! --- Internet explorer cache the kml-document
         # self.request.RESPONSE.setHeader('Cache-Control','max-age=3600')
-        # self.request.RESPONSE.setHeader('Expires','Thu, 01 Aug 2000 09:00:00 GMT')
-        # self.request.RESPONSE.setHeader('Last-Modified', 'Thu, 01 Aug 2000 09:00:00 GMT')
+        # self.request.RESPONSE.setHeader(
+        #               'Expires','Thu, 01 Aug 2000 09:00:00 GMT')
+        # self.request.RESPONSE.setHeader(
+        #               'Last-Modified', 'Thu, 01 Aug 2000 09:00:00 GMT')
         # self.request.RESPONSE.setHeader('Pragma', 'no-cache')
         return self.template().encode('utf-8')
 

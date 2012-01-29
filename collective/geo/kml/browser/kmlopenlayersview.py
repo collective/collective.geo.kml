@@ -16,17 +16,16 @@ class KmlOpenLayersView(BrowserView):
 
 
 class KMLMapLayers(MapLayers):
-    '''
-    create all layers for this view.
+    '''create all layers for this view.
     '''
 
     def layers(self):
         layers = super(KMLMapLayers, self).layers()
         layers.append(KMLMapLayer(context=self.context))
-        # TODO: for each sub folder or collection creat new layer (sublayer)
+        # TODO: for each sub folder or collection create new layer (sublayer)
         path = '/'.join(self.context.getPhysicalPath())
         query = {'query': path, 'depth': 1}
         for brain in self.context.portal_catalog(path=query,
                                 object_provides=IFolderish.__identifier__):
-            layers.append(KMLMapLayer(context = brain.getObject()))
+            layers.append(KMLMapLayer(context=brain.getObject()))
         return layers

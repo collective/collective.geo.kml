@@ -53,5 +53,3 @@ class IKMLOpenLayersView(IMapView):
 
 class IKMLOpenLayersViewlet(Interface):
     """Marker interface for Viewlet"""
-
-
