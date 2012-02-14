@@ -1,42 +1,43 @@
 Changelog
 =========
 
-0.2.4 (unreleased)
-------------------
+2.4 (unreleased)
+----------------
 
-- - Added French translation [Fabien Moret]
+* Fixed title in kml layer - #33 [gborelli]
+* Added French translation [Fabien Moret]
 
 
 0.2.3 (2011-09-05)
 ------------------
 
-- Changed javascript to bind window load event to create map. It fixes #29 [gborelli]
-- added improvements about the Internationalization [macagua]
-- added support for Spanish localization for collective.geo.kml domain [macagua]
-- added support for Spanish, Italian and Dutch localizations for plone domain on 'i18n' directory [macagua]
-- added the possibility to move or hide the kmlviewlet [gborelli|nan]
-- added kmlbelowcontentviewlet viewlet [gborelli]
-- fixed UnicodeDecodeError in KMLMapLayer [gborelli]
-- check image size in kml popup, fix #26 [gborelli]
-- plone 4.1 fixes [gborelli]
-- changed Browser import from Testing.testbrowser [gborelli]
-- removed five:implements directive in configure.zcml [gborelli]
-- changed map widgets jsfactory to provide a simple way to customize it [gborelli]
-- added z3c.autoinclude entry point [gborelli]
-- added support for MultiPoint, MultiPolygon, MultiLineString as kml MultiGeometry [nan]
+* Changed javascript to bind window load event to create map. It fixes #29 [gborelli]
+* added improvements about the Internationalization [macagua]
+* added support for Spanish localization for collective.geo.kml domain [macagua]
+* added support for Spanish, Italian and Dutch localizations for plone domain on 'i18n' directory [macagua]
+* added the possibility to move or hide the kmlviewlet [gborelli|nan]
+* added kmlbelowcontentviewlet viewlet [gborelli]
+* fixed UnicodeDecodeError in KMLMapLayer [gborelli]
+* check image size in kml popup, fix #26 [gborelli]
+* plone 4.1 fixes [gborelli]
+* changed Browser import from Testing.testbrowser [gborelli]
+* removed five:implements directive in configure.zcml [gborelli]
+* changed map widgets jsfactory to provide a simple way to customize it [gborelli]
+* added z3c.autoinclude entry point [gborelli]
+* added support for MultiPoint, MultiPolygon, MultiLineString as kml MultiGeometry [nan]
 
 
 0.2.2 (2011-02-20)
 ------------------
 
-- added zoomToExtent to kml layer
+* added zoomToExtent to kml layer
 
 
 0.2.1 (2010-12-28)
 ------------------
 
-- fixed UnicodeDecodeError in maplayers [gborelli]
-- Added dutch translations [robgietema]
+* fixed UnicodeDecodeError in maplayers [gborelli]
+* Added dutch translations [robgietema]
 
 
 
