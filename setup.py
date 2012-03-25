@@ -6,7 +6,7 @@ version = '2.5.dev0'
 setup(name='collective.geo.kml',
       version=version,
       description="Kml view for collective.geo",
-      long_description=open("README.txt").read() + "\n" +
+      long_description=open("README.rst").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       classifiers=[
         "Framework :: Plone",

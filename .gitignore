@@ -1,0 +1,12 @@
+# Ignore python compiled files
+*.py[co]
+# Ignore eggs
+*.egg-info
+*.egg
+# Ignore backups
+*~
+.*.swp
+\#*
+# Ignore mo
+*.mo
+
