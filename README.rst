@@ -31,9 +31,9 @@ Contributors
 ------------
 
 * Sean Gillies 
-* Giorgio Borelli
-* Silvio Tomatis
-* David Breitkreutz, rockdj
+* Giorgio Borelli - gborelli
+* Silvio Tomatis - silviot
+* David Beitey - davidjb 
 * Christian Ledermann - nan
-* Rob Gietema, robgietema
-* Leonardo J. Caballero G, macagua
+* Rob Gietema - robgietema
+* Leonardo J. Caballero G - macagua
