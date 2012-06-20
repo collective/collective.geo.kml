@@ -4,7 +4,9 @@ Changelog
 2.5 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- KML Documents download with the relevant context's ID (`id.kml`) as their
+  filename rather than ``@@kml-document``.
+  [davidjb]
 
 
 2.4 (2012-02-14)

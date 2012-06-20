@@ -366,6 +366,10 @@ class KMLBaseDocument(Feature):
         # self.request.RESPONSE.setHeader(
         #               'Last-Modified', 'Thu, 01 Aug 2000 09:00:00 GMT')
         # self.request.RESPONSE.setHeader('Pragma', 'no-cache')
+        filename = '%s.kml' % self.context.id
+        self.request.response.setHeader(
+            'Content-Disposition',
+            'attachment; filename="%s"' % filename)
         return self.template().encode('utf-8')
 
     @property
