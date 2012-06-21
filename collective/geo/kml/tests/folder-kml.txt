@@ -39,6 +39,8 @@ Test the KML document view
     200
     >>> r.getHeader('Content-Type')
     'application/vnd.google-earth.kml+xml;charset=utf-8'
+    >>> r.getHeader('Content-Disposition')
+    'attachment; filename="large.kml"'
 
     >>> print r.getBody()
     <?xml version="1.0" encoding="utf-8"?>

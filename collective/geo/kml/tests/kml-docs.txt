@@ -48,6 +48,8 @@ Test the KML document view of the topic
     200
     >>> http_request.getHeader('Content-Type')
     'application/vnd.google-earth.kml+xml;charset=utf-8'
+    >>> http_request.getHeader('Content-Disposition')
+    'attachment; filename="topic.kml"'
 
     >>> print http_request.getBody()
     <?xml version="1.0" encoding="utf-8"?>
