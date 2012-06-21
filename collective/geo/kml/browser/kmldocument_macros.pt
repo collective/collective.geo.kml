@@ -55,7 +55,7 @@
           </div>
 
           <metal:url define-slot="placemarkurl">
-            <p class="placemark-url">
+            <p class="placemark-url" tal:condition="item_view_url">
                 <a tal:attributes="href item_view_url"
                    i18n:translate="">See the original resource</a>
             </p>
