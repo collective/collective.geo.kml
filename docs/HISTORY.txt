@@ -7,6 +7,7 @@ Changelog
 - KML Documents download with the relevant context's ID (`id.kml`) as their
   filename rather than ``@@kml-document``.
   [davidjb]
+- Added German translation [Denis Krienbühl]
 
 
 2.4 (2012-02-14)
