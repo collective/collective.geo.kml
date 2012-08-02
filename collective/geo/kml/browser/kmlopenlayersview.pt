@@ -7,7 +7,7 @@
       <metal:use use-macro="context/@@collectivegeo-macros/openlayers" />
     </metal:block>
  <body>
-  <metal:main fill-slot="main" 
+  <metal:main fill-slot="main"
        tal:define="kssClassesView context/@@kss_field_decorator_view;
                    getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
                    templateId template/getId" >
@@ -42,6 +42,7 @@
         <metal:use use-macro="context/@@collectivegeo-macros/map-widget"  />
         <script type="text/javascript"
                 src="++resource++geo.kml.javascripts/kml_openlayers.js"></script>
+        <div tal:replace="structure provider:collective.geo.kml.popupjs.manager" />
     </div>
     <div tal:replace="structure provider:plone.belowcontentbody" />
   </metal:main>
