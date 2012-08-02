@@ -114,22 +114,6 @@
       permission="zope.Public"
       />
 
-  <!-- insert JS code for popups into pages -->
-
-      <browser:viewletManager
-        name="collective.geo.kml.popupjs.manager"
-        provides="..interfaces.ICollectiveGeoPopUpJs"
-        permission="zope2.View"
-        class="plone.app.viewletmanager.manager.OrderedViewletManager"
-        />
-
-    <browser:viewlet
-        name="collective.geo.kml.popupjs"
-        manager="..interfaces.ICollectiveGeoPopUpJs"
-        layer="..interfaces.IGeoKmlLayer"
-        permission="zope2.View"
-        template="popupjs.pt"
-        />
 
 
 

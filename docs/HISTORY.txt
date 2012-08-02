@@ -4,8 +4,7 @@ Changelog
 2.5 (unreleased)
 ----------------
 
-- use Vector instead of GML layers for openlayers 2.12, add js for popups
-  as vectorlayers do not automatically extract the popups from KMLs
+- use Vector instead of GML layers for openlayers 2.12
   [nan]
 
 - KML Documents download with the relevant context's ID (`id.kml`) as their

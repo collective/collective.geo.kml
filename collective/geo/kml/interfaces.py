@@ -55,6 +55,3 @@ class IKMLOpenLayersView(IMapView):
 class IKMLOpenLayersViewlet(Interface):
     """Marker interface for Viewlet"""
 
-
-class ICollectiveGeoPopUpJs(IViewletManager):
-    """Slot to insert the JS for popups into a page """

@@ -1,7 +1,7 @@
 jq(window).bind('load', function() {
     var map = cgmap.config['default-cgmap'].map;
 
-    var kmls = map.getLayersByClass('OpenLayers.Layer.GML');
+    var kmls = map.getLayersByClass('OpenLayers.Layer.Vector');
     var select = new OpenLayers.Control.SelectFeature(kmls);
     select.onSelect = onFeatureSelect;
     select.onUnselect = onFeatureUnselect;
