@@ -4,14 +4,15 @@ collective.geo.kml
 Overview
 --------
 collective.geo.kml provides the necessary javascript to integrate a kml document in an opelayers layer.
-It build a kml file for Folder and Topic objects. 
+It build a kml file for Folder and Topic objects.
 Some kml properties can be set at site level.
 
 Test
 ----
 We have a generic (georeferenceable) Document and set some geographical data with collective.geo.geographer package
 
-    >>> document = self.folder['test-document']
+    >>> folder = layer['portal']['folder']
+    >>> document = folder['doc']
     >>> from collective.geo.geographer.interfaces import IWriteGeoreferenced
     >>> geo = IWriteGeoreferenced(document)
     >>> geo.setGeoInterface('Point', (-100, 40))
@@ -22,7 +23,6 @@ Set some extra metadata on the document so we can check for those
     >>> document.setLocation('Somewhere on Earth')
     >>> document.setCreators(['David', 'John', 'Bob'])
     >>> document.setRights('Some sort of copyright notice')
-    >>> document.reindexObject()
 
 Set the dates for the content so they are consistent and can be tested
 
@@ -31,15 +31,21 @@ Set the dates for the content so they are consistent and can be tested
     >>> document.setCreationDate(testDate)
     >>> document.setEffectiveDate(testDate)
     >>> document.setModificationDate(testDate)
-    >>> document.indexObject()
+    >>> document.reindexObject()
+    >>> import transaction
+    >>> transaction.commit()
 
-Folder that contain our document have a kml-document view
-    >>> from Products.PloneTestCase.setup import portal_owner, default_password
-    >>> r = http(r"""
-    ... GET /plone/Members/test_user_1_/@@kml-document HTTP/1.1
-    ... Authorization: Basic %s:%s
-    ... """ % (portal_owner, default_password), handle_errors=False)
-    >>> print r.getBody()
+The folder that contains our document have a kml-document view
+
+    >>> from plone.testing.z2 import Browser
+    >>> from plone.app.testing import TEST_USER_NAME
+    >>> from plone.app.testing import TEST_USER_PASSWORD
+    >>> browser = Browser(layer['app'])
+    >>> browser.addHeader('Authorization',
+    ...                   'Basic %s:%s' % (TEST_USER_NAME, TEST_USER_PASSWORD))
+    >>> browser.open("%s/@@kml-document" % folder.absolute_url())
+
+    >>> print browser.contents
     <?xml version="1.0" encoding="utf-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
     ...
@@ -47,7 +53,7 @@ Folder that contain our document have a kml-document view
               <IconStyle>
                 <scale>0.7</scale>
                <Icon>
-                <href>http://localhost/plone/img/marker.png</href>
+                <href>http://nohost/plone/img/marker.png</href>
                </Icon>
                <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
               </IconStyle>
@@ -60,32 +66,27 @@ Folder that contain our document have a kml-document view
               </PolyStyle>
             </Style>
     ...
-          <Placemark>
-            <name>Test document</name>
-            <atom:author>
-               <atom:name>David</atom:name>
-            </atom:author>
-            <atom:link href="http://localhost/plone/Members/test_user_1_/test-document"/>
+      <Placemark>
+        <name>Test document</name>
+        <atom:author>
+           <atom:name>David</atom:name>
+        </atom:author>
+        <atom:link href="http://nohost/plone/folder/doc"/>
     ...
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend</p>
+            <p>A test document</p>
     ...
-                        <dt>Title</dt>
-                        <dd>Test document</dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                        <dt>Description</dt>
-                        <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas malesuada, sapien non tincidunt semper, elit tortor varius neque, non fringilla dui nisi ac lacus. Aliquam erat volutpat. Etiam lobortis pharetra eleifend</dd>
+                    <p class="placemark-url">
+                        <a href="http://nohost/plone/folder/doc">See the original resource</a>
+                    </p>
     ...
-                <p class="placemark-url">
-                    <a href="http://localhost/plone/Members/test_user_1_/test-document">See the original resource</a>
-                </p>
+            <styleUrl>#defaultStyle</styleUrl>
     ...
-                <styleUrl>#defaultStyle</styleUrl>
+          <coordinates>-100.000000,40.000000,0.0</coordinates>
     ...
-              <coordinates>-100.000000,40.000000,0.0</coordinates>
-            </Point>
+      </Placemark>
     ...
     </kml>
+    <BLANKLINE>
 
 we can change some properties of kml document with IGeoKmlSettings utility
     >>> from zope.component import getUtility
@@ -100,12 +101,10 @@ we can change some properties of kml document with IGeoKmlSettings utility
     >>> settings.marker_image_size = 1.0
     >>> settings.display_properties = ['listCreators', 'Type', 'Subject',
     ...                                'CreationDate', 'Contributors', 'getLocation']
+    >>> transaction.commit()
 
-    >>> r = http(r"""
-    ... GET /plone/Members/test_user_1_/@@kml-document HTTP/1.1
-    ... Authorization: Basic %s:%s
-    ... """ % (portal_owner, default_password), handle_errors=False)
-    >>> print r.getBody()
+    >>> browser.open("%s/@@kml-document" % folder.absolute_url())
+    >>> print browser.contents
     <?xml version="1.0" encoding="utf-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
     ...
@@ -140,63 +139,56 @@ we can change some properties of kml document with IGeoKmlSettings utility
 
 
 We can also change properties on a per-document registering a proper adapter to annotate the setting in a content type
-see: 
+see:
  collective.geo.contentlocations.geostylemanager
- collective.geo.kml.tests.base
 
-        >>> from collective.geo.settings.interfaces import IGeoCustomFeatureStyle
-        >>> from collective.geo.geographer.interfaces import IGeoreferenceable
-        >>> from zope.component import provideAdapter
-        >>> from collective.geo.kml.tests.base import CustomStyleManager
-        >>> provideAdapter(CustomStyleManager, (IGeoreferenceable,), IGeoCustomFeatureStyle)
-        >>> custom_styles = IGeoFeatureStyle(document)
-        >>> custom_styles.geostyles.get('linewidth')
-        2.0
+    >>> from collective.geo.settings.interfaces import IGeoCustomFeatureStyle
+    >>> from collective.geo.geographer.interfaces import IGeoreferenceable
+    >>> from zope.component import provideAdapter
+    >>> from collective.geo.kml.testing import CustomStyleManager
+    >>> provideAdapter(CustomStyleManager, (IGeoreferenceable,), IGeoCustomFeatureStyle)
+    >>> custom_styles = IGeoFeatureStyle(document)
+    >>> custom_styles.geostyles.get('linewidth')
+    2.0
 
-        >>> custom_styles.geostyles.get('polygoncolor')
-        u'FEDCBA3C'
+    >>> custom_styles.geostyles.get('polygoncolor')
+    u'FEDCBA3C'
 
-Now that we're using a custom style, we should see that reflected in our KML
-document view.
-    >>> r = http(r"""
-    ... GET /plone/Members/test_user_1_/@@kml-document HTTP/1.1
-    ... Authorization: Basic %s:%s
-    ... """ % (portal_owner, default_password), handle_errors=False)
-    >>> print r.getBody()
+    >>> browser.open("%s/@@kml-document" % folder.absolute_url())
+    >>> print browser.contents
     <?xml version="1.0" encoding="utf-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
     ...
-    <Style>
-      <IconStyle>
-        <scale>1.0</scale>
-       <Icon>
-        <href>http://localhost/plone/img/marker.png</href>
-       </Icon>
-       <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
-      </IconStyle>
+            <Style>
+              <IconStyle>
+                <scale>1.0</scale>
+               <Icon>
+                <href>http://nohost/plone/img/marker.png</href>
+               </Icon>
+               <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+              </IconStyle>
     ...
-    <Point>
-      <coordinates>-100.000000,40.000000,0.0</coordinates>
-    </Point>
+            <Point>
+              <coordinates>-100.000000,40.000000,0.0</coordinates>
+            </Point>
     ...
     </kml>
+    <BLANKLINE>
+
 
 Let's try a LineString instead to see it's custom styles
 
     >>> geo.setGeoInterface('LineString', ((0.111,0.222),) )
+    >>> transaction.commit()
 
-We can check the output now that we're using a custom-styled LineString
-    >>> r = http(r"""
-    ... GET /plone/Members/test_user_1_/@@kml-document HTTP/1.1
-    ... Authorization: Basic %s:%s
-    ... """ % (portal_owner, default_password), handle_errors=False)
-    >>> print r.getBody()
+    >>> browser.open("%s/@@kml-document" % folder.absolute_url())
+    >>> print browser.contents
     <?xml version="1.0" encoding="utf-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
     ...
     <LineStyle>
-     <color>3CBADCFE</color>
-     <width>2.0</width>
+      <color>3CBADCFE</color>
+      <width>2.0</width>
     </LineStyle>
     ...
     <LineString>
@@ -204,15 +196,16 @@ We can check the output now that we're using a custom-styled LineString
     </LineString>
     ...
     </kml>
+    <BLANKLINE>
+
 
 Finally, let's try a Polygon to see it's custom styles
 
     >>> geo.setGeoInterface('Polygon', (((0.111,0.222),(0.222,0.222),(0.222,0.111),(0.111,0.111)),) )
-    >>> r = http(r"""
-    ... GET /plone/Members/test_user_1_/@@kml-document HTTP/1.1
-    ... Authorization: Basic %s:%s
-    ... """ % (portal_owner, default_password), handle_errors=False)
-    >>> print r.getBody()
+    >>> transaction.commit()
+
+    >>> browser.open("%s/@@kml-document" % folder.absolute_url())
+    >>> print browser.contents
     <?xml version="1.0" encoding="utf-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
     ...
@@ -229,3 +222,10 @@ Finally, let's try a Polygon to see it's custom styles
     </Polygon>
     ...
     </kml>
+    <BLANKLINE>
+
+Unregister CustomStyleManager adapter
+    >>> from zope.component import getGlobalSiteManager
+    >>> gsm = getGlobalSiteManager()
+    >>> gsm.unregisterAdapter(CustomStyleManager, (IGeoreferenceable, ))
+    True

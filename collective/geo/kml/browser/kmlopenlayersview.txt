@@ -6,24 +6,31 @@ Overview
 kmlopenlayersview is a BrowserView showing an openlayers map for folderish content.
 The map will show all geo referenced objects in that folderish object.
 
-Tests
------
-we start the tests with the usual boilerplate
-    >>> from Testing.testbrowser import Browser
-    >>> browser = Browser()
-    >>> portal_url = self.portal.absolute_url()
-    >>> folder_url = self.folder.absolute_url()
-    >>> self.portal.error_log._ignored_exceptions = ()
 
-we log in for tests in user member area
-    >>> from Products.PloneTestCase.setup import portal_owner
-    >>> from Products.PloneTestCase.setup import default_password
+Folder test
+-----------
+
+We start the tests with the usual boilerplate
+    >>> from plone.testing.z2 import Browser
+    >>> browser = Browser(layer['app'])
+    >>> portal = layer['portal']
+    >>> portal_url = portal.absolute_url()
+    >>> portal.error_log._ignored_exceptions = ()
+
+
+we log in for tests
+    >>> from plone.app.testing import SITE_OWNER_NAME
+    >>> from plone.app.testing import SITE_OWNER_PASSWORD
     >>> browser.addHeader('Authorization',
-    ...                   'Basic %s:%s' % (portal_owner, default_password))
+    ...                   'Basic %s:%s' % (SITE_OWNER_NAME, SITE_OWNER_PASSWORD))
 
-we can set kmlopenlayers view as default view for Folder
+
+We can set kmlopenlayers view as default view for a Folder
+    >>> folder = portal.get('folder')
+    >>> folder_url = folder.absolute_url()
     >>> browser.open(folder_url)
     >>> browser.getLink('Kml Openlayers View').click()
+
 
 Check to see that the byline is visible,
     >>> '<div class="documentByLine" id="plone-document-byline">' in browser.contents
@@ -39,12 +46,12 @@ In this view we can see a div that contains the openlayers map
 
 openlayers javascript,
     >>> '<script type="text/javascript" src="%s/OpenLayers.js"></script>' % \
-    ...                             self.portal.absolute_url() in browser.contents
+    ...                             portal.absolute_url() in browser.contents
     True
 
 Kml map layer javascript
     >>> "var layer=new OpenLayers.Layer.Vector('%s'" % \
-    ... self.folder.Title() in browser.contents
+    ... folder.Title() in browser.contents
     True
 
 and 'Download KML' link
@@ -66,9 +73,13 @@ Finally, we can see a div that contains the openlayers map
     >>> '<div id="default-cgmap" class="widget-cgmap"' in browser.contents
     True
 
-The openlayers view can be enabled also for Topic and for Folder.
-We have a Topic in portal root for testing that
-    >>> topic_url = self.portal.test_topic.absolute_url()
+
+Topic test
+----------
+
+The openlayers view can be enabled also for Topic. We have a Topic in portal root for testing that
+    >>> topic = folder['topic']
+    >>> topic_url = topic.absolute_url()
     >>> browser.open(topic_url)
     >>> browser.getLink('Kml Openlayers View').click()
 
@@ -76,20 +87,11 @@ Check to make sure the map div appears fine
     >>> '<div id="default-cgmap" class="widget-cgmap"' in browser.contents
     True
 
-Now, add some body text to the Topic to check it appears on the KML OpenLayers
-view.
-
-    >>> text = 'Example description'
-    >>> self.portal.test_topic.setText(text)
-
-Reload the view and check to make sure we can see the description and the map
-    >>> browser.getLink('View').click()
-    >>> text in browser.contents
-    True
-    >>> '<div id="default-cgmap" class="widget-cgmap"' in browser.contents
+also Kml map layer javascript will appear
+    >>> "var layer=new OpenLayers.Layer.Vector('%s'" % \
+    ... topic.Title() in browser.contents
     True
 
-Now we run the same test with a Folder in portal root
-    >>> largefolder_url = self.portal.test_folder.absolute_url()
-    >>> browser.open(largefolder_url)
-    >>> browser.getLink('Kml Openlayers View').click()
+and also 'Download KML' link
+    >>> browser.getLink('Download KML')
+    <Link text='Download KML' url='...@@kml-document'>

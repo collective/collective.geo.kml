@@ -1,26 +1,8 @@
-Make a topic in our folder
-
-    >>> self.setRoles(('Manager',))
-
-    >>> folder = self.folder
-    >>> oid = self.folder.invokeFactory('Topic', 'topic', title='Test')
-    >>> topic = self.folder[oid]
-    >>> c = topic.addCriterion('getId', 'ATSimpleStringCriterion')
-    >>> c.setValue('doc')
-
-Add geo-referenced content
-
-    >>> oid = self.folder.invokeFactory('Document', 'doc', title='A Document', description='A test document')
-    >>> doc = self.folder[oid]
-    >>> from zope.interface import alsoProvides
-    >>> from collective.geo.geographer.interfaces import IGeoreferenceable
-    >>> alsoProvides(doc, IGeoreferenceable)
-
-    >>> from collective.geo.geographer.interfaces import IWriteGeoreferenced
-    >>> geo = IWriteGeoreferenced(doc)
-    >>> geo.setGeoInterface('Point', (-105, 40))
-
-Check the topic
+Check topic results
+    >>> portal = layer['portal']
+    >>> folder = portal['folder']
+    >>> topic = folder['topic']
+    >>> doc = portal['folder']['doc']
 
     >>> brain = [b for b in topic.queryCatalog() if b.id == 'doc'][0]
     >>> brain.zgeo_geometry['type']
@@ -31,7 +13,8 @@ Check the topic
 Set the dates for the content so they are consistent and can be tested
 
     >>> import DateTime
-    >>> testDate = DateTime.DateTime('2010/01/01 09:00:00.000 '+DateTime.DateTime().timezone())
+    >>> testDate = DateTime.DateTime(
+    ...   '2010/01/01 09:00:00.000 ' + DateTime.DateTime().timezone())
     >>> doc.setCreationDate(testDate)
     >>> doc.setEffectiveDate(testDate)
     >>> doc.setModificationDate(testDate)
@@ -39,19 +22,15 @@ Set the dates for the content so they are consistent and can be tested
 
 Test the KML document view of the topic
 
-    >>> from Products.PloneTestCase.setup import portal_owner, default_password
-    >>> http_request = http(r"""
-    ... GET /plone/Members/test_user_1_/topic/@@kml-document HTTP/1.1
-    ... Authorization: Basic %s:%s
-    ... """ % (portal_owner, default_password), handle_errors=False)
-    >>> http_request.getStatus()
-    200
-    >>> http_request.getHeader('Content-Type')
-    'application/vnd.google-earth.kml+xml;charset=utf-8'
-    >>> http_request.getHeader('Content-Disposition')
-    'attachment; filename="topic.kml"'
+    >>> from plone.testing.z2 import Browser
+    >>> from plone.app.testing import TEST_USER_NAME
+    >>> from plone.app.testing import TEST_USER_PASSWORD
+    >>> browser = Browser(layer['app'])
+    >>> browser.addHeader('Authorization',
+    ...                   'Basic %s:%s' % (TEST_USER_NAME, TEST_USER_PASSWORD))
+    >>> browser.open("%s/@@kml-document" % topic.absolute_url())
 
-    >>> print http_request.getBody()
+    >>> print browser.contents
     <?xml version="1.0" encoding="utf-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
     ...
@@ -59,7 +38,7 @@ Test the KML document view of the topic
               <IconStyle>
                 <scale>0.7</scale>
                <Icon>
-                <href>http://localhost/plone/img/marker.png</href>
+                <href>http://nohost/plone/img/marker.png</href>
                </Icon>
                <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
               </IconStyle>
@@ -72,83 +51,58 @@ Test the KML document view of the topic
               </PolyStyle>
             </Style>
     ...
-    <Placemark>
-      <name>A Document</name>
-      <atom:author>
-         <atom:name>test_user_1_</atom:name>
-      </atom:author>
-      <atom:link href="http://localhost/plone/Members/test_user_1_/doc"/>
+      <Placemark>
+        <name>Test document</name>
+        <atom:author>
+           <atom:name>test_user_1_</atom:name>
+        </atom:author>
+        <atom:link href="http://nohost/plone/folder/doc"/>
     ...
             <p>A test document</p>
     ...
-                        <dt>Title</dt>
-                        <dd>A Document</dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                        <dt>Description</dt>
-                        <dd>A test document</dd>
-    ...
                     <p class="placemark-url">
-                        <a href="http://localhost/plone/Members/test_user_1_/doc">See the original resource</a>
+                        <a href="http://nohost/plone/folder/doc">See the original resource</a>
                     </p>
     ...
-                <styleUrl>#defaultStyle</styleUrl>
+            <styleUrl>#defaultStyle</styleUrl>
     ...
-                <coordinates>-105.000000,40.000000,0.0</coordinates>
-              </Point>
+          <coordinates>-105.000000,40.000000,0.0</coordinates>
+    ...
+      </Placemark>
     ...
     </kml>
+    <BLANKLINE>
 
-
-When we have a content without geographical data kml-document don't works 
-- see:zgeo.kml.browser.Placemark.coords_kml
+When result of a topic includes a content without geographical data
+it won't be displayed in the kml-document.
+See: zgeo.kml.browser.Placemark.coords_kml
 
 Add a new document without geo-referencing it
-    >>> oid = self.folder.invokeFactory('Document', 'doc-1', title='Other Document',
-    ...                                            description='A new test document')
+    >>> from plone.app.testing import setRoles
+    >>> from plone.app.testing import TEST_USER_ID
+    >>> setRoles(portal, TEST_USER_ID, ['Manager'])
+    >>> oid = folder.invokeFactory(
+    ...     'Document', 'doc-1', title='Other Document',
+    ...     description='A new test document')
 
 create a new topic
-    >>> folder = self.folder
-    >>> oid = self.folder.invokeFactory('Topic', 'topic-1', title='Test 2')
-    >>> topic = self.folder[oid]
+    >>> oid = folder.invokeFactory('Topic', 'topic-1', title='Test 2')
+    >>> topic = folder[oid]
     >>> c = topic.addCriterion('portal_type', 'ATSimpleStringCriterion')
     >>> c.setValue('Document')
 
-and test the KML document view of the topic
-    >>> http_request = http(r"""
-    ... GET /plone/Members/test_user_1_/topic-1/@@kml-document HTTP/1.1
-    ... Authorization: Basic %s:%s
-    ... """ % (portal_owner, default_password), handle_errors=False)
-    >>> http_request.getStatus()
-    200
+    >>> import transaction
+    >>> transaction.commit()
 
-    >>> print http_request.getBody()
-    <?xml version="1.0" encoding="utf-8"?>
-    <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
-    ...
-    <Placemark>
-      <name>A Document</name>
-      <atom:author>
-         <atom:name>test_user_1_</atom:name>
-      </atom:author>
-      <atom:link href="http://localhost/plone/Members/test_user_1_/doc"/>
-    ...
-            <p>A test document</p>
-    ...
-                        <dt>Title</dt>
-                        <dd>A Document</dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                        <dt>Description</dt>
-                        <dd>A test document</dd>
-    ...
-                    <p class="placemark-url">
-                        <a href="http://localhost/plone/Members/test_user_1_/doc">See the original resource</a>
-                    </p>
-    ...
-                <styleUrl>#defaultStyle</styleUrl>
-    ...
-                <coordinates>-105.000000,40.000000,0.0</coordinates>
-              </Point>
-    ...
-    </kml>
+    >>> browser.open("%s/@@kml-document" % topic.absolute_url())
+    >>> import lxml
+    >>> kml = lxml.etree.fromstring(browser.contents)
+    >>> placemarks = kml.xpath('//kml:Placemark',
+    ...     namespaces={'kml': "http://www.opengis.net/kml/2.2"})
+    >>> len(placemarks)
+    1
+
+    >>> coordinates = placemarks[0].xpath('//kml:Point/kml:coordinates',
+    ...     namespaces={'kml': "http://www.opengis.net/kml/2.2"})[0]
+    >>> coordinates.text
+    '-105.000000,40.000000,0.0'

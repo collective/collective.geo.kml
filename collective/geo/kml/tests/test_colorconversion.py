@@ -1,8 +1,9 @@
-import unittest
-from collective.geo.kml.tests.base import TestCase
+import unittest2 as unittest
+from ..testing import CGEO_KML
 
 
-class TestColorConversion(TestCase):
+class TestSetup(unittest.TestCase):
+    layer = CGEO_KML
 
     def test_colorconvert(self):
         from collective.geo.kml.utils import web2kmlcolor
@@ -18,5 +19,5 @@ class TestColorConversion(TestCase):
 
 def test_suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestColorConversion))
+    suite.addTest(unittest.makeSuite(TestSetup))
     return suite
