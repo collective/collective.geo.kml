@@ -43,8 +43,8 @@ openlayers javascript,
     True
 
 Kml map layer javascript
-    >>> "function(){var layer=new OpenLayers.Layer.GML('%s','%s'+'@@kml-document'" % \
-    ...                                 (self.folder.Title(), browser.url) in browser.contents
+    >>> "var layer=new OpenLayers.Layer.Vector('%s'" % \
+    ... self.folder.Title() in browser.contents
     True
 
 and 'Download KML' link
