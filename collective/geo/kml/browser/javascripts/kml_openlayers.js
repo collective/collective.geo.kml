@@ -1,4 +1,4 @@
-jq(window).bind('load', function() {
+jq(window).bind('map-load', function() {
     var map = cgmap.config['default-cgmap'].map;
 
     var kmls = map.getLayersByClass('OpenLayers.Layer.Vector');
