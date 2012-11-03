@@ -4,6 +4,7 @@ Changelog
 2.5 (unreleased)
 ----------------
 
+- removed import from zope.app [gborelli]
 - refactored test in order to use plone.app.testing [gborelli]
 - deleted test.base module [borelli]
 - moved tests.base.CustomStyleManager to testing.CustomStyleManager [gborelli]
