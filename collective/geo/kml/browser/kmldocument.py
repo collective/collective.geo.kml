@@ -3,7 +3,6 @@ from zope.component import getMultiAdapter, queryMultiAdapter
 from zope.component import getUtility
 
 from zope.traversing.browser.interfaces import IAbsoluteURL
-from zope.dublincore.interfaces import ICMFDublinCore
 from zope.publisher.browser import BrowserPage
 
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
@@ -93,16 +92,16 @@ class Feature(BrowserPage):
 
     @property
     def name(self):
-        return self.dc.Title()
+        return self.context.Title()
 
     @property
     def description(self):
-        return cgi.escape(self.dc.Description())
+        return cgi.escape(self.context.Description())
 
     @property
     def author(self):
         return {
-            'name': self.dc.Creator(),
+            'name': self.context.Creator(),
             'uri': '',
             'email': ''
             }
@@ -119,7 +118,7 @@ class Placemark(Feature):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.dc = ICMFDublinCore(self.context)
+
         try:
             self.geom = IGeoreferenced(self.context)
         except:
@@ -211,14 +210,14 @@ class Placemark(Feature):
 
     @property
     def item_type(self):
-        if callable(self.dc.portal_type):
-            return self.dc.portal_type()
+        if callable(self.context.portal_type):
+            return self.context.portal_type()
         else:
-            return self.dc.portal_type
+            return self.context.portal_type
 
     @property
     def item_url(self):
-        return self.dc.absolute_url()
+        return self.context.absolute_url()
 
     def display_properties(self, document):
         properties = document.display_properties
@@ -283,7 +282,6 @@ class Folder(Feature):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.dc = ICMFDublinCore(self.context)
 
     @property
     def features(self):
@@ -350,7 +348,6 @@ class KMLBaseDocument(Feature):
     def __init__(self, context, request):
         self.context = context
         self.request = request
-        self.dc = ICMFDublinCore(self.context)
         registry = getUtility(IRegistry)
         self.styles = registry.forInterface(IGeoFeatureStyle)
 

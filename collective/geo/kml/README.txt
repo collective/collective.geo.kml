@@ -100,7 +100,7 @@ we can change some properties of kml document with IGeoKmlSettings utility
     >>> settings.marker_image = u'string:${portal_url}/img/marker-blue.png'
     >>> settings.marker_image_size = 1.0
     >>> settings.display_properties = ['listCreators', 'Type', 'Subject',
-    ...                                'CreationDate', 'Contributors', 'getLocation']
+    ...     'CreationDate', 'Contributors', 'getLocation']
     >>> transaction.commit()
 
     >>> browser.open("%s/@@kml-document" % folder.absolute_url())
@@ -223,9 +223,3 @@ Finally, let's try a Polygon to see it's custom styles
     ...
     </kml>
     <BLANKLINE>
-
-Unregister CustomStyleManager adapter
-    >>> from zope.component import getGlobalSiteManager
-    >>> gsm = getGlobalSiteManager()
-    >>> gsm.unregisterAdapter(CustomStyleManager, (IGeoreferenceable, ))
-    True

@@ -1,26 +1,14 @@
-<?xml version="1.0"?>
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="collective.geo.kml">
 
+  <includeDependencies package="." />
   <i18n:registerTranslations directory="locales" />
-
-  <include package="plone.browserlayer" />
-  <include package="collective.geo.mapwidget" />
-  <include package="collective.geo.geographer" />
-  <include package="collective.z3cform.colorpicker" />
 
   <include package=".browser"/>
   <include file="profiles.zcml"/>
-
-  <class class="Products.CMFDefault.DublinCore.DefaultDublinCoreImpl">
-    <implements interface="zope.dublincore.interfaces.ICMFDublinCore" /></class>
-
-  <class class="Products.Archetypes.ExtensibleMetadata.ExtensibleMetadata">
-    <implements interface="zope.dublincore.interfaces.ICMFDublinCore" /></class>
-
 
   <adapter
       factory=".browser.kmldocument.Placemark"

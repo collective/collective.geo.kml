@@ -3,7 +3,6 @@ We have a folder with a georeferenced content
     >>> folder = portal['folder']
     >>> doc = portal['folder']['doc']
 
-
 Set the dates of the content so they are consistent and can be tested
     >>> import DateTime
     >>> testDate = DateTime.DateTime(

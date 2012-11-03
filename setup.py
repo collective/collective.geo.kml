@@ -25,7 +25,7 @@ setup(name='collective.geo.kml',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
+          'Products.CMFCore',
           'collective.geo.mapwidget',
           'collective.geo.geographer',
       ],

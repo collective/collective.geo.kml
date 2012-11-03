@@ -39,38 +39,6 @@ class KmlFunctionalTesting(PloneSandboxLayer):
         folder_pt = portal.portal_types['Folder']
         folder_pt.global_allow = True
 
-        setRoles(portal, TEST_USER_ID, ['Manager'])
-        _id = portal.invokeFactory('Folder', 'folder', title='Folder')
-        folder = portal.get(_id)
-
-        # create topic
-        topic_id = folder.invokeFactory('Topic', 'topic', title="Test Topic")
-        topic = folder[topic_id]
-
-        c = topic.addCriterion('getId', 'ATSimpleStringCriterion')
-        c.setValue('doc')
-
-        # create document and georeference it
-        doc_id = folder.invokeFactory(
-            'Document',
-            'doc',
-            title='Test document',
-            description='A test document')
-
-        doc = folder[doc_id]
-        alsoProvides(doc, IGeoreferenceable)
-
-        geo = IWriteGeoreferenced(doc)
-        geo.setGeoInterface('Point', (-105, 40))
-
-        # _createObjectByType("Topic", portal, 'topic')
-        # _createObjectByType("Document", portal, 'test-document-geostyles')
-        # _createObjectByType("Folder", portal, 'test_folder')
-        # provide IGeoreferenceable interface to document created
-        # alsoProvides(portal['test-document-geostyles'], IGeoreferenceable)
-
-        setRoles(portal, TEST_USER_ID, ['Member'])
-
 
 CGEO_KML_FUNCTIONAL_FIXTURE = KmlFunctionalTesting()
 
