@@ -56,6 +56,7 @@ def create_base_content(portal):
 
     geo = IWriteGeoreferenced(doc)
     geo.setGeoInterface('Point', (-105, 40))
+    doc.reindexObject(idxs=['zgeo_geometry'])
 
     setRoles(portal, TEST_USER_ID, ['Member'])
 

@@ -16,6 +16,7 @@ We have a generic (georeferenceable) Document and set some geographical data wit
     >>> from collective.geo.geographer.interfaces import IWriteGeoreferenced
     >>> geo = IWriteGeoreferenced(document)
     >>> geo.setGeoInterface('Point', (-100, 40))
+    >>> document.reindexObject(idxs=['zgeo_geometry'])
 
 Set some extra metadata on the document so we can check for those
 
@@ -179,6 +180,7 @@ see:
 Let's try a LineString instead to see it's custom styles
 
     >>> geo.setGeoInterface('LineString', ((0.111,0.222),) )
+    >>> document.reindexObject(idxs=['zgeo_geometry'])
     >>> transaction.commit()
 
     >>> browser.open("%s/@@kml-document" % folder.absolute_url())
@@ -202,6 +204,7 @@ Let's try a LineString instead to see it's custom styles
 Finally, let's try a Polygon to see it's custom styles
 
     >>> geo.setGeoInterface('Polygon', (((0.111,0.222),(0.222,0.222),(0.222,0.111),(0.111,0.111)),) )
+    >>> document.reindexObject(idxs=['zgeo_geometry'])
     >>> transaction.commit()
 
     >>> browser.open("%s/@@kml-document" % folder.absolute_url())
