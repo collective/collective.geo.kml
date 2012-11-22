@@ -1,0 +1,32 @@
+# collective.geo.kml
+# Giorgio Borelli <giorgio@giorgioborelli.it>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1\n"
+"POT-Creation-Date: 2011-09-05 05:07+0000\n"
+"PO-Revision-Date: 2012-11-22 12:43+0800\n"
+"Last-Translator: adam <yuejun.tang@gmail.com>\n"
+"Language-Team:  <giorgio@giorgioborelli.it>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: it\n"
+"Language-Name: Italian\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: collective.geo.kml\n"
+"X-Is-Fallback-For: it-it it-ch it-sm it-hr it-si\n"
+
+#: ../profiles/default/actions.xml
+msgid "Download KML"
+msgstr "下载KML"
+
+#: ../profiles/default/actions.xml
+msgid "Download the KML file associated with this content"
+msgstr "下载该内容的KML文件"
+
+#. Default: "See the original resource"
+#: ../browser/kmldocument_macros.pt:43
+msgid "See the original resource"
+msgstr "查看原始资源"
+
