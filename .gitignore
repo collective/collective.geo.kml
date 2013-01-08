@@ -1,12 +1,26 @@
-# Ignore python compiled files
-*.py[co]
-# Ignore eggs
+*.mo
 *.egg-info
 *.egg
-# Ignore backups
-*~
-.*.swp
-\#*
-# Ignore mo
-*.mo
-
+*.EGG
+*.EGG-INFO
+bin
+build
+develop-eggs
+downloads
+eggs
+fake-eggs
+parts
+dist
+var
+.installed.cfg
+.mr.developer.cfg
+.hg
+.bzr
+.svn
+*.pyc
+*.pyo
+*.tmp*
+src
+.project
+.pydevproject
+.settings

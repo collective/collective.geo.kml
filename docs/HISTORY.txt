@@ -4,6 +4,7 @@ Changelog
 2.5 (unreleased)
 ----------------
 
+- added travis-ci configurations [gborelli]
 - removed import from zope.app [gborelli]
 - refactored test in order to use plone.app.testing [gborelli]
 - deleted test.base module [borelli]

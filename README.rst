@@ -23,17 +23,25 @@ You can install collective.geo.kml as part of a specific project's buildout, by 
 
         [buildout]
         ...
-        eggs = 
+        eggs =
             collective.geo.kml
         ...
+
+
+Mostly Harmless
+---------------
+
+.. image:: https://secure.travis-ci.org/collective/collective.geo.kml.png
+    :target: http://travis-ci.org/collective/collective.geo.kml
+
 
 Contributors
 ------------
 
-* Sean Gillies 
+* Sean Gillies
 * Giorgio Borelli - gborelli
 * Silvio Tomatis - silviot
-* David Beitey - davidjb 
+* David Beitey - davidjb
 * Christian Ledermann - nan
 * Rob Gietema - robgietema
 * Leonardo J. Caballero G - macagua
