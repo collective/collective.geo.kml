@@ -3,6 +3,7 @@
   xmlns="http://namespaces.zope.org/zope"
   xmlns:five="http://namespaces.zope.org/five"
   xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:zcml="http://namespaces.zope.org/zcml"
   i18n_domain="collective.geo.kml">
 
   <browser:resourceDirectory
@@ -35,6 +36,17 @@
       permission="zope2.View"
       />
 
+  <!-- New style collections -->
+  <browser:page
+      zcml:condition="installed plone.app.collection"
+      name="kml-document"
+      for="plone.app.collection.interfaces.ICollection"
+      layer = "..interfaces.IGeoKmlLayer"
+      class=".kmldocument.KMLTopicDocument"
+      permission="zope2.View"/>
+
+
+
   <!--  was ATTopic, ATFolder, ATBTreeFolder,  -->
   <browser:page
       name="kml-openlayers"
@@ -44,6 +56,16 @@
       template = "kmlopenlayersview.pt"
       permission = "zope2.View"
       />
+
+  <!-- New style collections -->
+  <browser:page
+      zcml:condition="installed plone.app.collection"
+      name="kml-openlayers"
+      for="plone.app.collection.interfaces.ICollection"
+      class=".kmlopenlayersview.KmlOpenLayersView"
+      layer = "..interfaces.IGeoKmlLayer"
+      template = "kmlopenlayersview.pt"
+      permission="zope2.View"/>
 
   <adapter
       for="..interfaces.IKMLOpenLayersView
@@ -62,6 +84,18 @@
       action="kml-openlayers"
       description="Set Openlayers Kml as default view."
       />
+
+  <!-- New style collections -->
+  <browser:menuItem
+      zcml:condition="installed plone.app.collection"
+      title="Kml Openlayers View"
+      for="plone.app.collection.interfaces.ICollection"
+      menu="plone_displayviews"
+      action="kml-openlayers"
+      description="Set Openlayers Kml as default view."
+      />
+
+
 
   <browser:page
       name="kmldocument-macros"

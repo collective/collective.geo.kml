@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
@@ -10,7 +11,7 @@
       description='Extension profile for Collective Geo Kml.'
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-  
+
   <genericsetup:registerProfile
       name="uninstall"
       title="Collective Geo Kml Uninstall Profile"
@@ -19,5 +20,15 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       />
+
+  <genericsetup:upgradeStep
+      title="Upgrade Types Info"
+      description=""
+      source="2.4"
+      destination="2.5"
+      handler="collective.geo.kml.setuphandlers.add_ng_collection"
+      profile="collective.geo.kml:default" />
+
+
 
 </configure>
