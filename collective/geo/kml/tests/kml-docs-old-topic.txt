@@ -1,10 +1,10 @@
-Check collection results
+Check topic results
     >>> portal = layer['portal']
     >>> folder = portal['folder']
-    >>> collection = folder['collection']
+    >>> topic = folder['topic']
     >>> doc = portal['folder']['doc']
 
-    >>> brain = [b for b in collection.queryCatalog() if b.id == 'doc'][0]
+    >>> brain = [b for b in topic.queryCatalog() if b.id == 'doc'][0]
     >>> brain.zgeo_geometry['type']
     'Point'
     >>> brain.zgeo_geometry['coordinates']
@@ -20,7 +20,7 @@ Set the dates for the content so they are consistent and can be tested
     >>> doc.setModificationDate(testDate)
     >>> doc.indexObject()
 
-Test the KML document view of the collection
+Test the KML document view of the topic
 
     >>> from plone.testing.z2 import Browser
     >>> from plone.app.testing import TEST_USER_NAME
@@ -28,7 +28,7 @@ Test the KML document view of the collection
     >>> browser = Browser(layer['app'])
     >>> browser.addHeader('Authorization',
     ...                   'Basic %s:%s' % (TEST_USER_NAME, TEST_USER_PASSWORD))
-    >>> browser.open("%s/@@kml-document" % collection.absolute_url())
+    >>> browser.open("%s/@@kml-document" % topic.absolute_url())
 
     >>> print browser.contents
     <?xml version="1.0" encoding="utf-8"?>
@@ -73,7 +73,7 @@ Test the KML document view of the collection
     </kml>
     <BLANKLINE>
 
-When result of a collection includes a content without geographical data
+When result of a topic includes a content without geographical data
 it won't be displayed in the kml-document.
 See: zgeo.kml.browser.Placemark.coords_kml
 
@@ -85,19 +85,16 @@ Add a new document without geo-referencing it
     ...     'Document', 'doc-1', title='Other Document',
     ...     description='A new test document')
 
-create a new collection
-    >>> oid = folder.invokeFactory('Collection', 'collection-1', title='Test 2')
-    >>> collection = folder[oid]
-    >>> query = [{
-    ...     'i': 'portal_type',
-    ...     'o': 'plone.app.querystring.operation.string.is',
-    ...     'v': 'Document'
-    ... }]
-    >>> collection.setQuery(query)
+create a new topic
+    >>> oid = folder.invokeFactory('Topic', 'topic-1', title='Test 2')
+    >>> topic = folder[oid]
+    >>> c = topic.addCriterion('portal_type', 'ATSimpleStringCriterion')
+    >>> c.setValue('Document')
+
     >>> import transaction
     >>> transaction.commit()
 
-    >>> browser.open("%s/@@kml-document" % collection.absolute_url())
+    >>> browser.open("%s/@@kml-document" % topic.absolute_url())
     >>> import lxml
     >>> kml = lxml.etree.fromstring(browser.contents)
     >>> placemarks = kml.xpath('//kml:Placemark',

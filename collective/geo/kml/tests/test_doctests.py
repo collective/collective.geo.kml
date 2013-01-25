@@ -44,6 +44,19 @@ def create_base_content(portal):
     c = topic.addCriterion('getId', 'ATSimpleStringCriterion')
     c.setValue('doc')
 
+    # create collection
+    collection_id = folder.invokeFactory(
+        'Collection',
+        'collection',
+        title="Test Collection")
+    collection = folder[collection_id]
+    query = [{
+        'i': 'getId',
+        'o': 'plone.app.querystring.operation.string.is',
+        'v': 'doc'
+    }]
+    collection.setQuery(query)
+
     # create document and georeference it
     doc_id = folder.invokeFactory(
         'Document',
@@ -115,6 +128,18 @@ def test_suite():
         layered(
             doctest.DocFileSuite(
                 'kml-docs.txt',
+                package='collective.geo.kml.tests',
+                setUp=setUp,
+                tearDown=tearDown,
+                optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | \
+                        doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS
+            ),
+            layer=CGEO_KML_FUNCTIONAL
+        ),
+
+        layered(
+            doctest.DocFileSuite(
+                'kml-docs-old-topic.txt',
                 package='collective.geo.kml.tests',
                 setUp=setUp,
                 tearDown=tearDown,

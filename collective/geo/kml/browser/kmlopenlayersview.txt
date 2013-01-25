@@ -74,8 +74,8 @@ Finally, we can see a div that contains the openlayers map
     True
 
 
-Topic test
-----------
+Topic (old) test
+----------------
 
 The openlayers view can be enabled also for Topic. We have a Topic in portal root for testing that
     >>> topic = folder['topic']
@@ -90,6 +90,29 @@ Check to make sure the map div appears fine
 also Kml map layer javascript will appear
     >>> "var layer=new OpenLayers.Layer.Vector('%s'" % \
     ... topic.Title() in browser.contents
+    True
+
+and also 'Download KML' link
+    >>> browser.getLink('Download KML')
+    <Link text='Download KML' url='...@@kml-document'>
+
+
+Collection test
+---------------
+
+The openlayers view can be enabled also for Topic. We have a Topic in portal root for testing that
+    >>> collection = folder['collection']
+    >>> collection_url = collection.absolute_url()
+    >>> browser.open(collection_url)
+    >>> browser.getLink('Kml Openlayers View').click()
+
+Check to make sure the map div appears fine
+    >>> '<div id="default-cgmap" class="widget-cgmap"' in browser.contents
+    True
+
+also Kml map layer javascript will appear
+    >>> "var layer=new OpenLayers.Layer.Vector('%s'" % \
+    ... collection.Title() in browser.contents
     True
 
 and also 'Download KML' link

@@ -4,6 +4,8 @@ Changelog
 2.5 (unreleased)
 ----------------
 
+- added tests for plone.app.collection [gborelli]
+- added support for plone.app.collection [cleder]
 - added travis-ci configurations [gborelli]
 - removed import from zope.app [gborelli]
 - refactored test in order to use plone.app.testing [gborelli]
@@ -14,7 +16,7 @@ Changelog
 - KML Documents download with the relevant context's ID (`id.kml`) as their
   filename rather than ``@@kml-document``.
   [davidjb]
-- Added German translation [Denis Krienbühl]
+- added German translation [Denis Krienbühl]
 
 
 2.4 (2012-02-14)
@@ -27,7 +29,7 @@ Changelog
 0.2.3 (2011-09-05)
 ------------------
 
-* Changed javascript to bind window load event to create map. It fixes #29 [gborelli]
+* changed javascript to bind window load event to create map. It fixes #29 [gborelli]
 * added improvements about the Internationalization [macagua]
 * added support for Spanish localization for collective.geo.kml domain [macagua]
 * added support for Spanish, Italian and Dutch localizations for plone domain on 'i18n' directory [macagua]
@@ -53,77 +55,76 @@ Changelog
 ------------------
 
 * fixed UnicodeDecodeError in maplayers [gborelli]
-* Added dutch translations [robgietema]
+* added dutch translations [robgietema]
 
 
 
 0.2 (2010-10-31)
 ----------------
-* Removed zgeo.kml dependency
-* Removed Large Plone Folder configurations
-* Added ability to select what content properties to display either in the
+* removed zgeo.kml dependency
+* removed Large Plone Folder configurations
+* added ability to select what content properties to display either in the
   Control Panel or on a per-content basis.  Properties can be changed at will
   and likewise reordered as required.
   [rockdj]
-* Display a Collection's saved rich text on the KML view, if it exists.
+* display a Collection's saved rich text on the KML view, if it exists.
   [rockdj]
-* Retrieve default customised styles from those set in the site's control
+* retrieve default customised styles from those set in the site's control
   panel.
   [rockdj]
-* Moved the link to the given content in the KML view to be the title.
+* moved the link to the given content in the KML view to be the title.
   [rockdj]
-* Added further unit tests to test the KML document view (in conjunction with
+* added further unit tests to test the KML document view (in conjunction with
   testing customised styles)
   [rockdj]
-* Added ability to display custom styles for content in the KML-openlayers
+* added ability to display custom styles for content in the KML-openlayers
   view, with the styles managed through the relevant annotation.
   [rockdj]
-* Added standard above-content elements to the KML-openlayers view
+* added standard above-content elements to the KML-openlayers view
   (byline, description, etc).
   [rockdj]
-* Updated the kml_openlayers.js Javascript to handle the case of
+* updated the kml_openlayers.js Javascript to handle the case of
   accessing the KML-openlayers view directly.
   [rockdj]
-* Changed KML links to content to point to the content's *View* action
+* changed KML links to content to point to the content's *View* action
   if their portal type is set that way in the Site Properties.  This
   follows in the same manner as views like the Folder Summary View.
   [rockdj]
-* Added *dc* object to BrainPlacemark to allow access to original
+* added *dc* object to BrainPlacemark to allow access to original
   content item in KML view.  This allows direct access to the content's
   methods and properties (eg for image display, see below)
   [rockdj]
-* Allowed KML feature/placemark description to display image thumbnail
+* allowed KML feature/placemark description to display image thumbnail
   if the content possesses such (eg Images and News Items).  Images are
   displayed in same style as that of the Folder Summary View.
   [rockdj]
-* Added extra metadata into KML feature/placemark output (item type,
+* added extra metadata into KML feature/placemark output (item type,
   modification date, creation date)
   [rockdj]
-* Changed KML output to exclude feature/placemark description tag
+* changed KML output to exclude feature/placemark description tag
   on no content description being present.
   [rockdj]
-* Added uninstall GenericSetup profile
+* added uninstall GenericSetup profile
   [rockdj]
-* Added action for downloading KML to desktop (for Google Earth or
+* added action for downloading KML to desktop (for Google Earth or
   other applications)
   [rockdj]
-* Added ability to set marker image size in control panel
+* added ability to set marker image size in control panel
   [rockdj]
-* Allowed for marker image not have to be in the hard-coded /img/ directory.
+* allowed for marker image not have to be in the hard-coded /img/ directory.
   This allows for custom markers to be specified anywhere in Plone.
   img/marker.png is set as default to keep things the same.
   [rockdj]
-* Changed linewidth to be able to accept float values.
+* changed linewidth to be able to accept float values.
   [rockdj]
-* Integrated zgeo.plone.kml package.
-* Updated the kml_openlayers.js Javascript to use the current URL's
+* integrated zgeo.plone.kml package.
+* updated the kml_openlayers.js Javascript to use the current URL's
   context to access @@kml-document.  Accessing this in a relative manner
   represents problems for URLs being rewritten in a proxy (eg Deliverance).
   [rockdj]
-* Renamed Kml Layer
+* renamed Kml Layer
 
 0.1 (2009-06-19)
 ----------------
 
-* Initial release
-
+* initial release

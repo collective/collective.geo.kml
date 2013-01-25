@@ -36,8 +36,8 @@ class KmlFunctionalTesting(PloneSandboxLayer):
 
         topic_pt = portal.portal_types['Topic']
         topic_pt.global_allow = True
-        folder_pt = portal.portal_types['Folder']
-        folder_pt.global_allow = True
+        # folder_pt = portal.portal_types['Folder']
+        # folder_pt.global_allow = True
 
 
 CGEO_KML_FUNCTIONAL_FIXTURE = KmlFunctionalTesting()
