@@ -222,7 +222,8 @@ class Placemark(Feature):
         if self.styles and self.use_custom_styles:
             properties = self.styles['display_properties']
         return [(self.properties_vocabulary_labels.get(prop, prop),
-                        self.getDisplayValue(prop)) for prop in properties]
+                        self.getDisplayValue(prop)) for prop in properties
+                        if getattr(self.context, prop, False)]
 
     def getDisplayValue(self, prop):
         return self.formatDisplayProperty(getattr(self.context, prop), prop)
