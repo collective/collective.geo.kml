@@ -35,8 +35,7 @@ class ContentViewlet(ViewletBase):
         if custom_styles and custom_styles.use_custom_styles:
             return custom_styles.map_viewlet_position
         else:
-            defaultstyles = getUtility(IRegistry).forInterface(
-                                                    IGeoFeatureStyle)
+            defaultstyles = getUtility(IRegistry).forInterface(IGeoFeatureStyle)
             return defaultstyles.map_viewlet_position
 
     def render(self):

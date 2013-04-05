@@ -44,10 +44,6 @@ In this view we can see a div that contains the openlayers map
     >>> '<div id="default-cgmap" class="widget-cgmap"' in browser.contents
     True
 
-openlayers javascript,
-    >>> '<script type="text/javascript" src="%s/OpenLayers.js"></script>' % \
-    ...                             portal.absolute_url() in browser.contents
-    True
 
 Kml map layer javascript
     >>> "var layer=new OpenLayers.Layer.Vector('%s'" % \
