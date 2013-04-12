@@ -102,7 +102,7 @@ class Feature(BrowserPage):
             'name': self.context.Creator(),
             'uri': '',
             'email': ''
-            }
+        }
 
     @property
     def alternate_link(self):

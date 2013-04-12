@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implements
-from zope.interface import alsoProvides
 
 from plone.app.testing import PloneWithPackageLayer
 from plone.app.testing import PloneSandboxLayer

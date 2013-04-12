@@ -4,6 +4,8 @@ Changelog
 2.6 (unreleased)
 ----------------
 
+- Changed KMLFolderDocument for Products.ATContentTypes.interface.IATFolder
+  [gborelli]
 - Changed available_expr property for kml_download action [gborelli]
 
 

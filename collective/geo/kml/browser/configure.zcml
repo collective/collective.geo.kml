@@ -21,7 +21,7 @@
 
   <!--  was ATBTreeFolder and ATFolder -->
   <browser:page
-      for="Products.CMFCore.interfaces.IFolderish"
+      for="Products.ATContentTypes.interface.IATFolder"
       name="kml-document"
       class=".kmldocument.KMLFolderDocument"
       layer = "..interfaces.IGeoKmlLayer"

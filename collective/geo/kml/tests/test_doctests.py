@@ -65,7 +65,7 @@ def create_base_content(portal):
         description='A test document')
 
     doc = folder[doc_id]
-    alsoProvides(doc, IGeoreferenceable)
+    # alsoProvides(doc, IGeoreferenceable)
 
     geo = IWriteGeoreferenced(doc)
     geo.setGeoInterface('Point', (-105, 40))
