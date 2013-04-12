@@ -4,7 +4,7 @@ Changelog
 2.6 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Changed available_expr property for kml_download action [gborelli]
 
 
 2.5 (2013-01-29)
