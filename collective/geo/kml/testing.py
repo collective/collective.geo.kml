@@ -17,7 +17,7 @@ import collective.geo.kml
 
 CGEO_KML = PloneWithPackageLayer(
     zcml_package=collective.geo.kml,
-    zcml_filename='configure.zcml',
+    zcml_filename='testing.zcml',
     gs_profile_id='collective.geo.kml:default',
     name="CGEO_KML")
 
