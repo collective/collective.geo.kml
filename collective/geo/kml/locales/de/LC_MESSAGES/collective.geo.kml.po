@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
-"POT-Creation-Date: 2012-01-29 18:05+0000\n"
+"POT-Creation-Date: 2013-04-25 21:46+0000\n"
 "PO-Revision-Date: 2012-07-02 14:00+0000\n"
 "Last-Translator: Denis Krienbühl <denis.krienbuehl@gmail.com>\n"
 "Language-Team: <denis.krienbuehl@gmail.com>\n"
@@ -24,6 +24,7 @@ msgid "Download the KML file associated with this content"
 msgstr "Verknüpfte KML Datei für diesen Inhalt herunterladen"
 
 #. Default: "See the original resource"
-#: ../browser/kmldocument_macros.pt:43
+#: ../browser/kmldocument_macros.pt:59
 msgid "See the original resource"
 msgstr "Original-Ressource ansehen"
+

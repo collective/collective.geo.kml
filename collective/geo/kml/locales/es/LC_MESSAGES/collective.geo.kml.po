@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: collective.geo.kml\n"
-"POT-Creation-Date: 2011-09-05 05:07+0000\n"
+"POT-Creation-Date: 2013-04-25 21:46+0000\n"
 "PO-Revision-Date: 2011-06-23 16:07-0400\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: Spanish <plone-conosur@lists.plone.org>\n"
@@ -26,7 +26,7 @@ msgid "Download the KML file associated with this content"
 msgstr "Descargar el archivo KML asociado con este contenido"
 
 #. Default: "See the original resource"
-#: ../browser/kmldocument_macros.pt:43
+#: ../browser/kmldocument_macros.pt:59
 msgid "See the original resource"
 msgstr "Ver el recurso original"
 

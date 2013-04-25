@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
-"POT-Creation-Date: 2012-07-03 11:18+0000\n"
+"POT-Creation-Date: 2013-04-25 21:46+0000\n"
 "PO-Revision-Date: 2009-09-20 13:24+0100\n"
 "Last-Translator: Rob Gietema <rob@fourdigits.nl>\n"
 "Language-Team: Rob Gietema <rob@fourdigits.nl>\n"
@@ -23,6 +23,7 @@ msgid "Download the KML file associated with this content"
 msgstr "Download de KML file behorende bij deze content"
 
 #. Default: "See the original resource"
-#: ../browser/kmldocument_macros.pt:43
+#: ../browser/kmldocument_macros.pt:59
 msgid "See the original resource"
 msgstr "Zie de originele bron"
+

@@ -24,3 +24,5 @@ src
 .project
 .pydevproject
 .settings
+rebuild_i18n.log
+
