@@ -7,7 +7,7 @@ function(){
                         extractAttributes: true}),
             }),
             strategies: [new OpenLayers.Strategy.Fixed()],
-            projection:cgmap.createDefaultOptions().displayProjection,
+            projection:widget.map.displayProjection,
         });
     layer.events.on(
         {"loadend":function(){

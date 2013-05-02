@@ -4,9 +4,14 @@ Changelog
 2.6 (unreleased)
 ----------------
 
+- Changed javascript for working with new collectivegeo.js
+  [gborelli]
+
 - Changed KMLFolderDocument for Products.ATContentTypes.interface.IATFolder
   [gborelli]
-- Changed available_expr property for kml_download action [gborelli]
+
+- Changed available_expr property for kml_download action
+  [gborelli]
 
 
 2.5 (2013-01-29)
