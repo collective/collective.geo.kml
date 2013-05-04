@@ -46,7 +46,6 @@
       permission="zope2.View"/>
 
 
-
   <!--  was ATTopic, ATFolder, ATBTreeFolder,  -->
   <browser:page
       name="kml-openlayers"
@@ -147,8 +146,6 @@
       template="layers_templates/kml_layer.pt"
       permission="zope.Public"
       />
-
-
 
 
 </configure>

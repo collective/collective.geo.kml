@@ -4,7 +4,7 @@ Changelog
 2.6 (unreleased)
 ----------------
 
-- Changed javascript for working with new collectivegeo.js
+- Changed javascript according to new collectivegeo.js
   [gborelli]
 
 - Changed KMLFolderDocument for Products.ATContentTypes.interface.IATFolder

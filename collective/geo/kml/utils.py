@@ -1,9 +1,8 @@
 def web2kmlcolor(color, opacity='3c'):
     """This function convert a web exadecimal color in a kml color
-       color = rrggbb or rrggbbaa
+    color = rrggbb or rrggbbaa
     """
-
-    if  not color:
+    if not color:
         return ''
 
     if color.startswith('#'):

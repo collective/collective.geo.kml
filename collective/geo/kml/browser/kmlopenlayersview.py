@@ -1,6 +1,7 @@
 from zope.interface import implements
 
 from Products.Five import BrowserView
+from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import IFolderish
 
 from collective.geo.mapwidget.browser.widget import MapLayers
@@ -25,7 +26,12 @@ class KMLMapLayers(MapLayers):
         # TODO: for each sub folder or collection create new layer (sublayer)
         path = '/'.join(self.context.getPhysicalPath())
         query = {'query': path, 'depth': 1}
-        for brain in self.context.portal_catalog(path=query,
-                                object_provides=IFolderish.__identifier__):
+
+        catalog = getToolByName(self.context, 'portal_catalog')
+        results = catalog.portal_catalog(
+            path=query,
+            object_provides=IFolderish.__identifier__
+        )
+        for brain in results:
             layers.append(KMLMapLayer(context=brain.getObject()))
         return layers

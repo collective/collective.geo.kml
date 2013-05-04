@@ -7,9 +7,8 @@ from plone.registry.interfaces import IRegistry
 
 from collective.geo.geographer.interfaces import IGeoreferenced
 
-from collective.geo.settings.interfaces import (
-                                        IGeoCustomFeatureStyle,
-                                        IGeoFeatureStyle)
+from collective.geo.settings.interfaces import IGeoCustomFeatureStyle
+from collective.geo.settings import utils
 
 from collective.geo.mapwidget.browser.widget import MapLayers
 
@@ -31,12 +30,12 @@ class ContentViewlet(ViewletBase):
 
     @property
     def map_viewlet_position(self):
-        custom_styles = queryAdapter(self.context, IGeoCustomFeatureStyle)
-        if custom_styles and custom_styles.use_custom_styles:
-            return custom_styles.map_viewlet_position
+        styles = queryAdapter(self.context, IGeoCustomFeatureStyle)
+        if styles and styles.use_custom_styles:
+            return styles.map_viewlet_position
         else:
-            defaultstyles = getUtility(IRegistry).forInterface(IGeoFeatureStyle)
-            return defaultstyles.map_viewlet_position
+            styles = utils.geo_styles()
+            return styles.map_viewlet_position
 
     def render(self):
         if self.manager.__name__ != self.map_viewlet_position:
