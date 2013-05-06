@@ -101,7 +101,7 @@ we can change some properties of kml document with IGeoKmlSettings utility
     >>> settings.marker_image = u'string:${portal_url}/img/marker-blue.png'
     >>> settings.marker_image_size = 1.0
     >>> settings.display_properties = ['listCreators', 'Type', 'Subject',
-    ...     'CreationDate', 'Contributors', 'getLocation']
+    ...     'Contributors', 'getLocation']
     >>> transaction.commit()
 
     >>> browser.open("%s/@@kml-document" % folder.absolute_url())
@@ -121,10 +121,6 @@ we can change some properties of kml document with IGeoKmlSettings utility
     <BLANKLINE>
                         <dt>Subject</dt>
                         <dd>Mapping Geography Google</dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                        <dt>Creation Date</dt>
-                        <dd>Jan 01, 2010 ...</dd>
     <BLANKLINE>
     <BLANKLINE>
                         <dt>Contributors</dt>
