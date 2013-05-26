@@ -418,5 +418,5 @@ class KMLTopicDocument(KMLBaseDocument):
 
     @property
     def features(self):
-        for brain in self.context.queryCatalog():
+        for brain in self.context.queryCatalog(batch=False):
             yield BrainPlacemark(brain, self.request, self)

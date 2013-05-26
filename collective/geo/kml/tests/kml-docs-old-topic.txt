@@ -4,7 +4,7 @@ Check topic results
     >>> topic = folder['topic']
     >>> doc = portal['folder']['doc']
 
-    >>> brain = [b for b in topic.queryCatalog() if b.id == 'doc'][0]
+    >>> brain = [b for b in topic.queryCatalog(batch=False) if b.id == 'doc'][0]
     >>> brain.zgeo_geometry['type']
     'Point'
     >>> brain.zgeo_geometry['coordinates']

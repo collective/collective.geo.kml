@@ -4,6 +4,9 @@ Changelog
 2.6 (unreleased)
 ----------------
 
+- Pass batch=False to queryCatalog. See: https://github.com/collective/collective.geo.bundle/issues/21
+  [giorgio]
+
 - Changed javascript according to new collectivegeo.js
   [gborelli]
 
