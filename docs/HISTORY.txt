@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.6 (unreleased)
-----------------
+3.0b1 (2013-06-02)
+------------------
 
 - Pass batch=False to queryCatalog. See: https://github.com/collective/collective.geo.bundle/issues/21
   [giorgio]

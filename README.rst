@@ -17,19 +17,15 @@ Found a bug? Please, use the `issue tracker`_.
 Requirements
 ============
 * `Plone`_ >= 4.0
-* `collective.geo.geographer`_
-* `collective.geo.mapwidget`_
+* `collective.geo.geographer`_ >= 2.0
+* `collective.geo.mapwidget`_ >= 2.0
 
 
 Installation
 ============
-You can install collective.geo.kml as part of a specific project's buildout, by having a buildout configuration such as: ::
 
-        [buildout]
-        ...
-        eggs =
-            collective.geo.kml
-        ...
+This addon can be installed has any other addons, please follow official
+documentation_.
 
 
 Contributors
@@ -50,3 +46,4 @@ Contributors
 .. _collective.geo.mapwidget: http://pypi.python.org/pypi/collective.geo.mapwidget
 .. _collective.geo.geographer: http://pypi.python.org/pypi/collective.geo.geographer
 .. _issue tracker: https://github.com/collective/collective.geo.bundle/issues
+.. _documentation: http://plone.org/documentation/kb/installing-add-ons-quick-how-to
