@@ -7,6 +7,8 @@
   xmlns:zcml="http://namespaces.zope.org/zcml"
   i18n_domain="collective.geo.kml">
 
+  <include package="z3c.caching" file="meta.zcml" />
+
   <browser:resourceDirectory
       name="geo.kml.javascripts"
       directory="javascripts"
