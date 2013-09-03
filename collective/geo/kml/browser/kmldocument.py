@@ -486,11 +486,15 @@ class KMLBaseDocument(Feature):
             except AttributeError as e:
                 logger.debug(e.message)
             doc.append(pm)
-        if getConfiguration().debug_mode:
-            xml = u'<?xml version="1.0" encoding="UTF-8"?>' + \
-                    k.to_string(prettyprint=True)
-        else:
-            xml = u'<?xml version="1.0" encoding="UTF-8"?>' + k.to_string()
+
+        pretty_print =  any((
+            getConfiguration().debug_mode,
+            self.request.get('pretty-print', None) is not None
+        ))
+        
+        xml = u'<?xml version="1.0" encoding="UTF-8"?>' + \
+                k.to_string(prettyprint=pretty_print)
+        
         return xml
 
     def __call__(self):
