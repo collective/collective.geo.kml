@@ -3,6 +3,7 @@
   xmlns="http://namespaces.zope.org/zope"
   xmlns:five="http://namespaces.zope.org/five"
   xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:cache="http://namespaces.zope.org/cache"
   xmlns:zcml="http://namespaces.zope.org/zcml"
   i18n_domain="collective.geo.kml">
 
@@ -19,6 +20,11 @@
       permission="zope2.View"
       />
 
+  <cache:ruleset
+      for=".kmldocument.KMLDocument"
+      ruleset="plone.content.itemView"
+      />
+
   <!--  was ATBTreeFolder and ATFolder -->
   <browser:page
       for="Products.ATContentTypes.interface.IATFolder"
@@ -28,12 +34,22 @@
       permission="zope2.View"
       />
 
+  <cache:ruleset
+      for=".kmldocument.KMLFolderDocument"
+      ruleset="plone.content.folderView"
+      />
+
   <browser:page
       for="Products.ATContentTypes.interface.IATTopic"
       name="kml-document"
       layer = "..interfaces.IGeoKmlLayer"
       class=".kmldocument.KMLTopicDocument"
       permission="zope2.View"
+      />
+
+  <cache:ruleset
+      for=".kmldocument.KMLTopicDocument"
+      ruleset="plone.content.folderView"
       />
 
   <!-- New style collections -->

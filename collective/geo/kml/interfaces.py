@@ -24,6 +24,23 @@ class IPlacemark(IFeature):
     hasLineString = Attribute("""Boolean, True if has a line location""")
     hasPoint = Attribute("""Boolean, True if has a point location""")
     hasPolygon = Attribute("""Boolean, True if has a polygon location""")
+    extended_data = Attribute("""
+        A list of untyped data/value pairs as defined here:
+        https://developers.google.com/kml/documentation/extendeddata
+
+        See IUntypedExtendedData for reference.
+    """)
+
+
+class IUntypedExtendedData(Interface):
+    """https://developers.google.com/kml/documentation/extendeddata
+
+    Not used for lookups or anything, just for documentation.
+    """
+    name = Attribute("""The name of the untyped data""")
+    value = Attribute("""The value of the untyped data""")
+    display_name = Attribute("""The display name of the untyped data""")
+
 
 
 class IContainer(IFeature):

@@ -1,3 +1,6 @@
+from functools import partial
+from App.config import getConfiguration
+
 from zope.interface import implements
 from zope.component import getMultiAdapter, queryMultiAdapter
 from zope.component import getUtility
@@ -6,7 +9,6 @@ from zope.traversing.browser.interfaces import IAbsoluteURL
 from zope.publisher.browser import BrowserPage
 from zope.schema.interfaces import IVocabularyFactory
 
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.Expression import Expression, getExprContext
 from plone.registry.interfaces import IRegistry
 
@@ -16,7 +18,16 @@ from collective.geo.settings import DISPLAY_PROPERTIES_DATES
 
 from collective.geo.kml.interfaces import IFeature, IContainer, IPlacemark
 from collective.geo.kml.utils import web2kmlcolor
+from collective.geo.kml import GeoKmlMessageFactory as _
+
 import cgi
+
+from fastkml import kml, styles
+
+try:
+    from shapely.geometry import asShape
+except:
+    from pygeoif import as_shape as asShape
 
 # support to collective.contentleadimage
 has_leadimage = True
@@ -25,6 +36,8 @@ try:
 except:
     has_leadimage = False
 
+import logging
+logger = logging.getLogger('collective.geo.kml')
 
 def get_marker_image(context, marker_img):
     try:
@@ -293,6 +306,16 @@ class BrainPlacemark(Placemark):
     implements(IPlacemark)
     __name__ = 'kml-placemark'
 
+    imagesnippet = """
+        <a class="placemark-image" href="%(url)s/view">
+            <img 
+                src="%(url)s/image_%(scale)s" 
+                alt="%(name)s" 
+                title="%(name)s" 
+                class="%(class)s" />
+        </a>
+    """
+
     def __init__(self, context, request, document):
         self.context = context
         self.request = request
@@ -304,6 +327,13 @@ class BrainPlacemark(Placemark):
             self.styles = self.context.collective_geo_styles
         except:
             self.styles = None
+
+    def lead_image(self, scale='thumb', css_class="tileImage"):
+        if self.item_type == 'Image':
+            return self.imagesnippet % { 'url': self.item_url,
+                    'scale': scale, 'name': self.name, 'class': css_class }
+        else:
+            return ''
 
     @property
     def id(self):
@@ -335,6 +365,10 @@ class BrainPlacemark(Placemark):
     def item_url(self):
         return self.context.getURL()
 
+    @property
+    def extended_data(self):
+        return []
+
 
 class KMLBaseDocument(Feature):
     """This class extends Feature class
@@ -342,7 +376,6 @@ class KMLBaseDocument(Feature):
     """
     implements(IContainer)
     __name__ = 'kml-document'
-    template = ViewPageTemplateFile('kmldocument.pt')
 
     def __init__(self, context, request):
         self.context = context
@@ -353,6 +386,112 @@ class KMLBaseDocument(Feature):
     @property
     def features(self):
         raise NotImplementedError
+
+    def anchorsnippet(self, link):
+        return (
+            '<p class="placemark-url">'
+                '<a href="%s">%s</a>'
+            '</p>'
+        ) % (link, self.context.translate(_(u'See the original resource')))
+
+    def get_kml(self):
+
+        # Some programs consuming kml cannot handle kml namespaces. For those
+        # programs the supress-kml-namespace parameter may be used.
+        # e.g. .../@@kml-document?suppress-kml-prefix
+        if self.request.get('supress-kml-prefix', None) is not None:
+            namespace = ''  # no kml namespace prefixes
+        else:
+            namespace = None  # use default
+
+        KML = partial(kml.KML, ns=namespace)
+        Document = partial(kml.Document, ns=namespace)
+        Placemark = partial(kml.Placemark, ns=namespace)
+        Style = partial(styles.Style, ns=namespace)
+        IconStyle = partial(styles.IconStyle, ns=namespace)
+        LineStyle = partial(styles.LineStyle, ns=namespace)
+        PolyStyle = partial(styles.PolyStyle, ns=namespace)
+        UntypedExtendedData = partial(kml.UntypedExtendedData, ns=namespace)
+        UntypedExtendedDataElement = partial(
+            kml.UntypedExtendedDataElement, ns=namespace
+        )
+
+        k = KML()
+
+        ## make sure description field is encoded properly
+        doc = Document(
+            name=unicode(self.name, 'utf-8'),
+            description=unicode(self.description, 'utf-8')
+        )
+        k.append(doc)
+        docstyle = Style(id="defaultStyle")
+        istyle = IconStyle(scale=self.marker_image_size,
+                icon_href=self.marker_image,
+                color=self.polygoncolor)
+        lstyle = LineStyle(color=self.linecolor, width=self.linewidth)
+        pstyle = PolyStyle(color=self.polygoncolor)
+        docstyle.append_style(istyle)
+        docstyle.append_style(lstyle)
+        docstyle.append_style(pstyle)
+        doc.append_style(docstyle)
+        for feature in self.features:
+            description =''
+            if feature.lead_image():
+                description += feature.lead_image()
+            if feature.description:
+                description += unicode(feature.description, 'utf-8')
+            if feature.item_url:
+                description += self.anchorsnippet(feature.item_url)
+            name = unicode(feature.name, 'utf-8')
+            pm = Placemark(name=name, description=description)
+            shape = {'type': feature.geom.type,
+                'coordinates': feature.geom.coordinates}
+            try:
+                pm.geometry = asShape(shape)
+            except:
+                continue
+            pm.author = feature.author['name']
+            if feature.item_url:
+                pm.link = unicode(feature.item_url, 'utf-8')
+            if feature.use_custom_styles:
+                pms = Style()
+                if feature.geom.type in ['Point', 'MultiPoint']:
+                    istyle = IconStyle(scale=feature.marker_image_size,
+                        icon_href=feature.marker_image,
+                        color=feature.polygoncolor)
+                    pms.append_style(istyle)
+                elif feature.geom.type in ['LineString', 'MultiLineString',
+                                            'Polygon', 'MultiPolygon']:
+                    lstyle = LineStyle(color=feature.linecolor,
+                                    width=feature.linewidth)
+                    pms.append_style(lstyle)
+                if feature.geom.type in ['Polygon', 'MultiPolygon']:
+                    pstyle = PolyStyle(color=feature.polygoncolor)
+                    pms.append_style(pstyle)
+                pm.append_style(pms)
+            else:
+                pm.styleUrl = "#defaultStyle"
+            try:
+                extended_data = UntypedExtendedData()
+                for element in feature.extended_data:
+                    extended_data.elements.append(
+                        UntypedExtendedDataElement(
+                            name=element.name,
+                            value=element.value,
+                            display_name=element.display_name
+                        )
+                    )
+                if extended_data.elements:
+                    pm.extended_data = extended_data
+            except AttributeError as e:
+                logger.debug(e.message)
+            doc.append(pm)
+        if getConfiguration().debug_mode:
+            xml = u'<?xml version="1.0" encoding="UTF-8"?>' + \
+                    k.to_string(prettyprint=True)
+        else:
+            xml = u'<?xml version="1.0" encoding="UTF-8"?>' + k.to_string()
+        return xml
 
     def __call__(self):
         # bha! --- Internet explorer cache the kml-document
@@ -366,7 +505,10 @@ class KMLBaseDocument(Feature):
         self.request.response.setHeader(
             'Content-Disposition',
             'attachment; filename="%s"' % filename)
-        return self.template().encode('utf-8')
+        self.request.response.setHeader(
+            'Content-Type',
+            'application/vnd.google-earth.kml+xml; charset=utf-8')
+        return self.get_kml().encode('utf-8')
 
     @property
     def linecolor(self):
