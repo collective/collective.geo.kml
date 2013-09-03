@@ -30,6 +30,7 @@ setup(name='collective.geo.kml',
           'Products.CMFCore',
           'collective.geo.mapwidget > 1.6',
           'collective.geo.geographer > 1.7',
+          'fastkml > 0.3'
       ],
       extras_require={
           'test': [
