@@ -1,10 +1,11 @@
 Changelog
 =========
 
-3.1 (unreleased)
+3.1 (2013-10-30)
 ----------------
 
-- Nothing changed yet.
+- fix MANIFEST.in
+  [gborelli]
 
 
 3.0 (2013-10-29)
