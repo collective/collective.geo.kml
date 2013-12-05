@@ -6,11 +6,15 @@
   xmlns:zcml="http://namespaces.zope.org/zcml"
   i18n_domain="collective.geo.kml">
 
+  <include package="plone.app.contentmenu" />
+
+
   <browser:resourceDirectory
       name="geo.kml.javascripts"
       directory="javascripts"
       />
 
+  <!-- kml document pages -->
   <browser:page
       for="collective.geo.geographer.interfaces.IGeoreferenceable"
       name="kml-document"
@@ -21,7 +25,7 @@
 
   <!--  was ATBTreeFolder and ATFolder -->
   <browser:page
-      for="Products.ATContentTypes.interface.IATFolder"
+      for="Products.CMFCore.interfaces.IFolderish"
       name="kml-document"
       class=".kmldocument.KMLFolderDocument"
       layer = "..interfaces.IGeoKmlLayer"
@@ -36,7 +40,7 @@
       permission="zope2.View"
       />
 
-  <!-- New style collections -->
+  <!-- plone.app.collection -->
   <browser:page
       zcml:condition="installed plone.app.collection"
       name="kml-document"
@@ -45,6 +49,17 @@
       class=".kmldocument.KMLTopicDocument"
       permission="zope2.View"/>
 
+  <!-- plone.app.contenttypes -->
+  <browser:page
+      zcml:condition="installed plone.app.contenttypes"
+      name="kml-document"
+      for="plone.app.contenttypes.interfaces.ICollection"
+      layer = "..interfaces.IGeoKmlLayer"
+      class=".kmldocument.KMLTopicDocument"
+      permission="zope2.View"/>
+
+
+  <!-- map views -->
 
   <!--  was ATTopic, ATFolder, ATBTreeFolder,  -->
   <browser:page
@@ -56,7 +71,7 @@
       permission = "zope2.View"
       />
 
-  <!-- New style collections -->
+  <!-- plone.app.collections -->
   <browser:page
       zcml:condition="installed plone.app.collection"
       name="kml-openlayers"
@@ -66,16 +81,25 @@
       template = "kmlopenlayersview.pt"
       permission="zope2.View"/>
 
-  <adapter
-      for="..interfaces.IKMLOpenLayersView
-           zope.interface.Interface
-           zope.interface.Interface
-           zope.interface.Interface"
-      factory=".kmlopenlayersview.KMLMapLayers"
+  <!-- plone.app.contenttypes -->
+  <browser:page
+      zcml:condition="installed plone.app.contenttypes"
+      name="kml-openlayers"
+      for="plone.app.contenttypes.interfaces.ICollection"
+      class=".kmlopenlayersview.KmlOpenLayersView"
+      layer = "..interfaces.IGeoKmlLayer"
+      template = "kmlopenlayersview.pt"
+      permission="zope2.View"/>
+
+  <!-- macros view -->
+  <browser:page
+      name="kmldocument-macros"
+      for="*"
+      class=".kmldocument_macros.KmlDocumentMacros"
+      permission="zope2.View"
       />
 
-  <include package="plone.app.contentmenu" />
-
+  <!-- menu items -->
   <browser:menuItem
       title="Kml Openlayers View"
       for="Products.CMFCore.interfaces.IFolderish"
@@ -84,7 +108,7 @@
       description="Set Openlayers Kml as default view."
       />
 
-  <!-- New style collections -->
+  <!-- plone.app.collections -->
   <browser:menuItem
       zcml:condition="installed plone.app.collection"
       title="Kml Openlayers View"
@@ -94,15 +118,17 @@
       description="Set Openlayers Kml as default view."
       />
 
-
-
-  <browser:page
-      name="kmldocument-macros"
-      for="*"
-      class=".kmldocument_macros.KmlDocumentMacros"
-      permission="zope2.View"
+  <!-- plone.app.contenttypes -->
+  <browser:menuItem
+      zcml:condition="installed plone.app.contenttypes"
+      title="Kml Openlayers View"
+      for="plone.app.contenttypes.interfaces.ICollection"
+      menu="plone_displayviews"
+      action="kml-openlayers"
+      description="Set Openlayers Kml as default view."
       />
 
+  <!-- viewlets -->
   <browser:viewlet
       name="collective.geo.kml.kmlcontentviewlet"
       for="collective.geo.geographer.interfaces.IGeoreferenceable"
@@ -123,6 +149,15 @@
       permission="zope2.View"
   />
 
+
+  <!-- Map layer -->
+  <adapter
+      for="..interfaces.IKMLOpenLayersView
+           zope.interface.Interface
+           zope.interface.Interface
+           zope.interface.Interface"
+      factory=".kmlopenlayersview.KMLMapLayers"
+      />
 
   <adapter
       for="..interfaces.IKMLOpenLayersViewlet

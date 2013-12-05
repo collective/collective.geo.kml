@@ -4,7 +4,8 @@ Changelog
 3.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Added support to plone.app.contenttypes
+  [giorgio]
 
 
 3.1 (2013-10-30)

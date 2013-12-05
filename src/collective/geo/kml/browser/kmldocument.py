@@ -397,10 +397,23 @@ class KMLDocument(KMLBaseDocument):
 
     @property
     def features(self):
-        feature = queryMultiAdapter((self.context, self.request), IFeature)
-        if feature:
-            return [feature]
-        return []
+        results = []
+        context_state = self.context.restrictedTraverse('plone_context_state')
+
+        # context can be a folder with kml-openlayers view
+        # in this case return a feature for each item contained
+        # else return only a feature for itself
+        if context_state.view_template_id() == 'kml-openlayers':
+            for item in self.context.values():
+                feature = queryMultiAdapter((item, self.request), IFeature)
+                if not feature:
+                    continue
+                results.append(feature)
+        else:
+            feature = queryMultiAdapter((self.context, self.request), IFeature)
+            if feature:
+                results.append(feature)
+        return results
 
 
 class KMLFolderDocument(KMLBaseDocument):
