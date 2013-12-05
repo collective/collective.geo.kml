@@ -7,7 +7,16 @@
       <metal:use use-macro="context/@@collectivegeo-macros/openlayers" />
     </metal:block>
  <body>
-  <metal:main fill-slot="main"
+  <metal:content-core fill-slot="content-core">
+    <metal:content-core define-macro="content-core">
+      <metal:use use-macro="context/@@collectivegeo-macros/map-widget"  />
+      <script type="text/javascript"
+              src="++resource++geo.kml.javascripts/kml_openlayers.js"
+        ></script>
+    </metal:content-core>
+  </metal:content-core>
+
+<!--   <metal:main fill-slot="main"
        tal:define="kssClassesView context/@@kss_field_decorator_view;
                    getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
                    templateId template/getId" >
@@ -39,12 +48,8 @@
             <div metal:define-slot="inside" tal:replace="structure text">The body</div>
         </div>
 
-        <metal:use use-macro="context/@@collectivegeo-macros/map-widget"  />
-        <script type="text/javascript"
-                src="++resource++geo.kml.javascripts/kml_openlayers.js"
-          ></script>
     </div>
     <div tal:replace="structure provider:plone.belowcontentbody" />
-  </metal:main>
+  </metal:main> -->
  </body>
 </html>
