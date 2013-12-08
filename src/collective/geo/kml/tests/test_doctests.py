@@ -34,8 +34,15 @@ def set_default_styles():
 
 def create_base_content(portal):
     setRoles(portal, TEST_USER_ID, ['Manager'])
-    _id = portal.invokeFactory('Folder', 'folder', title='Folder')
+    _id = portal.invokeFactory(
+        'Folder', 'folder',
+        title='Folder',
+        description="Collective geo test container"
+    )
     folder = portal.get(_id)
+
+    # set default view for folder
+    folder.setLayout('kml-openlayers')
 
     # create topic
     topic_id = folder.invokeFactory('Topic', 'topic', title="Test Topic")

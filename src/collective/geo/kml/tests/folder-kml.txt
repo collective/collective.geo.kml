@@ -21,6 +21,7 @@ Test the KML document view of the folder
     >>> browser = Browser(layer['app'])
     >>> browser.addHeader('Authorization',
     ...                   'Basic %s:%s' % (TEST_USER_NAME, TEST_USER_PASSWORD))
+
     >>> browser.open("%s/@@kml-document" % folder.absolute_url())
 
 

@@ -15,41 +15,5 @@
         ></script>
     </metal:content-core>
   </metal:content-core>
-
-<!--   <metal:main fill-slot="main"
-       tal:define="kssClassesView context/@@kss_field_decorator_view;
-                   getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
-                   templateId template/getId" >
-    <div>
-        <div tal:replace="structure provider:plone.abovecontenttitle" />
-
-        <h1 class="documentFirstHeading">
-            <metal:field use-macro="python:here.widget('title', mode='view')">
-            Title
-            </metal:field>
-        </h1>
-
-        <div tal:replace="structure provider:plone.belowcontenttitle" />
-
-        <p class="documentDescription">
-            <metal:field use-macro="python:here.widget('description', mode='view')">
-            Description
-            </metal:field>
-        </p>
-
-        <div tal:replace="structure provider:plone.abovecontentbody" />
-        <div metal:define-macro="text-field-view"
-             id="parent-fieldname-text" class="stx"
-             tal:define="kss_class python:getKssClasses('text',
-                         templateId=templateId, macro='text-field-view');
-                         text here/getText|nothing"
-             tal:condition="text"
-             tal:attributes="class python:(here.Format() in ('text/structured','text/x-rst', )) and ('stx' + kss_class) or ('plain' + kss_class);">
-            <div metal:define-slot="inside" tal:replace="structure text">The body</div>
-        </div>
-
-    </div>
-    <div tal:replace="structure provider:plone.belowcontentbody" />
-  </metal:main> -->
  </body>
 </html>

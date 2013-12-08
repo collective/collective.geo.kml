@@ -37,7 +37,7 @@ Check to see that the byline is visible,
     True
 
 the description is visible,
-    >>> '<p class="documentDescription">' in browser.contents
+    >>> 'class="documentDescription"' in browser.contents
     True
 
 In this view we can see a div that contains the openlayers map
