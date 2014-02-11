@@ -263,15 +263,18 @@ class Placemark(Feature):
             obj = self.context
 
         try:
-            image_field = aq_base(obj).getField('image')
+            image_field = obj.getField('image')
         except:
             return None
 
         if has_leadimage and not image_field:
-            image_field = aq_base(obj).getField(IMAGE_FIELD_NAME)
+            image_field = obj.getField(IMAGE_FIELD_NAME)
 
-        if image_field and image_field.get_size(obj):
-            return image_field.tag(obj, scale=scale, css_class=css_class)
+        try:
+            if image_field and image_field.get_size(obj):
+                return image_field.tag(obj, scale=scale, css_class=css_class)
+        except:
+            pass
 
         return None
 
