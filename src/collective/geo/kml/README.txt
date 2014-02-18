@@ -145,10 +145,10 @@ see:
     >>> from collective.geo.kml.testing import CustomStyleManager
     >>> provideAdapter(CustomStyleManager, (IGeoreferenceable,), IGeoCustomFeatureStyle)
     >>> custom_styles = IGeoFeatureStyle(document)
-    >>> custom_styles.geostyles.get('linewidth')
+    >>> custom_styles.linewidth
     2.0
 
-    >>> custom_styles.geostyles.get('polygoncolor')
+    >>> custom_styles.polygoncolor
     u'FEDCBA3C'
 
     >>> browser.open("%s/@@kml-document" % folder.absolute_url())
@@ -156,11 +156,11 @@ see:
     <?xml version="1.0" encoding="utf-8"?>
     <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
     ...
-            <Style>
+            <Style id="defaultStyle">
               <IconStyle>
                 <scale>1.0</scale>
                <Icon>
-                <href>http://nohost/plone/img/marker.png</href>
+                <href>http://nohost/plone/img/marker-blue.png</href>
                </Icon>
                <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
               </IconStyle>
@@ -171,6 +171,7 @@ see:
     ...
     </kml>
     <BLANKLINE>
+
 
 
 Let's try a LineString instead to see it's custom styles

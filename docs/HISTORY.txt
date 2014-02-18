@@ -4,8 +4,11 @@ Changelog
 3.2 (unreleased)
 ----------------
 
+- Fixed end improved geo style management
+  [gborelli]
+
 - Added support to plone.app.contenttypes
-  [giorgio]
+  [gborelli]
 
 
 3.1 (2013-10-30)
