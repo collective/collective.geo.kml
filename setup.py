@@ -29,7 +29,7 @@ setup(name='collective.geo.kml',
       install_requires=[
           'setuptools',
           'Products.CMFCore',
-          'collective.geo.mapwidget > 2.0',
+          'collective.geo.mapwidget >= 2.1',
           'collective.geo.geographer >= 2.0',
       ],
       extras_require={
