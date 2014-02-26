@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.2 (unreleased)
+3.2 (2014-02-26)
 ----------------
 
 - Fixed end improved geo style management
