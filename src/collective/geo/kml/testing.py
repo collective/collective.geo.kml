@@ -49,15 +49,13 @@ CGEO_KML_FUNCTIONAL = FunctionalTesting(
 class CustomStyleManager(object):
     implements(IGeoCustomFeatureStyle)
 
-    geostyles = {
-     'use_custom_styles': True,
-     'linecolor': u'FEDCBA3C',
-     'linewidth': 2.0,
-     'polygoncolor': u'FEDCBA3C',
-     'marker_image': u'string:${portal_url}/img/marker.png',
-     'marker_image_size': 1.0,
-     'display_properties': ['Type', 'EffectiveDate', 'ModificationDate'],
-    }
+    use_custom_styles = True
+    linecolor = u'FEDCBA3C'
+    linewidth = 2.0
+    polygoncolor = u'FEDCBA3C'
+    marker_image = u'string:${portal_url}/img/marker.png'
+    marker_image_size = 1.0
+    display_properties = ['Type', 'EffectiveDate', 'ModificationDate']
 
     def __init__(self, context):
         pass

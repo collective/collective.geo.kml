@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '3.2.dev0'
+version = '3.3.dev0'
 
 setup(name='collective.geo.kml',
       version=version,
@@ -29,8 +29,8 @@ setup(name='collective.geo.kml',
       install_requires=[
           'setuptools',
           'Products.CMFCore',
-          'collective.geo.mapwidget > 1.6',
-          'collective.geo.geographer > 1.7',
+          'collective.geo.mapwidget >= 2.1.1',
+          'collective.geo.geographer >= 2.0',
       ],
       extras_require={
           'test': [

@@ -13,19 +13,26 @@ from Products.CMFCore.Expression import Expression, getExprContext
 from plone.registry.interfaces import IRegistry
 
 from collective.geo.geographer.interfaces import IGeoreferenced
+from collective.geo.settings.config import GEO_STYLE_FIELDS
 from collective.geo.settings.interfaces import IGeoFeatureStyle
 from collective.geo.settings import DISPLAY_PROPERTIES_DATES
 
+from collective.geo.mapwidget.utils import get_feature_styles
+
 from collective.geo.kml.interfaces import IFeature, IContainer, IPlacemark
 from collective.geo.kml.utils import web2kmlcolor
+
 import cgi
+import pkg_resources
 
 # support to collective.contentleadimage
-has_leadimage = True
 try:
+    pkg_resources.get_distribution('collective.contentleadimage')
+except pkg_resources.DistributionNotFound:
+    HAS_LEADIMAGE = False
+else:
     from collective.contentleadimage.config import IMAGE_FIELD_NAME
-except:
-    has_leadimage = False
+    HAS_LEADIMAGE = True
 
 
 def get_marker_image(context, marker_img):
@@ -123,11 +130,7 @@ class Placemark(Feature):
             self.geom = IGeoreferenced(self.context)
         except:
             self.geom = NullGeometry()
-
-        try:
-            self.styles = IGeoFeatureStyle(context).geostyles
-        except:
-            self.styles = None
+        self.styles = get_feature_styles(context)
 
     def __call__(self):
         return self.template().encode('utf-8')
@@ -165,8 +168,9 @@ class Placemark(Feature):
 
     @property
     def properties_vocabulary_labels(self):
-        terms = getUtility(IVocabularyFactory,
-                    name="displaypropertiesVocab").terms
+        terms = getUtility(
+            IVocabularyFactory,
+            name="displaypropertiesVocab").terms
         labels = {}
         for k, v in terms:
             labels[k] = v
@@ -223,9 +227,11 @@ class Placemark(Feature):
         properties = document.display_properties
         if self.styles and self.use_custom_styles:
             properties = self.styles['display_properties']
-        return [(self.properties_vocabulary_labels.get(prop, prop),
-                        self.getDisplayValue(prop)) for prop in properties
-                        if getattr(self.context, prop, False)]
+        return [(
+            self.properties_vocabulary_labels.get(prop, prop),
+            self.getDisplayValue(prop)
+        ) for prop in properties
+            if getattr(self.context, prop, False)]
 
     def getDisplayValue(self, prop):
         return self.formatDisplayProperty(getattr(self.context, prop), prop)
@@ -241,8 +247,8 @@ class Placemark(Feature):
         if prop in DISPLAY_PROPERTIES_DATES:
             return self.context.toLocalizedTime(value, long_format=1)
 
-        if isinstance(value, tuple) or\
-                        isinstance(value, list):
+        if isinstance(value, tuple) or \
+                isinstance(value, list):
             return ' '.join(value)
 
         if isinstance(value, str):
@@ -267,7 +273,7 @@ class Placemark(Feature):
         except:
             return None
 
-        if has_leadimage and not image_field:
+        if HAS_LEADIMAGE and not image_field:
             image_field = obj.getField(IMAGE_FIELD_NAME)
 
         try:
@@ -300,13 +306,17 @@ class BrainPlacemark(Placemark):
     __name__ = 'kml-placemark'
 
     def __init__(self, context, request, document):
-        self.context = context
+        if hasattr(context, 'getDataOrigin'):
+            self.context = context.getDataOrigin()
+        else:
+            self.context = context
         self.request = request
         self.geom = NullGeometry()
         if context.zgeo_geometry:
             self.geom.type = context.zgeo_geometry['type']
             self.geom.coordinates = context.zgeo_geometry['coordinates']
         try:
+            # get brains' metadata collective_geo_styles
             self.styles = self.context.collective_geo_styles
         except:
             self.styles = None
