@@ -277,6 +277,12 @@ class Placemark(Feature):
             return image_field.tag(obj, scale=scale, css_class=css_class)
         return None
 
+    @property
+    def balloonstyle(self):
+        if self.styles:
+            return self.styles.get('balloonstyle', u'')
+        return u''
+
 
 class Folder(Feature):
 
@@ -298,7 +304,7 @@ class BrainPlacemark(Placemark):
     implements(IPlacemark)
     __name__ = 'kml-placemark'
 
-    def __init__(self, context, request, document):
+    def __init__(self, context, request):
         if hasattr(context, 'getDataOrigin'):
             self.context = context.getDataOrigin()
         else:
@@ -401,6 +407,10 @@ class KMLBaseDocument(Feature):
     def display_properties(self):
         return self.styles.display_properties
 
+    @property
+    def balloonstyle(self):
+        return self.styles.balloonstyle
+
 
 class KMLDocument(KMLBaseDocument):
 
@@ -441,4 +451,4 @@ class KMLTopicDocument(KMLBaseDocument):
     @property
     def features(self):
         for brain in self.context.queryCatalog(batch=False):
-            yield BrainPlacemark(brain, self.request, self)
+            yield queryMultiAdapter((brain, self.request), IPlacemark)
