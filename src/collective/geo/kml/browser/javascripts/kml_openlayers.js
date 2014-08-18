@@ -12,11 +12,20 @@
         }
 
         function onFeatureSelect(feature, arg1, arg2) {
+            var text;
+            if (feature.style.balloonStyle) {
+                text = feature.style.balloonStyle.replace((/\$\{(.*?)\}/g), function(str, match) { 
+                    var ret = feature.attributes[match] || '';
+                    return typeof(ret) === 'object' ? ret.value: ret || '';
+                });
+            } else {
+                text = "<h2>" + feature.attributes.name + "</h2>" + feature.attributes.description;
+            }
             var popup = new OpenLayers.Popup.FramedCloud(
                 "chicken",
                 feature.geometry.getBounds().getCenterLonLat(),
                 new OpenLayers.Size(200, 200),
-                "<h2>" + feature.attributes.name + "</h2>" + feature.attributes.description,
+                text,
                 null,
                 true,
                 onPopupClose

@@ -18,6 +18,7 @@
                              marker_image view/marker_image;
                              linecolor view/linecolor;
                              linewidth view/linewidth;
+                             balloonstyle view/balloonstyle|nothing;
                              polygoncolor view/polygoncolor">
            <metal:style use-macro="context/@@kmldocument-macros/kmlstyle"/>
     </tal:defaulstyle>
@@ -46,6 +47,7 @@
                                hasMultiPoint feature/hasMultiPoint;
                                coords_kml placemark/coords_kml;
                                use_custom_style feature/use_custom_styles;
+                               balloonstyle feature/balloonstyle|nothing;
                                styleid nothing;
                                marker_image_size python:hasPoint and placemark.marker_image_size or None;
                                marker_image python:hasPoint and placemark.marker_image or None;
@@ -85,6 +87,7 @@
                            hasMultiPoint feature/hasMultiPoint;
                            coords_kml feature/coords_kml;
                            use_custom_style feature/use_custom_styles;
+                           balloonstyle feature/balloonstyle|nothing;
                            styleid nothing;
                            marker_image_size python:(hasPoint or hasMultiPoint) and feature.marker_image_size or None;
                            marker_image python:(hasPoint or hasMultiPoint) and feature.marker_image or None;

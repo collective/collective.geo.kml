@@ -31,4 +31,10 @@
       provides="collective.geo.kml.interfaces.IFeature"
       />
 
+  <adapter
+      factory=".browser.kmldocument.BrainPlacemark"
+      for="*
+           zope.publisher.interfaces.browser.IBrowserRequest"
+      provides="collective.geo.kml.interfaces.IPlacemark"
+      />
 </configure>

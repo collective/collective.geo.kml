@@ -24,6 +24,9 @@
           <PolyStyle tal:condition="polygoncolor">
             <color tal:content="polygoncolor">33ff0000</color>
           </PolyStyle>
+          <BalloonStyle tal:condition="balloonstyle">
+            <text tal:content="structure string:&#60;![CDATA[${balloonstyle}]]&#62;"></text>
+          </BalloonStyle>
         </Style>
       </metal:kmlstyle>
 
@@ -123,6 +126,16 @@
             </outerBoundaryIs>
             </Polygon>
         </MultiGeometry>
+        <ExtendedData tal:condition="display_properties">
+            <Data name="url" tal:condition="item_view_url">
+                <value tal:content="item_view_url" />
+            </Data>
+            <tal:items repeat="prop display_properties">
+                <Data name="name" tal:attributes="name python:prop[0]">
+                    <value tal:content="python:prop[1]" />
+                </Data>
+            </tal:items>
+        </ExtendedData>
       </Placemark>
       </metal:placemark>
 
