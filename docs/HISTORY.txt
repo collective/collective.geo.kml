@@ -4,6 +4,9 @@ Changelog
 3.3 (unreleased)
 ----------------
 
+- Added BalloonStyle
+  [kroman0]
+
 - Add uninstall browserlayer.
   [bsuttor]
 
