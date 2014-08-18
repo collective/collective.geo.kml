@@ -4,7 +4,8 @@ Changelog
 3.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add uninstall browserlayer.
+  [bsuttor]
 
 
 3.2 (2014-02-26)
