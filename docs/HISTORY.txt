@@ -4,6 +4,10 @@ Changelog
 3.3 (unreleased)
 ----------------
 
+- Make sure there's no exception if collective.leadimage is installed and
+  obj.image is set to NamedImage/NamedBlobImage.
+  [href]
+
 - Added BalloonStyle
   [kroman0]
 
