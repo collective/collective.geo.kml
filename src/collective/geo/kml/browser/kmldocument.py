@@ -273,9 +273,14 @@ class Placemark(Feature):
         if HAS_LEADIMAGE and not image_field:
             image_field = obj.getField(IMAGE_FIELD_NAME)
 
-        if image_field and hasattr(image_field, 'get_size'):
-            if image_field.get_size(obj):
-                return image_field.tag(obj, scale=scale, css_class=css_class)
+        if image_field:
+            try:
+                if image_field.get_size(obj):
+                    return image_field.tag(
+                        obj, scale=scale, css_class=css_class)
+            except AttributeError:
+                pass  # happens if the images is not an ATImage
+
         return None
 
     @property
