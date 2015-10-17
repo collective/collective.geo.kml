@@ -44,12 +44,19 @@ def create_base_content(portal):
     # set default view for folder
     folder.setLayout('kml-openlayers')
 
-    # create topic
-    topic_id = folder.invokeFactory('Topic', 'topic', title="Test Topic")
-    topic = folder[topic_id]
+    behavior = 'collective.geo.behaviour.interfaces.ICoordinates'
+    fti = portal.portal_types.get('Document')
+    behaviors = list(fti.behaviors)
+    behaviors.append(behavior)
+    behaviors = tuple(behaviors)
+    fti._updateProperty('behaviors', behaviors)
 
-    c = topic.addCriterion('getId', 'ATSimpleStringCriterion')
-    c.setValue('doc')
+    # create topic
+    # topic_id = folder.invokeFactory('Topic', 'topic', title="Test Topic")
+    # topic = folder[topic_id]
+
+    # c = topic.addCriterion('getId', 'ATSimpleStringCriterion')
+    # c.setValue('doc')
 
     # create collection
     collection_id = folder.invokeFactory(
@@ -144,17 +151,17 @@ def test_suite():
             layer=CGEO_KML_FUNCTIONAL
         ),
 
-        layered(
-            doctest.DocFileSuite(
-                'kml-docs-old-topic.txt',
-                package='collective.geo.kml.tests',
-                setUp=setUp,
-                tearDown=tearDown,
-                optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | \
-                        doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS
-            ),
-            layer=CGEO_KML_FUNCTIONAL
-        ),
+        # layered(
+        #     doctest.DocFileSuite(
+        #         'kml-docs-old-topic.txt',
+        #         package='collective.geo.kml.tests',
+        #         setUp=setUp,
+        #         tearDown=tearDown,
+        #         optionflags=doctest.REPORT_ONLY_FIRST_FAILURE | \
+        #                 doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS
+        #     ),
+        #     layer=CGEO_KML_FUNCTIONAL
+        # ),
 
         layered(
             doctest.DocFileSuite(
