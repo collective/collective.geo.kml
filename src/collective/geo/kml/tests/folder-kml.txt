@@ -7,9 +7,9 @@ Set the dates of the content so they are consistent and can be tested
     >>> import DateTime
     >>> testDate = DateTime.DateTime(
     ...   '2010/01/01 09:00:00.000 ' + DateTime.DateTime().timezone())
-    >>> doc.setCreationDate(testDate)
-    >>> doc.setEffectiveDate(testDate)
-    >>> doc.setModificationDate(testDate)
+    >>> doc.creation_date = testDate
+    >>> doc.effective_date = testDate
+    >>> doc.modification_date = testDate
     >>> doc.indexObject()
 
 
@@ -35,7 +35,7 @@ Test the KML document view of the folder
                <Icon>
                 <href>http://nohost/plone/img/marker.png</href>
                </Icon>
-               <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+               <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction" />
               </IconStyle>
               <LineStyle>
                <color>3c0000ff</color>
@@ -44,6 +44,9 @@ Test the KML document view of the folder
               <PolyStyle>
                 <color>3c0000ff</color>
               </PolyStyle>
+              <BalloonStyle>
+                <text><![CDATA[<h2>$[name]</h2>$[description]]]></text>
+              </BalloonStyle>
             </Style>
     ...
       <Placemark>

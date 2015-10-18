@@ -8,6 +8,7 @@ from plone.app.testing import IntegrationTesting
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import applyProfile
 
 from collective.geo.geographer.interfaces import IGeoreferenceable
 from collective.geo.geographer.interfaces import IWriteGeoreferenced
@@ -37,12 +38,12 @@ class KmlFunctionalTesting(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         super(KmlFunctionalTesting, self).setUpPloneSite(portal)
+        applyProfile(portal, 'collective.geo.kml:default')
 
         # topic_pt = portal.portal_types['Collection']
         # topic_pt.global_allow = True
         # folder_pt = portal.portal_types['Folder']
         # folder_pt.global_allow = True
-
 
 CGEO_KML_FUNCTIONAL_FIXTURE = KmlFunctionalTesting()
 

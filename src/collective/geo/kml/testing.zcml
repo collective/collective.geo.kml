@@ -12,5 +12,4 @@
     <implements interface="collective.geo.geographer.interfaces.IGeoreferenceable" />
   </class>
 
-
 </configure>

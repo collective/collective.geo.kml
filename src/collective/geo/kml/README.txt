@@ -3,8 +3,8 @@ collective.geo.kml
 
 Overview
 --------
-collective.geo.kml provides the necessary javascript to integrate a kml document in an opelayers layer.
-It build a kml file for Folder and Topic objects.
+collective.geo.kml provides the necessary javascript to integrate a kml document in an openlayers layer.
+It builds a kml file for Folder and Collection objects.
 Some kml properties can be set at site level.
 
 Test
@@ -103,7 +103,7 @@ we can change some properties of kml document with IGeoKmlSettings utility
     >>> settings.marker_image = u'string:${portal_url}/img/marker-blue.png'
     >>> settings.marker_image_size = 1.0
     >>> settings.display_properties = ['listCreators', 'Type', 'Subject',
-    ...     'Contributors', 'getLocation']
+    ...     'Contributors']
     >>> transaction.commit()
 
     >>> browser.open("%s/@@kml-document" % folder.absolute_url())
@@ -124,9 +124,6 @@ we can change some properties of kml document with IGeoKmlSettings utility
     <BLANKLINE>
                         <dt>Contributors</dt>
                         <dd></dd>
-    <BLANKLINE>
-                        <dt>Content Location</dt>
-                        <dd>Somewhere on Earth</dd>
     <BLANKLINE>
                     </dl>
     ...
