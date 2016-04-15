@@ -317,7 +317,7 @@ class BrainPlacemark(Placemark):
             self.context = context
         self.request = request
         self.geom = NullGeometry()
-        if context.zgeo_geometry:
+        if getattr(context, 'zgeo_geometry', False):
             self.geom.type = context.zgeo_geometry['type']
             self.geom.coordinates = context.zgeo_geometry['coordinates']
         try:

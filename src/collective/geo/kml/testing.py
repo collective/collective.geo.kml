@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from zope.interface import implements
 
+from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.testing import PloneWithPackageLayer
 from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import FunctionalTesting
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import applyProfile
 
 from collective.geo.geographer.interfaces import IGeoreferenceable
 from collective.geo.geographer.interfaces import IWriteGeoreferenced
@@ -28,16 +30,20 @@ CGEO_KML_INTEGRATION = IntegrationTesting(
 
 class KmlFunctionalTesting(PloneSandboxLayer):
 
-    defaultBases = (CGEO_KML,)
+    defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE, CGEO_KML)
+
+    def setUpZope(self, app, configurationContext):
+        import collective.geo.behaviour
+        self.loadZCML(package=collective.geo.behaviour)
 
     def setUpPloneSite(self, portal):
         super(KmlFunctionalTesting, self).setUpPloneSite(portal)
+        applyProfile(portal, 'collective.geo.kml:default')
 
-        topic_pt = portal.portal_types['Topic']
-        topic_pt.global_allow = True
+        # topic_pt = portal.portal_types['Collection']
+        # topic_pt.global_allow = True
         # folder_pt = portal.portal_types['Folder']
         # folder_pt.global_allow = True
-
 
 CGEO_KML_FUNCTIONAL_FIXTURE = KmlFunctionalTesting()
 

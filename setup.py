@@ -35,7 +35,8 @@ setup(name='collective.geo.kml',
       extras_require={
           'test': [
               'plone.app.testing',
-              'mock'
+              'mock',
+              'collective.geo.behaviour',
           ]
       },
       entry_points="""

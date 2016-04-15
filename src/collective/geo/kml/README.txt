@@ -3,8 +3,8 @@ collective.geo.kml
 
 Overview
 --------
-collective.geo.kml provides the necessary javascript to integrate a kml document in an opelayers layer.
-It build a kml file for Folder and Topic objects.
+collective.geo.kml provides the necessary javascript to integrate a kml document in an openlayers layer.
+It builds a kml file for Folder and Collection objects.
 Some kml properties can be set at site level.
 
 Test
@@ -21,17 +21,16 @@ We have a generic (georeferenceable) Document and set some geographical data wit
 Set some extra metadata on the document so we can check for those
 
     >>> document.setSubject(['Mapping', 'Geography', 'Google'])
-    >>> document.setLocation('Somewhere on Earth')
-    >>> document.setCreators(['David', 'John', 'Bob'])
-    >>> document.setRights('Some sort of copyright notice')
+    >>> document.creators = ('David', 'John', 'Bob')
+    >>> document.rights = 'Some sort of copyright notice'
 
 Set the dates for the content so they are consistent and can be tested
 
     >>> import DateTime
     >>> testDate = DateTime.DateTime('2010/01/01 09:00:00.000 '+DateTime.DateTime().timezone())
-    >>> document.setCreationDate(testDate)
-    >>> document.setEffectiveDate(testDate)
-    >>> document.setModificationDate(testDate)
+    >>> document.creation_date = testDate
+    >>> document.effective_date = testDate
+    >>> document.modification_date = testDate
     >>> document.reindexObject()
     >>> import transaction
     >>> transaction.commit()
@@ -56,7 +55,7 @@ The folder that contains our document have a kml-document view
                <Icon>
                 <href>http://nohost/plone/img/marker.png</href>
                </Icon>
-               <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+               <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction" />
               </IconStyle>
               <LineStyle>
                <color>3c0000ff</color>
@@ -65,6 +64,9 @@ The folder that contains our document have a kml-document view
               <PolyStyle>
                 <color>3c0000ff</color>
               </PolyStyle>
+              <BalloonStyle>
+                <text><![CDATA[<h2>$[name]</h2>$[description]]]></text>
+              </BalloonStyle>
             </Style>
     ...
       <Placemark>
@@ -101,7 +103,7 @@ we can change some properties of kml document with IGeoKmlSettings utility
     >>> settings.marker_image = u'string:${portal_url}/img/marker-blue.png'
     >>> settings.marker_image_size = 1.0
     >>> settings.display_properties = ['listCreators', 'Type', 'Subject',
-    ...     'Contributors', 'getLocation']
+    ...     'Contributors']
     >>> transaction.commit()
 
     >>> browser.open("%s/@@kml-document" % folder.absolute_url())
@@ -112,23 +114,16 @@ we can change some properties of kml document with IGeoKmlSettings utility
                     <dl class="placemark-properties">
     <BLANKLINE>
                         <dt>Creators</dt>
-                        <dd>David John Bob</dd>
-    <BLANKLINE>
+                        <dd>David John Bob test_user_1_</dd>
     <BLANKLINE>
                         <dt>Type</dt>
                         <dd>Page</dd>
     <BLANKLINE>
-    <BLANKLINE>
                         <dt>Subject</dt>
                         <dd>Mapping Geography Google</dd>
     <BLANKLINE>
-    <BLANKLINE>
                         <dt>Contributors</dt>
                         <dd></dd>
-    <BLANKLINE>
-    <BLANKLINE>
-                        <dt>Content Location</dt>
-                        <dd>Somewhere on Earth</dd>
     <BLANKLINE>
                     </dl>
     ...
@@ -162,7 +157,7 @@ see:
                <Icon>
                 <href>http://nohost/plone/img/marker-blue.png</href>
                </Icon>
-               <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction"/>
+               <hotSpot x="0.5" y="0" xunits="fraction" yunits="fraction" />
               </IconStyle>
     ...
             <Point>

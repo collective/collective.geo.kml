@@ -32,12 +32,8 @@ We can set kmlopenlayers view as default view for a Folder
     >>> browser.getLink('Kml Openlayers View').click()
 
 
-Check to see that the byline is visible,
-    >>> '<div class="documentByLine" id="plone-document-byline">' in browser.contents
-    True
-
 the description is visible,
-    >>> 'class="documentDescription"' in browser.contents
+    >>> 'class="documentDescription description"' in browser.contents
     True
 
 In this view we can see a div that contains the openlayers map
@@ -69,28 +65,6 @@ Finally, we can see a div that contains the openlayers map
     >>> '<div id="default-cgmap" class="widget-cgmap"' in browser.contents
     True
 
-
-Topic (old) test
-----------------
-
-The openlayers view can be enabled also for Topic. We have a Topic in portal root for testing that
-    >>> topic = folder['topic']
-    >>> topic_url = topic.absolute_url()
-    >>> browser.open(topic_url)
-    >>> browser.getLink('Kml Openlayers View').click()
-
-Check to make sure the map div appears fine
-    >>> '<div id="default-cgmap" class="widget-cgmap"' in browser.contents
-    True
-
-also Kml map layer javascript will appear
-    >>> "var layer=new OpenLayers.Layer.Vector('%s'" % \
-    ... topic.Title() in browser.contents
-    True
-
-and also 'Download KML' link
-    >>> browser.getLink('Download KML')
-    <Link text='Download KML' url='...@@kml-document'>
 
 
 Collection test

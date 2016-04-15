@@ -4,6 +4,12 @@ Changelog
 3.3 (unreleased)
 ----------------
 
+- Fixed tests and doctests for plone5 and external api modifications
+  [pbauer]
+
+ - applying the default package profile in test setup
+  [pbauer]
+
 - Make sure there's no exception if collective.leadimage is installed and
   obj.image is set to NamedImage/NamedBlobImage.
   [href]
