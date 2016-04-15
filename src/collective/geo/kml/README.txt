@@ -114,7 +114,7 @@ we can change some properties of kml document with IGeoKmlSettings utility
                     <dl class="placemark-properties">
     <BLANKLINE>
                         <dt>Creators</dt>
-                        <dd>David John Bob test_user_1_</dd>
+                        <dd>David John Bob</dd>
     <BLANKLINE>
                         <dt>Type</dt>
                         <dd>Page</dd>

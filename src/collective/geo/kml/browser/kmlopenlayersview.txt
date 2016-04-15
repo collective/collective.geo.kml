@@ -29,6 +29,7 @@ We can set kmlopenlayers view as default view for a Folder
     >>> folder = portal.get('folder')
     >>> folder_url = folder.absolute_url()
     >>> browser.open(folder_url)
+    >>> browser.open(folder_url)
     >>> browser.getLink('Kml Openlayers View').click()
 
 
