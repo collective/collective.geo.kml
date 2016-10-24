@@ -1,6 +1,12 @@
 Changelog
 =========
 
+3.4 (unreleased)
+----------------
+
+- Nothing changed yet.
+
+
 3.3 (2016-10-24)
 ----------------
 
@@ -72,7 +78,7 @@ Changelog
 - KML Documents download with the relevant context's ID (`id.kml`) as their
   filename rather than ``@@kml-document``.
   [davidjb]
-- added German translation [Denis KrienbĂźhl]
+- added German translation [Denis KrienbÄĹşhl]
 
 
 2.4 (2012-02-14)
