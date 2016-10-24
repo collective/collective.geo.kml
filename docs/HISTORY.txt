@@ -13,7 +13,7 @@ Changelog
 - Fixed tests and doctests for plone5 and external api modifications
   [pbauer]
 
- - applying the default package profile in test setup
+- applying the default package profile in test setup
   [pbauer]
 
 - Make sure there's no exception if collective.leadimage is installed and
