@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.3 (unreleased)
+3.3 (2016-10-24)
 ----------------
 
 - Fixed tests and doctests for plone5 and external api modifications
@@ -72,7 +72,7 @@ Changelog
 - KML Documents download with the relevant context's ID (`id.kml`) as their
   filename rather than ``@@kml-document``.
   [davidjb]
-- added German translation [Denis Krienbühl]
+- added German translation [Denis KrienbĂźhl]
 
 
 2.4 (2012-02-14)
