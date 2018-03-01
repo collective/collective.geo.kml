@@ -4,7 +4,8 @@ Changelog
 3.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Extend uninstall profile.
+  [thet]
 
 
 3.3 (2016-10-24)
