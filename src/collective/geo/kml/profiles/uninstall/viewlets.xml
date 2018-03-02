@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<object>
+ <order manager="plone.abovecontentbody" skinname="*">
+  <viewlet remove="True" name="collective.geo.kml.kmlcontentviewlet"/>
+ </order>
+ <order manager="plone.belowcontentbody" skinname="*">
+  <viewlet remove="True" name="collective.geo.kml.kmlbelowcontentviewlet"/>
+ </order>
+</object>

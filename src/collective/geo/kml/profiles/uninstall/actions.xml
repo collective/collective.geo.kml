@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
-<object name="portal_actions" meta_type="Plone Actions Tool"
-   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+<object name="portal_actions" meta_type="Plone Actions Tool">
  <object name="document_actions" meta_type="CMF Action Category">
-  <object name="kml_download" meta_type="CMF Action" i18n:domain="plone" remove="True" />
+  <object name="kml_download" meta_type="CMF Action" remove="True" />
  </object>
 </object>
