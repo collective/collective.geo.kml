@@ -61,7 +61,7 @@
               </metal:description>
 
               <metal:style fill-slot="style">
-                <styleUrl tal:condition="not:use_custom_style">#defaultStyle</styleUrl>
+                <styleUrl tal:condition="not:use_custom_style"><tal:comment replace="nothing">#defaultStyle</tal:comment></styleUrl>
                 <tal:customstyle tal:condition="use_custom_style">
                   <metal:macro use-macro="context/@@kmldocument-macros/kmlstyle" />
                 </tal:customstyle>
@@ -102,7 +102,7 @@
           </metal:description>
 
           <metal:style fill-slot="style">
-            <styleUrl tal:condition="not:use_custom_style">#defaultStyle</styleUrl>
+            <styleUrl tal:condition="not:use_custom_style"><tal:comment replace="nothing">#defaultStyle</tal:comment></styleUrl>
             <tal:customstyle condition="use_custom_style">
               <metal:macro use-macro="context/@@kmldocument-macros/kmlstyle" />
             </tal:customstyle>

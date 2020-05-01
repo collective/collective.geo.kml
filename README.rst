@@ -21,6 +21,26 @@ Requirements
 * `collective.geo.mapwidget`_ >= 2.0
 
 
+Translations
+============
+
+This product has been translated into
+
+- German.
+
+- Spanish.
+
+- French.
+
+- Italian.
+
+- Dutch.
+
+- Chinese Simplified.
+
+- Traditional Chinese.
+
+
 Installation
 ============
 

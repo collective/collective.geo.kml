@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
-"POT-Creation-Date: 2013-04-25 21:46+0000\n"
+"POT-Creation-Date: 2020-05-01 01:51+0000\n"
 "PO-Revision-Date: 2013-04-25  21:42+0000\n"
 "Last-Translator: Giorgio Borelli <giorgio@giorgioborelli.it>\n"
 "Language-Team: Giorgio Borelli <giorgio@giorgioborelli.it>\n"
@@ -17,6 +17,14 @@ msgstr ""
 "Domain: collective.geo.kml\n"
 "X-Is-Fallback-For: it-it it-ch it-sm it-hr it-si\n"
 
+#: ../profiles.zcml:13
+msgid "Collective Geo Kml"
+msgstr ""
+
+#: ../profiles.zcml:22
+msgid "Collective Geo Kml Uninstall Profile"
+msgstr ""
+
 #: ../profiles/default/actions.xml
 msgid "Download KML"
 msgstr "Scarica KML"
@@ -25,8 +33,23 @@ msgstr "Scarica KML"
 msgid "Download the KML file associated with this content"
 msgstr "Scarica il file KML associato al contenuto"
 
+#: ../profiles.zcml:13
+msgid "Extension profile for Collective Geo Kml."
+msgstr ""
+
+#: ../browser/configure.zcml:109
+msgid "Kml Openlayers View"
+msgstr ""
+
+#: ../profiles.zcml:22
+msgid "Removes the \"Collective Geo Kml\" Plone theme."
+msgstr ""
+
 #. Default: "See the original resource"
-#: ../browser/kmldocument_macros.pt:59
+#: ../browser/kmldocument_macros.pt:62
 msgid "See the original resource"
 msgstr "Visualizza la risorsa originale"
 
+#: ../browser/configure.zcml:109
+msgid "Set Openlayers Kml as default view."
+msgstr ""

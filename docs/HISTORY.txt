@@ -4,6 +4,9 @@ Changelog
 3.4 (unreleased)
 ----------------
 
+- Updated i18n support
+  [macagua]
+
 - Extend uninstall profile.
   [thet]
 

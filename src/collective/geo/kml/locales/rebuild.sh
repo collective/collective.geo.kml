@@ -2,11 +2,12 @@
 
 PRODUCT=collective.geo.kml
 
-i18ndude rebuild-pot --pot ../locales/${PRODUCT}.pot --create $PRODUCT ../
+i18ndude rebuild-pot \
+         --pot ../locales/${PRODUCT}.pot \
+         --create $PRODUCT \
+         --exclude=`find ../browser/layers_templates/ -name "*.*pt"` \
+         ../ ../profiles
 i18ndude sync --pot ../locales/${PRODUCT}.pot ../locales/*/LC_MESSAGES/${PRODUCT}.po
-
-i18ndude rebuild-pot --pot ../i18n/${PRODUCT}-plone.pot --create plone ../profiles
-i18ndude sync --pot ../i18n/${PRODUCT}-plone.pot ../i18n/${PRODUCT}-plone-*.po
 
 #for lang in $(find ../locales -mindepth 1 -maxdepth 1 -type d); do
 #    if test -d $lang/LC_MESSAGES; then
